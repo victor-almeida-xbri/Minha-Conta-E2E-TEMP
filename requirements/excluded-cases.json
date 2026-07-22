@@ -1,0 +1,2487 @@
+[
+  {
+    "id": "MC-ET001-CT005",
+    "specification": "MC-ET001",
+    "caseCode": "CT005",
+    "name": "Realizar login (e-mail e senha) via endpoint",
+    "title": "CT005 Realizar login (e-mail e senha) via endpoint",
+    "type": "Funcional",
+    "severity": "Crítico",
+    "objective": "Validar login correto com e-mail e senha via endpoint",
+    "preconditions": [
+      "Conta ativa cadastrada"
+    ],
+    "steps": [
+      "Acessar endpoint de autenticação",
+      "Inserir e-mail e senha de um usuário logado"
+    ],
+    "expectedResults": [
+      "Código de sucesso",
+      "Retorno do token de autorização"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET001-CT006",
+    "specification": "MC-ET001",
+    "caseCode": "CT006",
+    "name": "Falhar login (e-mail e senha) via endpoint",
+    "title": "CT006 Falhar login (e-mail e senha) via endpoint",
+    "type": "Funcional",
+    "severity": "Crítico",
+    "objective": "Validar falha de login com e-mail e/ou senha incorreto via endpoint",
+    "preconditions": [
+      "Conta ativa cadastrada"
+    ],
+    "steps": [
+      "Acessar endpoint de autenticação",
+      "Inserir e-mail e/ou senha incorretos"
+    ],
+    "expectedResults": [
+      "Código de falha"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET001-CT007",
+    "specification": "MC-ET001",
+    "caseCode": "CT007",
+    "name": "Múltiplas tentativas de login via endpoint",
+    "title": "CT007 Múltiplas tentativas de login via endpoint",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar bloqueio de múltiplas tentativas falhas de login via endpoint",
+    "preconditions": [
+      "-"
+    ],
+    "steps": [
+      "Acessar endpoint de autenticação",
+      "Inserir e-mail e senha corretos e incorretos",
+      "Realizar requisição múltiplas vezes"
+    ],
+    "expectedResults": [
+      "Código de bloqueio de requisição",
+      "Requisição rejeitada temporariamente"
+    ],
+    "layers": [
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET001-CT008",
+    "specification": "MC-ET001",
+    "caseCode": "CT008",
+    "name": "Login com SQL Injection via endpoint",
+    "title": "CT008 Login com SQL Injection via endpoint",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar tratamento e bloqueio de entradas da requisição de login",
+    "preconditions": [
+      "Conta ativa cadastrada"
+    ],
+    "steps": [
+      "Acessar endpoint de autenticação",
+      "SQL Injection nos campos de login"
+    ],
+    "expectedResults": [
+      "Código de falha",
+      "Falha no login",
+      "Banco de dados inalterado"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET002-CT001",
+    "specification": "MC-ET002",
+    "caseCode": "CT001",
+    "name": "Registrar evento de login válido",
+    "title": "CT001 Registrar evento de login válido",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar registro de login válido",
+    "preconditions": [
+      "Conta ativa cadastrada"
+    ],
+    "steps": [
+      "Acessar endpoint de autenticação",
+      "Inserir e-mail e senha correto"
+    ],
+    "expectedResults": [
+      "Registro de evento de tentativa de login (sucesso)"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria"
+    ]
+  },
+  {
+    "id": "MC-ET002-CT002",
+    "specification": "MC-ET002",
+    "caseCode": "CT002",
+    "name": "Registrar evento de login inválido",
+    "title": "CT002 Registrar evento de login inválido",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar registro de login inválido",
+    "preconditions": [
+      "-"
+    ],
+    "steps": [
+      "Acessar endpoint de autenticação",
+      "Inserir e-mail e senha incorreto"
+    ],
+    "expectedResults": [
+      "Registro de evento de tentativa de login (falha)"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria"
+    ]
+  },
+  {
+    "id": "MC-ET004-CT005",
+    "specification": "MC-ET004",
+    "caseCode": "CT005",
+    "name": "Requisitar informações do dashboard Minha Conta via endpoint",
+    "title": "CT005 Requisitar informações do dashboard Minha Conta via endpoint",
+    "type": "Compliance/LGPD",
+    "severity": "Alto",
+    "objective": "Validar apresentação de identificação do cliente com CPF mascarado",
+    "preconditions": [
+      "Usuário PF autenticado"
+    ],
+    "steps": [
+      "Acessar endpoint de dashboard Minha Conta",
+      "Requisitar informações apresentadas no dashboard"
+    ],
+    "expectedResults": [
+      "Código de sucesso (200 OK)",
+      "Retorno de informações do dashboard Minha Conta do cliente",
+      "CPF mascarado para cliente PF"
+    ],
+    "layers": [
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET006-CT005",
+    "specification": "MC-ET006",
+    "caseCode": "CT005",
+    "name": "Consultar identificação via endpoint",
+    "title": "CT005 Consultar identificação via endpoint",
+    "type": "Compliance/LGPD",
+    "severity": "Alto",
+    "objective": "Validar o retorno mínimo e autorizado dos dados de identificação",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acessar endpoint de identificação",
+      "Enviar requisição com token válido"
+    ],
+    "expectedResults": [
+      "Código de sucesso",
+      "Retorno dos dados do usuário autenticado",
+      "Ausência de dados internos ou administrativos indevidos",
+      "Dados sensíveis retornados conforme política de proteção"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET006-CT006",
+    "specification": "MC-ET006",
+    "caseCode": "CT006",
+    "name": "Bloquear consulta de identificação de outro usuário",
+    "title": "CT006 Bloquear consulta de identificação de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade na consulta de dados cadastrais",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado"
+    ],
+    "steps": [
+      "Acessar endpoint de identificação",
+      "Alterar identificador da requisição para o Usuário B",
+      "Enviar requisição com token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhum dado do Usuário B retornado"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET007-CT004",
+    "specification": "MC-ET007",
+    "caseCode": "CT004",
+    "name": "Bloquear alteração de documento via payload",
+    "title": "CT004 Bloquear alteração de documento via payload",
+    "type": "Segurança, Validação",
+    "severity": "Crítico",
+    "objective": "Validar que CPF, CNPJ e tipo cadastral não possam ser alterados diretamente pelo endpoint",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Inspecionar requisição de atualização cadastral",
+      "Adicionar CPF, CNPJ ou tipo cadastral alterado ao payload",
+      "Enviar requisição"
+    ],
+    "expectedResults": [
+      "Requisição rejeitada ou campos proibidos ignorados conforme contrato",
+      "Documento principal inalterado",
+      "Tipo cadastral inalterado",
+      "Banco de dados consistente"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET007-CT005",
+    "specification": "MC-ET007",
+    "caseCode": "CT005",
+    "name": "Bloquear alteração cadastral de outro usuário",
+    "title": "CT005 Bloquear alteração cadastral de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar titularidade na atualização dos dados de identificação",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado"
+    ],
+    "steps": [
+      "Acessar endpoint de atualização",
+      "Alterar o identificador para o Usuário B",
+      "Enviar dados válidos com token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Dados do Usuário B inalterados"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET007-CT007",
+    "specification": "MC-ET007",
+    "caseCode": "CT007",
+    "name": "Registrar auditoria da alteração de identificação",
+    "title": "CT007 Registrar auditoria da alteração de identificação",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a geração do evento auditável da atualização cadastral",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Alterar dados editáveis",
+      "Confirmar atualização",
+      "Consultar trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento de autosserviço registrado",
+      "Ator, data e hora, entidade, ação e resultado registrados",
+      "Dados sensíveis não expostos integralmente"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET008-CT003",
+    "specification": "MC-ET008",
+    "caseCode": "CT003",
+    "name": "Bloquear consulta de veículos de outro usuário",
+    "title": "CT003 Bloquear consulta de veículos de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade da consulta de veículos",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui veículos"
+    ],
+    "steps": [
+      "Acessar endpoint de veículos",
+      "Alterar identificador para o Usuário B",
+      "Enviar requisição com token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhum veículo do Usuário B retornado"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET009-CT007",
+    "specification": "MC-ET009",
+    "caseCode": "CT007",
+    "name": "Impedir duplicidade por requisição repetida",
+    "title": "CT007 Impedir duplicidade por requisição repetida",
+    "type": "Idempotência",
+    "severity": "Alto",
+    "objective": "Validar que o reenvio da mesma solicitação não crie veículos duplicados",
+    "preconditions": [
+      "Usuário autenticado",
+      "Veículo ainda não cadastrado"
+    ],
+    "steps": [
+      "Enviar requisição válida de cadastro",
+      "Reenviar imediatamente a mesma requisição"
+    ],
+    "expectedResults": [
+      "Somente um veículo criado",
+      "Segunda requisição tratada sem duplicidade",
+      "Banco de dados consistente"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET009-CT008",
+    "specification": "MC-ET009",
+    "caseCode": "CT008",
+    "name": "Bloquear cadastro para outro usuário",
+    "title": "CT008 Bloquear cadastro para outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar que um usuário não cadastre veículo em conta de terceiro",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado"
+    ],
+    "steps": [
+      "Inspecionar requisição de cadastro",
+      "Alterar o identificador do titular para o Usuário B",
+      "Enviar requisição"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Veículo não vinculado ao Usuário B"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET009-CT009",
+    "specification": "MC-ET009",
+    "caseCode": "CT009",
+    "name": "Registrar auditoria do cadastro por placa",
+    "title": "CT009 Registrar auditoria do cadastro por placa",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a geração do evento de autosserviço após cadastro bem-sucedido",
+    "preconditions": [
+      "Usuário autenticado",
+      "Placa válida não cadastrada"
+    ],
+    "steps": [
+      "Cadastrar veículo por placa",
+      "Consultar trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento de cadastro registrado",
+      "Ator, data e hora, veículo, ação e resultado registrados"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET010-CT005",
+    "specification": "MC-ET010",
+    "caseCode": "CT005",
+    "name": "Impedir duplicidade por envio repetido",
+    "title": "CT005 Impedir duplicidade por envio repetido",
+    "type": "Idempotência",
+    "severity": "Alto",
+    "objective": "Validar que requisições repetidas não criem registros duplicados",
+    "preconditions": [
+      "Usuário autenticado",
+      "Combinação válida ainda não cadastrada"
+    ],
+    "steps": [
+      "Enviar requisição de cadastro",
+      "Reenviar a mesma requisição"
+    ],
+    "expectedResults": [
+      "Somente um veículo criado",
+      "Banco de dados sem duplicidade"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET010-CT006",
+    "specification": "MC-ET010",
+    "caseCode": "CT006",
+    "name": "Registrar auditoria do cadastro por modelo",
+    "title": "CT006 Registrar auditoria do cadastro por modelo",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar o registro do evento de autosserviço",
+    "preconditions": [
+      "Usuário autenticado",
+      "Cadastro manual realizado com sucesso"
+    ],
+    "steps": [
+      "Consultar trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento de cadastro registrado",
+      "Ator, data e hora, veículo, ação e resultado registrados"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria"
+    ]
+  },
+  {
+    "id": "MC-ET011-CT006",
+    "specification": "MC-ET011",
+    "caseCode": "CT006",
+    "name": "Bloquear edição de veículo de outro usuário",
+    "title": "CT006 Bloquear edição de veículo de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade na edição de veículo",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui veículo ativo"
+    ],
+    "steps": [
+      "Acessar endpoint de edição",
+      "Informar identificador do veículo do Usuário B",
+      "Enviar alteração com token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Veículo do Usuário B inalterado"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET011-CT007",
+    "specification": "MC-ET011",
+    "caseCode": "CT007",
+    "name": "Preservar histórico após edição de veículo",
+    "title": "CT007 Preservar histórico após edição de veículo",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar que a edição não altere recomendações, carrinhos ou pedidos históricos",
+    "preconditions": [
+      "Usuário autenticado",
+      "Veículo vinculado a registros históricos"
+    ],
+    "steps": [
+      "Registrar dados históricos antes da edição",
+      "Editar o veículo",
+      "Consultar os registros históricos"
+    ],
+    "expectedResults": [
+      "Veículo atual atualizado",
+      "Registros históricos inalterados"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET011-CT008",
+    "specification": "MC-ET011",
+    "caseCode": "CT008",
+    "name": "Registrar auditoria da edição de veículo",
+    "title": "CT008 Registrar auditoria da edição de veículo",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar o evento de autosserviço da alteração",
+    "preconditions": [
+      "Usuário autenticado",
+      "Veículo editado com sucesso"
+    ],
+    "steps": [
+      "Consultar trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento de edição registrado",
+      "Ator, data e hora, veículo, ação e resultado registrados"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET012-CT003",
+    "specification": "MC-ET012",
+    "caseCode": "CT003",
+    "name": "Bloquear definição de veículo inativo",
+    "title": "CT003 Bloquear definição de veículo inativo",
+    "type": "Invariante",
+    "severity": "Alto",
+    "objective": "Validar que somente veículos ativos possam ser definidos como principal",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui veículo inativo"
+    ],
+    "steps": [
+      "Acessar endpoint de definição de principal",
+      "Informar identificador do veículo inativo"
+    ],
+    "expectedResults": [
+      "Requisição rejeitada",
+      "Veículo inativo não definido como principal",
+      "Principal atual preservado"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET012-CT004",
+    "specification": "MC-ET012",
+    "caseCode": "CT004",
+    "name": "Bloquear veículo de outro usuário como principal",
+    "title": "CT004 Bloquear veículo de outro usuário como principal",
+    "type": "Segurança, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade na definição do veículo principal",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui veículo ativo"
+    ],
+    "steps": [
+      "Acessar endpoint de definição de principal",
+      "Enviar identificador do veículo do Usuário B"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Veículos dos dois usuários inalterados"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET012-CT005",
+    "specification": "MC-ET012",
+    "caseCode": "CT005",
+    "name": "Preservar principal único em requisição repetida",
+    "title": "CT005 Preservar principal único em requisição repetida",
+    "type": "Invariante, Idempotência",
+    "severity": "Crítico",
+    "objective": "Validar a consistência diante de repetição do comando",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui dois veículos ativos"
+    ],
+    "steps": [
+      "Enviar comando para definir veículo principal",
+      "Reenviar o mesmo comando"
+    ],
+    "expectedResults": [
+      "Somente um veículo principal",
+      "Nenhum registro duplicado ou estado inconsistente"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET012-CT006",
+    "specification": "MC-ET012",
+    "caseCode": "CT006",
+    "name": "Registrar auditoria da alteração de principal",
+    "title": "CT006 Registrar auditoria da alteração de principal",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar o registro da definição de veículo principal",
+    "preconditions": [
+      "Usuário autenticado",
+      "Alteração de principal concluída"
+    ],
+    "steps": [
+      "Consultar trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento registrado",
+      "Veículo anterior e novo veículo principal correlacionados quando aplicável",
+      "Ator, data e hora e resultado registrados"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria"
+    ]
+  },
+  {
+    "id": "MC-ET013-CT005",
+    "specification": "MC-ET013",
+    "caseCode": "CT005",
+    "name": "Bloquear exclusão de veículo de outro usuário",
+    "title": "CT005 Bloquear exclusão de veículo de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade da exclusão",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui veículo ativo"
+    ],
+    "steps": [
+      "Acessar endpoint de exclusão",
+      "Informar identificador do veículo do Usuário B"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Veículo do Usuário B permanece ativo"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET013-CT006",
+    "specification": "MC-ET013",
+    "caseCode": "CT006",
+    "name": "Tratar repetição da exclusão",
+    "title": "CT006 Tratar repetição da exclusão",
+    "type": "Idempotência",
+    "severity": "Alto",
+    "objective": "Validar que uma exclusão repetida não gere inconsistência",
+    "preconditions": [
+      "Usuário autenticado",
+      "Veículos ativos pertencentes ao usuário"
+    ],
+    "steps": [
+      "Confirmar exclusão",
+      "Reenviar a mesma requisição de exclusão"
+    ],
+    "expectedResults": [
+      "Veículo permanece excluído uma única vez",
+      "Nenhum novo efeito sobre outro veículo",
+      "Banco de dados consistente"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET013-CT007",
+    "specification": "MC-ET013",
+    "caseCode": "CT007",
+    "name": "Registrar auditoria da exclusão de veículo",
+    "title": "CT007 Registrar auditoria da exclusão de veículo",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a trilha da exclusão e da promoção automática",
+    "preconditions": [
+      "Usuário autenticado",
+      "Exclusão concluída"
+    ],
+    "steps": [
+      "Consultar trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento de exclusão registrado",
+      "Evento de alteração do principal registrado quando aplicável",
+      "Ator, data e hora, entidade e resultado registrados"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria"
+    ]
+  },
+  {
+    "id": "MC-ET014-CT003",
+    "specification": "MC-ET014",
+    "caseCode": "CT003",
+    "name": "Bloquear consulta de endereços de outro usuário",
+    "title": "CT003 Bloquear consulta de endereços de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar titularidade na consulta de endereços",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui endereços"
+    ],
+    "steps": [
+      "Acessar endpoint de endereços",
+      "Alterar identificador para o Usuário B",
+      "Enviar requisição com token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhum endereço do Usuário B retornado"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET015-CT009",
+    "specification": "MC-ET015",
+    "caseCode": "CT009",
+    "name": "Impedir duplicidade por requisição repetida",
+    "title": "CT009 Impedir duplicidade por requisição repetida",
+    "type": "Idempotência",
+    "severity": "Alto",
+    "objective": "Validar que o reenvio da solicitação não crie endereços duplicados",
+    "preconditions": [
+      "Usuário autenticado",
+      "Novo endereço válido ainda não cadastrado"
+    ],
+    "steps": [
+      "Enviar requisição de cadastro",
+      "Reenviar a mesma requisição"
+    ],
+    "expectedResults": [
+      "Somente um endereço criado",
+      "Banco de dados sem duplicidade"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET015-CT010",
+    "specification": "MC-ET015",
+    "caseCode": "CT010",
+    "name": "Bloquear cadastro em conta de outro usuário",
+    "title": "CT010 Bloquear cadastro em conta de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade no cadastro de endereço",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado"
+    ],
+    "steps": [
+      "Inspecionar requisição de cadastro",
+      "Alterar titular para o Usuário B",
+      "Enviar requisição"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Endereço não vinculado ao Usuário B"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET015-CT011",
+    "specification": "MC-ET015",
+    "caseCode": "CT011",
+    "name": "Registrar auditoria do cadastro de endereço",
+    "title": "CT011 Registrar auditoria do cadastro de endereço",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a geração do evento de autosserviço",
+    "preconditions": [
+      "Usuário autenticado",
+      "Endereço cadastrado com sucesso"
+    ],
+    "steps": [
+      "Consultar trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento de cadastro registrado",
+      "Ator, data e hora, endereço, ação e resultado registrados",
+      "Dados pessoais protegidos conforme política"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET016-CT007",
+    "specification": "MC-ET016",
+    "caseCode": "CT007",
+    "name": "Bloquear edição de endereço de outro usuário",
+    "title": "CT007 Bloquear edição de endereço de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade na edição de endereço",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui endereço ativo"
+    ],
+    "steps": [
+      "Acessar o endpoint de edição",
+      "Informar o identificador do endereço do Usuário B",
+      "Enviar alteração com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Endereço do Usuário B inalterado"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET016-CT009",
+    "specification": "MC-ET016",
+    "caseCode": "CT009",
+    "name": "Registrar auditoria da edição de endereço",
+    "title": "CT009 Registrar auditoria da edição de endereço",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a geração do evento auditável da edição",
+    "preconditions": [
+      "Usuário autenticado",
+      "Endereço editado com sucesso"
+    ],
+    "steps": [
+      "Consultar a trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento de edição registrado",
+      "Ator, data e hora, entidade, ação e resultado registrados",
+      "Dados pessoais protegidos conforme política"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET017-CT003",
+    "specification": "MC-ET017",
+    "caseCode": "CT003",
+    "name": "Bloquear definição de endereço inativo",
+    "title": "CT003 Bloquear definição de endereço inativo",
+    "type": "Invariante",
+    "severity": "Alto",
+    "objective": "Validar que somente endereços ativos possam ser definidos como principal",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui endereço inativo"
+    ],
+    "steps": [
+      "Acessar endpoint de definição de principal",
+      "Informar o identificador do endereço inativo"
+    ],
+    "expectedResults": [
+      "Requisição rejeitada",
+      "Endereço inativo não definido como principal",
+      "Principal atual preservado"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET017-CT004",
+    "specification": "MC-ET017",
+    "caseCode": "CT004",
+    "name": "Bloquear endereço de outro usuário como principal",
+    "title": "CT004 Bloquear endereço de outro usuário como principal",
+    "type": "Segurança, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade na definição do endereço principal",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui endereço ativo"
+    ],
+    "steps": [
+      "Acessar endpoint de definição de principal",
+      "Enviar o identificador do endereço do Usuário B"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Endereços dos dois usuários inalterados"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET017-CT005",
+    "specification": "MC-ET017",
+    "caseCode": "CT005",
+    "name": "Preservar principal único em comandos repetidos",
+    "title": "CT005 Preservar principal único em comandos repetidos",
+    "type": "Invariante, Idempotência",
+    "severity": "Crítico",
+    "objective": "Validar a consistência diante da repetição do comando",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui dois endereços ativos"
+    ],
+    "steps": [
+      "Enviar comando para definir endereço principal",
+      "Reenviar o mesmo comando"
+    ],
+    "expectedResults": [
+      "Somente um endereço principal",
+      "Nenhum registro duplicado ou estado inconsistente"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET017-CT006",
+    "specification": "MC-ET017",
+    "caseCode": "CT006",
+    "name": "Registrar auditoria da alteração de endereço principal",
+    "title": "CT006 Registrar auditoria da alteração de endereço principal",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar o registro da definição do endereço principal",
+    "preconditions": [
+      "Usuário autenticado",
+      "Alteração de principal concluída"
+    ],
+    "steps": [
+      "Consultar a trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento registrado",
+      "Endereço anterior e novo principal correlacionados quando aplicável",
+      "Ator, data e hora e resultado registrados"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria"
+    ]
+  },
+  {
+    "id": "MC-ET018-CT006",
+    "specification": "MC-ET018",
+    "caseCode": "CT006",
+    "name": "Bloquear exclusão de endereço de outro usuário",
+    "title": "CT006 Bloquear exclusão de endereço de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade da exclusão",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui endereço ativo"
+    ],
+    "steps": [
+      "Acessar endpoint de exclusão",
+      "Informar o identificador do endereço do Usuário B"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Endereço do Usuário B permanece ativo"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET018-CT007",
+    "specification": "MC-ET018",
+    "caseCode": "CT007",
+    "name": "Tratar repetição da exclusão de endereço",
+    "title": "CT007 Tratar repetição da exclusão de endereço",
+    "type": "Idempotência",
+    "severity": "Alto",
+    "objective": "Validar que uma exclusão repetida não gere inconsistência",
+    "preconditions": [
+      "Usuário autenticado",
+      "Endereço ativo pertencente ao usuário"
+    ],
+    "steps": [
+      "Confirmar exclusão",
+      "Reenviar a mesma requisição de exclusão"
+    ],
+    "expectedResults": [
+      "Endereço permanece excluído uma única vez",
+      "Nenhum novo efeito sobre o endereço principal",
+      "Banco de dados consistente"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET018-CT008",
+    "specification": "MC-ET018",
+    "caseCode": "CT008",
+    "name": "Registrar auditoria da exclusão de endereço",
+    "title": "CT008 Registrar auditoria da exclusão de endereço",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a trilha da exclusão e da promoção automática",
+    "preconditions": [
+      "Usuário autenticado",
+      "Exclusão concluída"
+    ],
+    "steps": [
+      "Consultar a trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento de exclusão registrado",
+      "Evento de alteração do principal registrado quando aplicável",
+      "Ator, data e hora, entidade e resultado registrados"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria"
+    ]
+  },
+  {
+    "id": "MC-ET019-CT003",
+    "specification": "MC-ET019",
+    "caseCode": "CT003",
+    "name": "Bloquear listagem de pedidos de outro usuário",
+    "title": "CT003 Bloquear listagem de pedidos de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade da consulta de pedidos",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui pedidos"
+    ],
+    "steps": [
+      "Acessar endpoint de pedidos",
+      "Alterar o identificador ou filtro para o Usuário B",
+      "Enviar requisição com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização ou retorno sem dados de terceiro",
+      "Nenhum pedido do Usuário B exposto"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET019-CT004",
+    "specification": "MC-ET019",
+    "caseCode": "CT004",
+    "name": "Validar retorno mínimo da listagem de pedidos",
+    "title": "CT004 Validar retorno mínimo da listagem de pedidos",
+    "type": "Segurança, Compliance/LGPD",
+    "severity": "Alto",
+    "objective": "Validar que a API não retorne informações internas indevidas",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui pedidos"
+    ],
+    "steps": [
+      "Acessar endpoint da listagem",
+      "Inspecionar o payload retornado"
+    ],
+    "expectedResults": [
+      "Somente dados necessários à listagem retornados",
+      "Ausência de dados internos, administrativos ou de outros usuários"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET020-CT002",
+    "specification": "MC-ET020",
+    "caseCode": "CT002",
+    "name": "Bloquear acesso ao pedido de outro usuário",
+    "title": "CT002 Bloquear acesso ao pedido de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade no detalhe do pedido",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui pedido"
+    ],
+    "steps": [
+      "Alterar o identificador do pedido na URL ou endpoint",
+      "Enviar requisição com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhum dado do pedido do Usuário B retornado"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET020-CT004",
+    "specification": "MC-ET020",
+    "caseCode": "CT004",
+    "name": "Validar ausência de overfetching no detalhe do pedido",
+    "title": "CT004 Validar ausência de overfetching no detalhe do pedido",
+    "type": "Segurança, Compliance/LGPD",
+    "severity": "Alto",
+    "objective": "Validar o retorno apenas dos dados necessários ao cliente",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui pedido"
+    ],
+    "steps": [
+      "Acessar endpoint de detalhes do pedido",
+      "Inspecionar o payload retornado"
+    ],
+    "expectedResults": [
+      "Ausência de dados internos de seller, operação, antifraude ou administração não autorizados",
+      "Dados pessoais e fiscais limitados ao necessário"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET021-CT002",
+    "specification": "MC-ET021",
+    "caseCode": "CT002",
+    "name": "Validar informações de pagamento via endpoint",
+    "title": "CT002 Validar informações de pagamento via endpoint",
+    "type": "Integração",
+    "severity": "Alto",
+    "objective": "Validar que valor, validade e formas venham do domínio responsável",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido possui pagamento pendente"
+    ],
+    "steps": [
+      "Acessar endpoint de pagamento pendente",
+      "Inspecionar status, payload e headers"
+    ],
+    "expectedResults": [
+      "Código de sucesso",
+      "Valor, validade e formas coerentes com o domínio de Pagamento",
+      "Frontend não calcula condições de pagamento"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET021-CT004",
+    "specification": "MC-ET021",
+    "caseCode": "CT004",
+    "name": "Bloquear consulta de cobrança de outro usuário",
+    "title": "CT004 Bloquear consulta de cobrança de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar titularidade nas informações financeiras",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Pedido do Usuário B possui cobrança"
+    ],
+    "steps": [
+      "Alterar o identificador do pedido ou cobrança",
+      "Enviar requisição com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhum dado financeiro do Usuário B retornado"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET022-CT006",
+    "specification": "MC-ET022",
+    "caseCode": "CT006",
+    "name": "Bloquear nova cobrança para pedido já pago",
+    "title": "CT006 Bloquear nova cobrança para pedido já pago",
+    "type": "Invariante, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar que um pedido pago não gere nova cobrança",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido com pagamento aprovado"
+    ],
+    "steps": [
+      "Enviar requisição de geração de PIX"
+    ],
+    "expectedResults": [
+      "Requisição rejeitada",
+      "Nenhuma nova cobrança criada",
+      "Estado financeiro preservado"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET022-CT007",
+    "specification": "MC-ET022",
+    "caseCode": "CT007",
+    "name": "Impedir cobrança duplicada por duplo clique",
+    "title": "CT007 Impedir cobrança duplicada por duplo clique",
+    "type": "Idempotência, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar a não duplicidade na geração do PIX",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido elegível para geração de PIX"
+    ],
+    "steps": [
+      "Acionar a geração duas vezes em sequência",
+      "Consultar cobranças persistidas"
+    ],
+    "expectedResults": [
+      "Somente uma cobrança ativa criada para a finalidade",
+      "Respostas correlacionadas sem duplicidade financeira"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET022-CT008",
+    "specification": "MC-ET022",
+    "caseCode": "CT008",
+    "name": "Impedir confirmação duplicada por webhook repetido",
+    "title": "CT008 Impedir confirmação duplicada por webhook repetido",
+    "type": "Idempotência, Integração, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar que callbacks repetidos não dupliquem o pagamento",
+    "preconditions": [
+      "Cobrança PIX pendente",
+      "Webhook de confirmação disponível"
+    ],
+    "steps": [
+      "Enviar webhook de confirmação",
+      "Reenviar o mesmo webhook"
+    ],
+    "expectedResults": [
+      "Pagamento confirmado uma única vez",
+      "Nenhum lançamento financeiro duplicado",
+      "Eventos repetidos tratados de forma idempotente"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET022-CT009",
+    "specification": "MC-ET022",
+    "caseCode": "CT009",
+    "name": "Bloquear PIX de pedido de outro usuário",
+    "title": "CT009 Bloquear PIX de pedido de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar titularidade na geração e consulta do PIX",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui pedido pendente"
+    ],
+    "steps": [
+      "Enviar requisição de geração ou consulta para o pedido do Usuário B"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhuma cobrança criada ou exposta"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET022-CT010",
+    "specification": "MC-ET022",
+    "caseCode": "CT010",
+    "name": "Registrar auditoria do pagamento PIX",
+    "title": "CT010 Registrar auditoria do pagamento PIX",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a trilha das ações de pagamento",
+    "preconditions": [
+      "Usuário autenticado",
+      "Cobrança PIX gerada ou paga"
+    ],
+    "steps": [
+      "Consultar a trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Eventos de geração, reemissão e confirmação registrados conforme aplicável",
+      "Ator, pedido, cobrança, data e hora e resultado registrados",
+      "Chave e dados sensíveis protegidos"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET023-CT006",
+    "specification": "MC-ET023",
+    "caseCode": "CT006",
+    "name": "Bloquear parcelamento adulterado no payload",
+    "title": "CT006 Bloquear parcelamento adulterado no payload",
+    "type": "Segurança, Validação",
+    "severity": "Crítico",
+    "objective": "Validar que uma parcela não oferecida não possa ser enviada diretamente",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido possui conjunto limitado de parcelas"
+    ],
+    "steps": [
+      "Inspecionar a requisição",
+      "Alterar a quantidade ou condição de parcelas para valor não autorizado",
+      "Enviar requisição"
+    ],
+    "expectedResults": [
+      "Requisição rejeitada",
+      "Pagamento não processado",
+      "Pedido permanece pendente"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET023-CT007",
+    "specification": "MC-ET023",
+    "caseCode": "CT007",
+    "name": "Impedir pagamento duplicado por duplo envio",
+    "title": "CT007 Impedir pagamento duplicado por duplo envio",
+    "type": "Idempotência, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar que requisições repetidas não gerem duas transações",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido elegível para pagamento",
+      "Cartão de teste aprovado"
+    ],
+    "steps": [
+      "Enviar a solicitação de pagamento",
+      "Reenviar imediatamente a mesma solicitação"
+    ],
+    "expectedResults": [
+      "Somente uma transação financeira efetivada",
+      "Pedido atualizado uma única vez",
+      "Nenhum lançamento duplicado"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET023-CT008",
+    "specification": "MC-ET023",
+    "caseCode": "CT008",
+    "name": "Impedir atualização duplicada por callback repetido",
+    "title": "CT008 Impedir atualização duplicada por callback repetido",
+    "type": "Idempotência, Integração, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar o processamento idempotente do retorno do gateway",
+    "preconditions": [
+      "Transação de cartão iniciada",
+      "Callback de confirmação disponível"
+    ],
+    "steps": [
+      "Enviar callback de confirmação",
+      "Reenviar o mesmo callback"
+    ],
+    "expectedResults": [
+      "Pagamento confirmado uma única vez",
+      "Pedido sem duplicidade financeira ou de eventos"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET023-CT009",
+    "specification": "MC-ET023",
+    "caseCode": "CT009",
+    "name": "Bloquear pagamento do pedido de outro usuário",
+    "title": "CT009 Bloquear pagamento do pedido de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar titularidade no pagamento com cartão",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui pedido pendente"
+    ],
+    "steps": [
+      "Enviar pagamento para o pedido do Usuário B com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhuma transação criada"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET023-CT010",
+    "specification": "MC-ET023",
+    "caseCode": "CT010",
+    "name": "Proteger dados do cartão em logs e respostas",
+    "title": "CT010 Proteger dados do cartão em logs e respostas",
+    "type": "Segurança, Compliance/LGPD",
+    "severity": "Crítico",
+    "objective": "Validar a ausência de exposição de dados sensíveis",
+    "preconditions": [
+      "Pagamento de cartão executado",
+      "Acesso técnico aos logs e à resposta disponível"
+    ],
+    "steps": [
+      "Inspecionar payload de resposta",
+      "Inspecionar logs e eventos correlacionados"
+    ],
+    "expectedResults": [
+      "Número completo, código de segurança e segredos não expostos",
+      "Dados sensíveis mascarados ou ausentes"
+    ],
+    "layers": [
+      "Backend",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET023-CT011",
+    "specification": "MC-ET023",
+    "caseCode": "CT011",
+    "name": "Registrar auditoria do pagamento com cartão",
+    "title": "CT011 Registrar auditoria do pagamento com cartão",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a trilha da tentativa de pagamento",
+    "preconditions": [
+      "Usuário autenticado",
+      "Tentativa de pagamento realizada"
+    ],
+    "steps": [
+      "Consultar a trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento registrado para aprovação, recusa ou pendência",
+      "Ator, pedido, forma, data e hora e resultado registrados",
+      "Dados de cartão não registrados integralmente"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET024-CT003",
+    "specification": "MC-ET024",
+    "caseCode": "CT003",
+    "name": "Bloquear download da NF-e de pedido de outro usuário",
+    "title": "CT003 Bloquear download da NF-e de pedido de outro usuário",
+    "type": "Segurança, Compliance/LGPD",
+    "severity": "Crítico",
+    "objective": "Validar a autenticação e a titularidade no download do documento fiscal",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Pedido do Usuário B possui NF-e de venda disponível"
+    ],
+    "steps": [
+      "Alterar o identificador do pedido ou documento na URL ou requisição",
+      "Solicitar o download com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização conforme contrato da API",
+      "Arquivo fiscal não retornado",
+      "Nenhum dado fiscal do Usuário B exposto"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET024-CT005",
+    "specification": "MC-ET024",
+    "caseCode": "CT005",
+    "name": "Registrar auditoria do download da NF-e",
+    "title": "CT005 Registrar auditoria do download da NF-e",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar o registro auditável do download autorizado ou bloqueado da NF-e de venda",
+    "preconditions": [
+      "Usuário autenticado",
+      "Tentativa de download da NF-e realizada com sucesso ou bloqueada por autorização"
+    ],
+    "steps": [
+      "Realizar o download autorizado da NF-e",
+      "Realizar uma tentativa bloqueada quando aplicável",
+      "Consultar a trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento de download registrado",
+      "Tentativa bloqueada registrada quando aplicável",
+      "Ator, pedido, documento, data e hora, resultado e dados de correlação registrados",
+      "Conteúdo integral da NF-e e dados fiscais sensíveis não expostos nos registros"
+    ],
+    "layers": [
+      "Backend",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET025-CT004",
+    "specification": "MC-ET025",
+    "caseCode": "CT004",
+    "name": "Bloquear rastreamento de pedido de outro usuário",
+    "title": "CT004 Bloquear rastreamento de pedido de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade da consulta logística",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Pedido do Usuário B possui rastreamento"
+    ],
+    "steps": [
+      "Alterar o identificador do pedido ou rastreamento na requisição",
+      "Enviar a requisição com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhum evento ou código de rastreamento do Usuário B retornado"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET026-CT004",
+    "specification": "MC-ET026",
+    "caseCode": "CT004",
+    "name": "Tratar efeito financeiro do cancelamento",
+    "title": "CT004 Tratar efeito financeiro do cancelamento",
+    "type": "Funcional, Transacional, Integração",
+    "severity": "Crítico",
+    "objective": "Validar o tratamento financeiro conforme a situação do pagamento",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedidos canceláveis com pagamento não capturado e capturado"
+    ],
+    "steps": [
+      "Cancelar o pedido com pagamento não capturado",
+      "Cancelar o pedido com pagamento capturado",
+      "Consultar os resultados financeiros"
+    ],
+    "expectedResults": [
+      "Cobrança não capturada invalidada quando aplicável",
+      "Estorno ou reembolso iniciado quando aplicável",
+      "Nenhuma operação financeira incompatível executada"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET026-CT005",
+    "specification": "MC-ET026",
+    "caseCode": "CT005",
+    "name": "Impedir cancelamento e efeito financeiro duplicados",
+    "title": "CT005 Impedir cancelamento e efeito financeiro duplicados",
+    "type": "Idempotência, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar que comandos ou callbacks repetidos não dupliquem cancelamento, estorno ou reembolso",
+    "preconditions": [
+      "Pedido próprio elegível",
+      "Cancelamento ainda não concluído"
+    ],
+    "steps": [
+      "Enviar a solicitação de cancelamento",
+      "Reenviar a mesma solicitação ou callback"
+    ],
+    "expectedResults": [
+      "Pedido cancelado uma única vez",
+      "Somente um efeito financeiro criado",
+      "Eventos repetidos tratados sem duplicidade"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET026-CT006",
+    "specification": "MC-ET026",
+    "caseCode": "CT006",
+    "name": "Bloquear cancelamento de pedido de outro usuário",
+    "title": "CT006 Bloquear cancelamento de pedido de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade da ação de cancelamento",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui pedido cancelável"
+    ],
+    "steps": [
+      "Enviar solicitação de cancelamento para o pedido do Usuário B com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Pedido do Usuário B inalterado",
+      "Nenhum efeito financeiro criado"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET026-CT007",
+    "specification": "MC-ET026",
+    "caseCode": "CT007",
+    "name": "Registrar auditoria do cancelamento do pedido",
+    "title": "CT007 Registrar auditoria do cancelamento do pedido",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a trilha da solicitação, bloqueio e conclusão do cancelamento",
+    "preconditions": [
+      "Usuário autenticado",
+      "Tentativa de cancelamento realizada"
+    ],
+    "steps": [
+      "Consultar a trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Evento registrado com ator, pedido, data e hora, ação e resultado",
+      "Tentativas bloqueadas também registradas",
+      "Dados sensíveis não expostos"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET027-CT007",
+    "specification": "MC-ET027",
+    "caseCode": "CT007",
+    "name": "Impedir criação duplicada da devolução",
+    "title": "CT007 Impedir criação duplicada da devolução",
+    "type": "Idempotência, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar que duplo envio ou retry não crie duas solicitações para a mesma operação",
+    "preconditions": [
+      "Usuário autenticado",
+      "Solicitação válida ainda não criada"
+    ],
+    "steps": [
+      "Enviar a solicitação",
+      "Reenviar a mesma requisição"
+    ],
+    "expectedResults": [
+      "Somente uma devolução criada",
+      "Um único protocolo gerado",
+      "Quantidades elegíveis consumidas uma única vez"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET027-CT008",
+    "specification": "MC-ET027",
+    "caseCode": "CT008",
+    "name": "Bloquear devolução de pedido de outro usuário",
+    "title": "CT008 Bloquear devolução de pedido de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade dos itens selecionados",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui item elegível"
+    ],
+    "steps": [
+      "Alterar identificadores do pedido ou item na requisição",
+      "Enviar com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhuma solicitação criada",
+      "Nenhum dado do pedido do Usuário B exposto"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET027-CT009",
+    "specification": "MC-ET027",
+    "caseCode": "CT009",
+    "name": "Registrar auditoria da solicitação de devolução",
+    "title": "CT009 Registrar auditoria da solicitação de devolução",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a trilha da solicitação, anexos e aceite",
+    "preconditions": [
+      "Usuário autenticado",
+      "Solicitação concluída ou bloqueada"
+    ],
+    "steps": [
+      "Consultar a trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Ator, pedido, itens, ação, data e hora e resultado registrados",
+      "Aceite e anexos correlacionados quando aplicável",
+      "Conteúdo sensível não exposto indevidamente"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET028-CT004",
+    "specification": "MC-ET028",
+    "caseCode": "CT004",
+    "name": "Bloquear listagem de devoluções de outro usuário",
+    "title": "CT004 Bloquear listagem de devoluções de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade da consulta",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui devoluções"
+    ],
+    "steps": [
+      "Manipular filtro ou identificador da consulta para o Usuário B",
+      "Enviar com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Nenhuma devolução do Usuário B retornada",
+      "Código de falha quando aplicável"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET029-CT005",
+    "specification": "MC-ET029",
+    "caseCode": "CT005",
+    "name": "Bloquear detalhe de devolução de outro usuário",
+    "title": "CT005 Bloquear detalhe de devolução de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade no acompanhamento da devolução",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui devolução"
+    ],
+    "steps": [
+      "Alterar o identificador da devolução na URL ou endpoint",
+      "Enviar com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhuma informação, anexo ou documento do Usuário B retornado"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET030-CT004",
+    "specification": "MC-ET030",
+    "caseCode": "CT004",
+    "name": "Impedir cancelamento duplicado",
+    "title": "CT004 Impedir cancelamento duplicado",
+    "type": "Idempotência",
+    "severity": "Alto",
+    "objective": "Validar que comandos repetidos não produzam eventos ou transições duplicadas",
+    "preconditions": [
+      "Devolução própria elegível",
+      "Cancelamento ainda não concluído"
+    ],
+    "steps": [
+      "Enviar a solicitação de cancelamento",
+      "Reenviar a mesma solicitação"
+    ],
+    "expectedResults": [
+      "Devolução cancelada uma única vez",
+      "Nenhum estado ou evento duplicado"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET030-CT005",
+    "specification": "MC-ET030",
+    "caseCode": "CT005",
+    "name": "Bloquear cancelamento de devolução de outro usuário",
+    "title": "CT005 Bloquear cancelamento de devolução de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade da ação",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui devolução cancelável"
+    ],
+    "steps": [
+      "Enviar o cancelamento da devolução do Usuário B com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Devolução do Usuário B inalterada"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET030-CT006",
+    "specification": "MC-ET030",
+    "caseCode": "CT006",
+    "name": "Registrar auditoria do cancelamento da devolução",
+    "title": "CT006 Registrar auditoria do cancelamento da devolução",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar o registro da tentativa e do resultado do cancelamento",
+    "preconditions": [
+      "Tentativa de cancelamento realizada"
+    ],
+    "steps": [
+      "Consultar a trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Ator, devolução, data e hora, ação e resultado registrados",
+      "Tentativas bloqueadas também registradas"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET031-CT004",
+    "specification": "MC-ET031",
+    "caseCode": "CT004",
+    "name": "Impedir pagamento duplicado do frete de devolução",
+    "title": "CT004 Impedir pagamento duplicado do frete de devolução",
+    "type": "Idempotência, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar que retries, duplo clique ou callbacks repetidos não dupliquem o pagamento",
+    "preconditions": [
+      "Cobrança válida ou já paga de frete de retorno"
+    ],
+    "steps": [
+      "Repetir a solicitação de pagamento",
+      "Repetir o callback de confirmação"
+    ],
+    "expectedResults": [
+      "Somente um pagamento efetivado",
+      "Cobrança paga não pode ser paga novamente",
+      "Nenhuma nova cobrança ativa criada para a mesma finalidade"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET031-CT005",
+    "specification": "MC-ET031",
+    "caseCode": "CT005",
+    "name": "Registrar auditoria do pagamento do frete de devolução",
+    "title": "CT005 Registrar auditoria do pagamento do frete de devolução",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a trilha de geração, expiração, reemissão e pagamento da cobrança",
+    "preconditions": [
+      "Cobrança de frete de devolução gerada, expirada ou paga"
+    ],
+    "steps": [
+      "Executar cada ação",
+      "Consultar auditoria"
+    ],
+    "expectedResults": [
+      "Evento registra ator, devolução, cobrança, ação, data/hora, resultado e correlação",
+      "Dados sensíveis não são expostos"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET031-CT006",
+    "specification": "MC-ET031",
+    "caseCode": "CT006",
+    "name": "Bloquear cobrança de devolução de outro usuário",
+    "title": "CT006 Bloquear cobrança de devolução de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade da cobrança e do pagamento",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui cobrança de frete"
+    ],
+    "steps": [
+      "Consultar ou pagar a cobrança do Usuário B com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhum dado financeiro exposto",
+      "Nenhum pagamento criado"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET032-CT004",
+    "specification": "MC-ET032",
+    "caseCode": "CT004",
+    "name": "Impedir pagamento duplicado do frete de reenvio",
+    "title": "CT004 Impedir pagamento duplicado do frete de reenvio",
+    "type": "Idempotência, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar a não duplicidade da cobrança e do pagamento",
+    "preconditions": [
+      "Cobrança de reenvio válida ou já paga"
+    ],
+    "steps": [
+      "Repetir o comando de pagamento",
+      "Repetir o callback financeiro"
+    ],
+    "expectedResults": [
+      "Somente um pagamento registrado",
+      "Cobrança paga indisponível para novo pagamento",
+      "Nenhuma cobrança duplicada criada"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET032-CT005",
+    "specification": "MC-ET032",
+    "caseCode": "CT005",
+    "name": "Registrar auditoria do pagamento do frete de reenvio",
+    "title": "CT005 Registrar auditoria do pagamento do frete de reenvio",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a trilha das operações financeiras de reenvio",
+    "preconditions": [
+      "Cobrança de frete de reenvio gerada, expirada ou paga"
+    ],
+    "steps": [
+      "Executar cada ação",
+      "Consultar auditoria"
+    ],
+    "expectedResults": [
+      "Evento registra ator, devolução, finalidade, cobrança, ação e resultado",
+      "Dados sensíveis protegidos"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET032-CT006",
+    "specification": "MC-ET032",
+    "caseCode": "CT006",
+    "name": "Bloquear cobrança de reenvio de outro usuário",
+    "title": "CT006 Bloquear cobrança de reenvio de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade da pendência financeira",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui cobrança de reenvio"
+    ],
+    "steps": [
+      "Consultar ou pagar a cobrança do Usuário B com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhum valor, justificativa ou anexo restrito exposto",
+      "Nenhum pagamento criado"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET033-CT004",
+    "specification": "MC-ET033",
+    "caseCode": "CT004",
+    "name": "Bloquear rastreamento de devolução de outro usuário",
+    "title": "CT004 Bloquear rastreamento de devolução de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade das informações logísticas",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui devolução rastreável"
+    ],
+    "steps": [
+      "Alterar o identificador da devolução ou rastreio",
+      "Enviar com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhuma informação logística do Usuário B retornada"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET034-CT004",
+    "specification": "MC-ET034",
+    "caseCode": "CT004",
+    "name": "Bloquear manipulação do resultado da análise",
+    "title": "CT004 Bloquear manipulação do resultado da análise",
+    "type": "Segurança, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar que o cliente não possa alterar a decisão operacional",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria em análise ou analisada"
+    ],
+    "steps": [
+      "Inspecionar os endpoints disponíveis",
+      "Enviar payload para alterar aprovação, reprovação ou justificativa"
+    ],
+    "expectedResults": [
+      "Requisição rejeitada",
+      "Resultado da análise inalterado",
+      "Tentativa registrada para investigação"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET035-CT002",
+    "specification": "MC-ET035",
+    "caseCode": "CT002",
+    "name": "Impedir reembolso duplicado",
+    "title": "CT002 Impedir reembolso duplicado",
+    "type": "Idempotência, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar que callbacks ou comandos repetidos não criem duas restituições",
+    "preconditions": [
+      "Devolução aprovada para reembolso",
+      "Reembolso iniciado ou concluído"
+    ],
+    "steps": [
+      "Repetir o evento ou comando de reembolso",
+      "Consultar os registros financeiros"
+    ],
+    "expectedResults": [
+      "Somente um reembolso registrado para a finalidade",
+      "Valor total não excede o autorizado",
+      "Eventos duplicados tratados de forma idempotente"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET035-CT003",
+    "specification": "MC-ET035",
+    "caseCode": "CT003",
+    "name": "Bloquear reembolso de devolução de outro usuário",
+    "title": "CT003 Bloquear reembolso de devolução de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade das informações financeiras",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui reembolso"
+    ],
+    "steps": [
+      "Consultar o resultado reembolso do Usuário B com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhum valor ou dado financeiro do Usuário B retornado"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET036-CT004",
+    "specification": "MC-ET036",
+    "caseCode": "CT004",
+    "name": "Bloquear informações de reenvio de outro usuário",
+    "title": "CT004 Bloquear informações de reenvio de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade do acompanhamento logístico",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Usuário B possui reenvio"
+    ],
+    "steps": [
+      "Alterar o identificador da devolução ou reenvio",
+      "Enviar com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Nenhuma informação logística do Usuário B retornada"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET037-CT004",
+    "specification": "MC-ET037",
+    "caseCode": "CT004",
+    "name": "Validar integridade e headers das NF-es da devolução",
+    "title": "CT004 Validar integridade e headers das NF-es da devolução",
+    "type": "Invariante, Segurança",
+    "severity": "Crítico",
+    "objective": "Validar que os documentos fiscais baixados sejam íntegros, autorizados e corretamente entregues",
+    "preconditions": [
+      "NF-e de devolução e/ou reenvio disponível"
+    ],
+    "steps": [
+      "Baixar cada tipo",
+      "Inspecionar headers",
+      "Comparar com a origem fiscal"
+    ],
+    "expectedResults": [
+      "Arquivo corresponde à devolução ou ao reenvio",
+      "Conteúdo íntegro",
+      "Headers corretos",
+      "Ausência de metadados internos indevidos"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET037-CT005",
+    "specification": "MC-ET037",
+    "caseCode": "CT005",
+    "name": "Bloquear download de NF-e de outro usuário",
+    "title": "CT005 Bloquear download de NF-e de outro usuário",
+    "type": "Segurança, Compliance/LGPD",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade do documento fiscal da devolução",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Devolução do Usuário B possui NF-e"
+    ],
+    "steps": [
+      "Alterar o identificador do documento ou devolução",
+      "Solicitar o download com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Arquivo não retornado",
+      "Nenhum dado fiscal do Usuário B exposto"
+    ],
+    "layers": [
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET037-CT006",
+    "specification": "MC-ET037",
+    "caseCode": "CT006",
+    "name": "Registrar auditoria do download fiscal da devolução",
+    "title": "CT006 Registrar auditoria do download fiscal da devolução",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar a trilha auditável do download do documento",
+    "preconditions": [
+      "Usuário autenticado",
+      "Download da NF-e realizado ou bloqueado"
+    ],
+    "steps": [
+      "Consultar a trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Ator, devolução, documento, data e hora e resultado registrados",
+      "Tentativa bloqueada registrada quando aplicável",
+      "Dados fiscais sensíveis protegidos"
+    ],
+    "layers": [
+      "Backend",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET039-CT005",
+    "specification": "MC-ET039",
+    "caseCode": "CT005",
+    "name": "Bloquear alteração de senha de outro usuário",
+    "title": "CT005 Bloquear alteração de senha de outro usuário",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a titularidade e impedir manipulação do usuário no payload",
+    "preconditions": [
+      "Duas contas ativas cadastradas",
+      "Usuário A autenticado",
+      "Senha atual do Usuário A conhecida"
+    ],
+    "steps": [
+      "Inspecionar a requisição de alteração de senha",
+      "Alterar o identificador para o Usuário B",
+      "Enviar com o token do Usuário A"
+    ],
+    "expectedResults": [
+      "Código de falha de autorização",
+      "Senha do Usuário B inalterada",
+      "Nenhuma credencial exposta"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET039-CT006",
+    "specification": "MC-ET039",
+    "caseCode": "CT006",
+    "name": "Proteger senhas em requisições, respostas e logs",
+    "title": "CT006 Proteger senhas em requisições, respostas e logs",
+    "type": "Segurança, Compliance/LGPD",
+    "severity": "Crítico",
+    "objective": "Validar a ausência de exposição de credenciais e segredos",
+    "preconditions": [
+      "Tentativa de alteração de senha realizada",
+      "Acesso técnico à requisição, resposta e logs disponível"
+    ],
+    "steps": [
+      "Inspecionar a requisição e a resposta",
+      "Inspecionar logs e eventos correlacionados"
+    ],
+    "expectedResults": [
+      "Senha atual, nova senha e confirmação não retornadas em respostas",
+      "Senhas não registradas em logs ou auditoria",
+      "Transmissão protegida conforme os headers e protocolo definidos"
+    ],
+    "layers": [
+      "Backend",
+      "Logs e Auditoria",
+      "Headers HTTP",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET039-CT007",
+    "specification": "MC-ET039",
+    "caseCode": "CT007",
+    "name": "Registrar auditoria da alteração de senha",
+    "title": "CT007 Registrar auditoria da alteração de senha",
+    "type": "Auditoria",
+    "severity": "Alto",
+    "objective": "Validar o evento auditável sem registrar o conteúdo das credenciais",
+    "preconditions": [
+      "Tentativa de alteração de senha realizada"
+    ],
+    "steps": [
+      "Consultar a trilha de auditoria"
+    ],
+    "expectedResults": [
+      "Ator, data e hora, ação e resultado registrados",
+      "Sucesso e falhas relevantes auditáveis",
+      "Nenhuma senha ou segredo registrado"
+    ],
+    "layers": [
+      "Backend",
+      "Banco de Dados",
+      "Logs e Auditoria",
+      "Observabilidade"
+    ]
+  }
+]

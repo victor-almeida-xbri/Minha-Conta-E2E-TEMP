@@ -1,0 +1,4182 @@
+[
+  {
+    "id": "MC-ET001-CT001",
+    "specification": "MC-ET001",
+    "caseCode": "CT001",
+    "name": "Realizar login (e-mail e senha)",
+    "title": "CT001 Realizar login (e-mail e senha)",
+    "type": "Funcional",
+    "severity": "Crítico",
+    "objective": "Validar login correto com e-mail e senha",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário não autenticado"
+    ],
+    "steps": [
+      "Acessar plataforma",
+      "Logar com e-mail e senha de um usuário cadastrado"
+    ],
+    "expectedResults": [
+      "Mensagem de sucesso",
+      "Botão de conta apresenta menu de ações",
+      "Tela de login ocultada",
+      "Sessão autenticada de forma segura"
+    ],
+    "layers": [
+      "Frontend",
+      "Headers HTTP",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET001-CT002",
+    "specification": "MC-ET001",
+    "caseCode": "CT002",
+    "name": "Falhar login (e-mail e senha)",
+    "title": "CT002 Falhar login (e-mail e senha)",
+    "type": "Funcional",
+    "severity": "Crítico",
+    "objective": "Validar falha de login com e-mail e/ou senha incorreto",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário não autenticado"
+    ],
+    "steps": [
+      "Acessar plataforma",
+      "Logar com e-mail e/ou senha incorretos"
+    ],
+    "expectedResults": [
+      "Mensagem de falha",
+      "Sem login realizado"
+    ],
+    "layers": [
+      "Frontend",
+      "Headers HTTP",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET001-CT003",
+    "specification": "MC-ET001",
+    "caseCode": "CT003",
+    "name": "Requisitar reCAPTCHA",
+    "title": "CT003 Requisitar reCAPTCHA",
+    "type": "Segurança",
+    "severity": "Médio",
+    "objective": "Validar solicitação de reCAPTCHA após múltiplos erros de login",
+    "preconditions": [
+      "Usuário não autenticado"
+    ],
+    "steps": [
+      "Acessar plataforma",
+      "Logar com e-mail e/ou senha incorretos múltiplas vezes seguidas"
+    ],
+    "expectedResults": [
+      "Após o limite definido pela política de segurança de tentativas de login, é solicitada verificação reCAPTCHA"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET001-CT004",
+    "specification": "MC-ET001",
+    "caseCode": "CT004",
+    "name": "Login com SQL Injection",
+    "title": "CT004 Login com SQL Injection",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar tratamento e bloqueio de entradas vindas da interface",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário não autenticado"
+    ],
+    "steps": [
+      "Acessar plataforma",
+      "SQL Injection nos campos de login"
+    ],
+    "expectedResults": [
+      "Mensagem de falha",
+      "Falha nos logins",
+      "Banco de dados inalterado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET003-CT001",
+    "specification": "MC-ET003",
+    "caseCode": "CT001",
+    "name": "Acessar Minha Conta com usuário autenticado",
+    "title": "CT001 Acessar Minha Conta com usuário autenticado",
+    "type": "Funcional",
+    "severity": "Crítico",
+    "objective": "Validar acesso autenticado ao dashboard do Minha Conta",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acessar plataforma",
+      "Acessar menu do usuário",
+      "Acessar Minha Conta"
+    ],
+    "expectedResults": [
+      "Apresentação do dashboard do cliente",
+      "Token de autorização armazenada na sessão"
+    ],
+    "layers": [
+      "Frontend",
+      "Headers HTTP",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET003-CT002",
+    "specification": "MC-ET003",
+    "caseCode": "CT002",
+    "name": "Acessar Minha Conta sem autenticação",
+    "title": "CT002 Acessar Minha Conta sem autenticação",
+    "type": "Segurança",
+    "severity": "Crítico",
+    "objective": "Validar bloqueio de informações à usuários não autenticados",
+    "preconditions": [
+      "Usuário não autenticado"
+    ],
+    "steps": [
+      "Acessar url do dashboard da Minha Conta"
+    ],
+    "expectedResults": [
+      "Mensagem de falha",
+      "Redirecionamento à tela inicial"
+    ],
+    "layers": [
+      "Frontend"
+    ]
+  },
+  {
+    "id": "MC-ET003-CT003",
+    "specification": "MC-ET003",
+    "caseCode": "CT003",
+    "name": "Acessar Minha Conta com token expirado",
+    "title": "CT003 Acessar Minha Conta com token expirado",
+    "type": "Segurança",
+    "severity": "Alto",
+    "objective": "Validar a expiração do token de autorização determina a reautenticação",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Aguardar expiração do token",
+      "Recarregar página"
+    ],
+    "expectedResults": [
+      "Mensagem para logar novamente",
+      "Redirecionamento à tela inicial"
+    ],
+    "layers": [
+      "Frontend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET003-CT004",
+    "specification": "MC-ET003",
+    "caseCode": "CT004",
+    "name": "Encerrar sessão autenticada",
+    "title": "CT004 Encerrar sessão autenticada",
+    "type": "Funcional, Segurança",
+    "severity": "Alto",
+    "objective": "Validar o encerramento voluntário da sessão e a restrição de uso posterior",
+    "preconditions": [
+      "Usuário autenticado",
+      "Sessão válida"
+    ],
+    "steps": [
+      "Acessar o menu da conta",
+      "Acionar Sair",
+      "Tentar acessar novamente uma área autenticada"
+    ],
+    "expectedResults": [
+      "Sessão encerrada",
+      "Dados do Minha Conta não permanecem acessíveis",
+      "Novo acesso exige autenticação"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP",
+      "Logs e Auditoria"
+    ]
+  },
+  {
+    "id": "MC-ET004-CT001",
+    "specification": "MC-ET004",
+    "caseCode": "CT001",
+    "name": "Apresentar dados principais cadastrados no dashboard",
+    "title": "CT001 Apresentar dados principais cadastrados no dashboard",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar a apresentação do veículo principal e do endereço principal disponíveis para o cliente",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui veículo principal e/ou endereço principal"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Visualizar os cards de veículo e endereço"
+    ],
+    "expectedResults": [
+      "Veículo principal apresentado quando existente",
+      "Endereço principal apresentado quando existente",
+      "Informações pertencem ao usuário autenticado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET004-CT002",
+    "specification": "MC-ET004",
+    "caseCode": "CT002",
+    "name": "Apresentar últimos pedidos",
+    "title": "CT002 Apresentar últimos pedidos",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar apresentação dos últimos pedidos do cliente",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "Usuário possui 1-3 pedidos"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Visualizar dashboard"
+    ],
+    "expectedResults": [
+      "Apresentação de no máximo 2 cards dos últimos pedidos"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET004-CT003",
+    "specification": "MC-ET004",
+    "caseCode": "CT003",
+    "name": "Apresentar identificação(PF)",
+    "title": "CT003 Apresentar identificação(PF)",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar apresentação da identificação do cliente (pessoa física) com dados sensíveis mascarados",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário PF autenticado"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Visualizar dashboard"
+    ],
+    "expectedResults": [
+      "Apresentação da identificação",
+      "CPF mascarado para cliente PF"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET004-CT004",
+    "specification": "MC-ET004",
+    "caseCode": "CT004",
+    "name": "Apresentar identificação (PJ)",
+    "title": "CT004 Apresentar identificação (PJ)",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar apresentação da identificação do cliente (pessoa jurídica)",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário PJ autenticado"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Visualizar dashboard"
+    ],
+    "expectedResults": [
+      "Apresentação da identificação"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET004-CT006",
+    "specification": "MC-ET004",
+    "caseCode": "CT006",
+    "name": "Apresentar pneus compatíveis",
+    "title": "CT006 Apresentar pneus compatíveis",
+    "type": "Funcional, Integração",
+    "severity": "Baixo",
+    "objective": "Validar apresentação dos pneus compatíveis com o veículo principal do cliente",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "Usuário possui veículo principal"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Visualizar dashboard"
+    ],
+    "expectedResults": [
+      "Apresentação de pneus compatíveis com o veículo principal"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET004-CT007",
+    "specification": "MC-ET004",
+    "caseCode": "CT007",
+    "name": "Apresentar estados vazios do dashboard",
+    "title": "CT007 Apresentar estados vazios do dashboard",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar os estados vazios das informações resumidas do dashboard",
+    "preconditions": [
+      "Usuário autenticado",
+      "Executar com usuário sem veículos, sem endereços e sem pedidos"
+    ],
+    "steps": [
+      "Acessar Minha Conta para cada cenário de massa",
+      "Visualizar o dashboard"
+    ],
+    "expectedResults": [
+      "Mensagem de estado vazio correspondente apresentada",
+      "Nenhuma informação inexistente exibida",
+      "Ação primária coerente apresentada quando prevista"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET004-CT008",
+    "specification": "MC-ET004",
+    "caseCode": "CT008",
+    "name": "Apresentar top modelos de pneus",
+    "title": "CT008 Apresentar top modelos de pneus",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar apresentação de top modelos de pneus quando não há pneus compatíveis",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "Usuário não possui veículos ou não há pneus compatíveis com o veículo principal"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Visualizar dashboard"
+    ],
+    "expectedResults": [
+      "Apresentação de modelos mais vendidos do marketplace"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET004-CT009",
+    "specification": "MC-ET004",
+    "caseCode": "CT009",
+    "name": "Apresentar anúncio",
+    "title": "CT009 Apresentar anúncio",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar apresentação de anúncio personalizado pro cliente",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Visualizar dashboard"
+    ],
+    "expectedResults": [
+      "Apresentação de anúncio válido da plataforma"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET005-CT001",
+    "specification": "MC-ET005",
+    "caseCode": "CT001",
+    "name": "Validar menu de navegação do Minha Conta",
+    "title": "CT001 Validar menu de navegação do Minha Conta",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar o acesso às áreas disponíveis pelo menu superior do Minha Conta",
+    "preconditions": [
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Acionar sequencialmente Início, Identificação, Meus Veículos, Meus Endereços, Meus Pedidos, Devoluções e Gerenciar conta"
+    ],
+    "expectedResults": [
+      "Cada item redireciona à área correspondente",
+      "Área atual permanece destacada",
+      "Nenhuma alteração persistente é executada pela navegação"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET005-CT002",
+    "specification": "MC-ET005",
+    "caseCode": "CT002",
+    "name": "Validar redirecionamentos dos estados vazios do dashboard",
+    "title": "CT002 Validar redirecionamentos dos estados vazios do dashboard",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar que as ações dos estados vazios apenas redirecionem à área responsável",
+    "preconditions": [
+      "Usuário autenticado",
+      "Executar com usuário sem pedidos, sem veículos e sem endereços"
+    ],
+    "steps": [
+      "Acionar a ação do estado vazio de pedidos",
+      "Acionar a ação do estado vazio de veículos",
+      "Acionar a ação do estado vazio de endereços"
+    ],
+    "expectedResults": [
+      "Pedidos redirecionam ao catálogo",
+      "Veículos redirecionam ao cadastro em Meus Veículos",
+      "Endereços redirecionam ao cadastro em Meus Endereços",
+      "Nenhuma entidade é criada diretamente no dashboard"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET005-CT003",
+    "specification": "MC-ET005",
+    "caseCode": "CT003",
+    "name": "Validar redirecionamento dos cards cadastrais",
+    "title": "CT003 Validar redirecionamento dos cards cadastrais",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar o acesso às áreas cadastrais pelos cards de identificação e endereço",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui identificação",
+      "Usuário possui endereço principal"
+    ],
+    "steps": [
+      "Acionar o card de identificação",
+      "Retornar ao dashboard",
+      "Acionar o card de endereço"
+    ],
+    "expectedResults": [
+      "Card de identificação redireciona para Identificação",
+      "Card de endereço redireciona para Meus Endereços"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET005-CT004",
+    "specification": "MC-ET005",
+    "caseCode": "CT004",
+    "name": "Validar ações do card de veículo",
+    "title": "CT004 Validar ações do card de veículo",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar os redirecionamentos disponíveis a partir do veículo principal",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui veículo principal"
+    ],
+    "steps": [
+      "Acionar Alterar veículo",
+      "Retornar ao dashboard",
+      "Acionar Ver pneus compatíveis"
+    ],
+    "expectedResults": [
+      "Alterar veículo redireciona para Meus Veículos",
+      "Ver pneus compatíveis redireciona ao catálogo com o contexto do veículo",
+      "Compatibilidade tem origem no domínio responsável"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET005-CT005",
+    "specification": "MC-ET005",
+    "caseCode": "CT005",
+    "name": "Validar ações dos pedidos no dashboard",
+    "title": "CT005 Validar ações dos pedidos no dashboard",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar o acesso à listagem e aos detalhes dos pedidos apresentados",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui pelo menos dois pedidos"
+    ],
+    "steps": [
+      "Acionar Ver todos os pedidos",
+      "Retornar ao dashboard",
+      "Acionar Ver pedido no primeiro card",
+      "Repetir no segundo card"
+    ],
+    "expectedResults": [
+      "Ver todos os pedidos redireciona para Meus Pedidos",
+      "São apresentados no máximo os dois pedidos mais recentes",
+      "Cada ação Ver pedido abre o pedido correspondente"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET005-CT006",
+    "specification": "MC-ET005",
+    "caseCode": "CT006",
+    "name": "Validar redirecionamento dos cards de pneus",
+    "title": "CT006 Validar redirecionamento dos cards de pneus",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar o acesso ao produto apresentado nos cards de pneus",
+    "preconditions": [
+      "Usuário autenticado",
+      "Executar com card de pneu compatível e card de top modelos"
+    ],
+    "steps": [
+      "Acionar o card de pneu apresentado em cada cenário"
+    ],
+    "expectedResults": [
+      "Usuário redirecionado para a página do pneu selecionado",
+      "Produto de destino corresponde ao card acionado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET006-CT001",
+    "specification": "MC-ET006",
+    "caseCode": "CT001",
+    "name": "Apresentar identificação de usuário PF",
+    "title": "CT001 Apresentar identificação de usuário PF",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a apresentação dos dados cadastrais de pessoa física",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário PF autenticado"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Acessar Identificação"
+    ],
+    "expectedResults": [
+      "Dados do usuário PF apresentados",
+      "CPF apresentado conforme regra de mascaramento",
+      "Tipo de cadastro apresentado",
+      "Campos editáveis e não editáveis diferenciados"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET006-CT002",
+    "specification": "MC-ET006",
+    "caseCode": "CT002",
+    "name": "Apresentar identificação de usuário PJ",
+    "title": "CT002 Apresentar identificação de usuário PJ",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a apresentação dos dados cadastrais de pessoa jurídica",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário PJ autenticado"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Acessar Identificação"
+    ],
+    "expectedResults": [
+      "Dados do usuário PJ apresentados",
+      "CNPJ apresentado conforme regra de mascaramento",
+      "Razão social apresentada",
+      "Inscrição estadual e situação do ICMS apresentadas quando aplicáveis",
+      "Campos editáveis e não editáveis diferenciados"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET006-CT003",
+    "specification": "MC-ET006",
+    "caseCode": "CT003",
+    "name": "Bloquear edição de CPF e tipo cadastral",
+    "title": "CT003 Bloquear edição de CPF e tipo cadastral",
+    "type": "Invariante",
+    "severity": "Crítico",
+    "objective": "Validar que CPF e tipo cadastral não possam ser alterados pela interface",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário PF autenticado"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Acessar Identificação",
+      "Inspecionar os campos CPF e tipo cadastral"
+    ],
+    "expectedResults": [
+      "CPF indisponível para edição",
+      "Tipo cadastral indisponível para edição"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET006-CT004",
+    "specification": "MC-ET006",
+    "caseCode": "CT004",
+    "name": "Bloquear edição de CNPJ e tipo cadastral",
+    "title": "CT004 Bloquear edição de CNPJ e tipo cadastral",
+    "type": "Invariante",
+    "severity": "Crítico",
+    "objective": "Validar que CNPJ e tipo cadastral não possam ser alterados pela interface",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário PJ autenticado"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Acessar Identificação",
+      "Inspecionar os campos CNPJ e tipo cadastral"
+    ],
+    "expectedResults": [
+      "CNPJ indisponível para edição",
+      "Tipo cadastral indisponível para edição"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET007-CT001",
+    "specification": "MC-ET007",
+    "caseCode": "CT001",
+    "name": "Alterar dados editáveis de usuário PF",
+    "title": "CT001 Alterar dados editáveis de usuário PF",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a atualização dos dados permitidos de pessoa física",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário PF autenticado"
+    ],
+    "steps": [
+      "Acessar Identificação",
+      "Alterar nome e telefone",
+      "Confirmar atualização"
+    ],
+    "expectedResults": [
+      "Mensagem de sucesso",
+      "Nome e telefone atualizados",
+      "CPF e tipo cadastral inalterados",
+      "Dados persistidos"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET007-CT002",
+    "specification": "MC-ET007",
+    "caseCode": "CT002",
+    "name": "Alterar dados editáveis de usuário PJ",
+    "title": "CT002 Alterar dados editáveis de usuário PJ",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a atualização dos dados permitidos de pessoa jurídica",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário PJ autenticado"
+    ],
+    "steps": [
+      "Acessar Identificação",
+      "Alterar telefone, situação do contribuinte e inscrição estadual (apenas se ICMS=ativo)",
+      "Confirmar atualização"
+    ],
+    "expectedResults": [
+      "Mensagem de sucesso",
+      "Campos permitidos atualizados",
+      "CNPJ e tipo cadastral inalterados",
+      "Dados persistidos"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET007-CT003",
+    "specification": "MC-ET007",
+    "caseCode": "CT003",
+    "name": "Bloquear telefone inválido",
+    "title": "CT003 Bloquear telefone inválido",
+    "type": "Validação",
+    "severity": "Médio",
+    "objective": "Validar a rejeição de telefone inválido na atualização cadastral",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acessar Identificação",
+      "Informar telefone inválido",
+      "Confirmar atualização"
+    ],
+    "expectedResults": [
+      "Mensagem de validação apresentada",
+      "Atualização não realizada",
+      "Dados anteriores preservados"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET007-CT006",
+    "specification": "MC-ET007",
+    "caseCode": "CT006",
+    "name": "Preservar dados históricos após alteração cadastral",
+    "title": "CT006 Preservar dados históricos após alteração cadastral",
+    "type": "Invariante",
+    "severity": "Alto",
+    "objective": "Validar que a atualização do perfil não altere snapshots e registros históricos",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui pedido histórico"
+    ],
+    "steps": [
+      "Registrar os dados do pedido antes da alteração",
+      "Alterar dados editáveis da identificação",
+      "Consultar novamente o pedido histórico"
+    ],
+    "expectedResults": [
+      "Perfil atualizado",
+      "Dados históricos do pedido inalterados",
+      "Snapshots preservados"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET008-CT001",
+    "specification": "MC-ET008",
+    "caseCode": "CT001",
+    "name": "Apresentar estado vazio de veículos",
+    "title": "CT001 Apresentar estado vazio de veículos",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar a apresentação da área Meus Veículos sem registros ativos",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "Usuário sem veículos ativos"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Acessar Meus Veículos"
+    ],
+    "expectedResults": [
+      "Mensagem de estado vazio apresentada",
+      "Ação para adicionar veículo apresentada",
+      "Nenhum veículo de outro usuário exibido"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET008-CT002",
+    "specification": "MC-ET008",
+    "caseCode": "CT002",
+    "name": "Apresentar múltiplos veículos e principal",
+    "title": "CT002 Apresentar múltiplos veículos e principal",
+    "type": "Funcional, Invariante",
+    "severity": "Alto",
+    "objective": "Validar a apresentação de múltiplos veículos com apenas um principal",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "Usuário possui dois veículos ativos"
+    ],
+    "steps": [
+      "Acessar Meus Veículos",
+      "Visualizar os registros"
+    ],
+    "expectedResults": [
+      "Veículos ativos apresentados",
+      "Somente um veículo identificado como principal"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET009-CT001",
+    "specification": "MC-ET009",
+    "caseCode": "CT001",
+    "name": "Consultar veículo por placa válida",
+    "title": "CT001 Consultar veículo por placa válida",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar a consulta de uma placa existente na integração veicular",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "Placa válida disponível na API"
+    ],
+    "steps": [
+      "Acessar Meus Veículos",
+      "Selecionar Adicionar veículo",
+      "Selecionar busca por placa",
+      "Informar placa válida",
+      "Executar consulta"
+    ],
+    "expectedResults": [
+      "Dados do veículo retornados pela integração",
+      "Veículo cadastrado",
+      "Nenhum cadastro realizado antes da confirmação"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET009-CT002",
+    "specification": "MC-ET009",
+    "caseCode": "CT002",
+    "name": "Tratar placa não localizada",
+    "title": "CT002 Tratar placa não localizada",
+    "type": "Funcional, Integração",
+    "severity": "Médio",
+    "objective": "Validar o tratamento do retorno sem veículo encontrado",
+    "preconditions": [
+      "Usuário autenticado",
+      "Placa válida não localizada pela API"
+    ],
+    "steps": [
+      "Acessar cadastro por placa",
+      "Informar placa não localizada",
+      "Executar consulta"
+    ],
+    "expectedResults": [
+      "Mensagem de veículo não encontrado apresentada",
+      "Cadastro não realizado",
+      "Usuário permanece no fluxo de cadastro"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET009-CT003",
+    "specification": "MC-ET009",
+    "caseCode": "CT003",
+    "name": "Bloquear placa inválida",
+    "title": "CT003 Bloquear placa inválida",
+    "type": "Validação",
+    "severity": "Médio",
+    "objective": "Validar a rejeição de formato de placa inválido",
+    "preconditions": [
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acessar cadastro por placa",
+      "Informar placa em formato inválido",
+      "Executar consulta"
+    ],
+    "expectedResults": [
+      "Mensagem de validação apresentada",
+      "Consulta externa não executada",
+      "Veículo não cadastrado"
+    ],
+    "layers": [
+      "Frontend"
+    ]
+  },
+  {
+    "id": "MC-ET009-CT004",
+    "specification": "MC-ET009",
+    "caseCode": "CT004",
+    "name": "Tratar indisponibilidade da consulta de placa",
+    "title": "CT004 Tratar indisponibilidade da consulta de placa",
+    "type": "Integração",
+    "severity": "Alto",
+    "objective": "Validar o comportamento quando a API veicular estiver indisponível",
+    "preconditions": [
+      "Usuário autenticado",
+      "API de consulta veicular indisponível"
+    ],
+    "steps": [
+      "Acessar cadastro por placa",
+      "Informar placa válida",
+      "Executar consulta"
+    ],
+    "expectedResults": [
+      "Mensagem de consulta indisponível apresentada",
+      "Orientação para tentar novamente mais tarde",
+      "Veículo não cadastrado",
+      "Erro registrado para observabilidade"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET009-CT005",
+    "specification": "MC-ET009",
+    "caseCode": "CT005",
+    "name": "Bloquear cadastro de veículo duplicado",
+    "title": "CT005 Bloquear cadastro de veículo duplicado",
+    "type": "Validação, Invariante",
+    "severity": "Alto",
+    "objective": "Validar a unicidade dos veículos ativos do cliente",
+    "preconditions": [
+      "Usuário autenticado",
+      "Veículo correspondente já cadastrado e ativo"
+    ],
+    "steps": [
+      "Acessar cadastro por placa",
+      "Consultar a placa já vinculada",
+      "Confirmar cadastro"
+    ],
+    "expectedResults": [
+      "Mensagem de veículo já cadastrado apresentada",
+      "Novo registro não criado",
+      "Banco de dados sem duplicidade"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET009-CT006",
+    "specification": "MC-ET009",
+    "caseCode": "CT006",
+    "name": "Cadastrar primeiro veículo por placa",
+    "title": "CT006 Cadastrar primeiro veículo por placa",
+    "type": "Funcional, Invariante",
+    "severity": "Alto",
+    "objective": "Validar o cadastro do primeiro veículo do usuário",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário sem veículos ativos",
+      "Placa válida localizada"
+    ],
+    "steps": [
+      "Consultar veículo por placa",
+      "Confirmar os dados",
+      "Cadastrar veículo"
+    ],
+    "expectedResults": [
+      "Veículo cadastrado",
+      "Veículo definido como principal conforme fluxo documentado",
+      "Lista atualizada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET010-CT001",
+    "specification": "MC-ET010",
+    "caseCode": "CT001",
+    "name": "Carregamento dinâmico de marca, modelo, ano e versão",
+    "title": "CT001 Carregamento dinâmico de marca, modelo, ano e versão",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar a apresentação das marcas disponíveis no cadastro manual",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acessar Meus Veículos",
+      "Selecionar Adicionar veículo",
+      "Selecionar cadastro por modelo",
+      "Selecionar modelo",
+      "Selecionar marca",
+      "Selecionar ano",
+      "Selecionar versão"
+    ],
+    "expectedResults": [
+      "Lista de marcas apresentada",
+      "Campos dependentes ainda não selecionáveis enquanto dependência for preenchida",
+      "Campos dependentes atualizados correspondendo a suas dependências",
+      "Alteração de um campo redefine campos dependentes"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET010-CT002",
+    "specification": "MC-ET010",
+    "caseCode": "CT002",
+    "name": "Cadastrar veículo por modelo",
+    "title": "CT002 Cadastrar veículo por modelo",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar o cadastro manual com combinação válida",
+    "preconditions": [
+      "Usuário autenticado",
+      "Combinação de marca, modelo, ano e versão válida"
+    ],
+    "steps": [
+      "Preencher marca, modelo, ano e versão",
+      "Confirmar cadastro"
+    ],
+    "expectedResults": [
+      "Mensagem de sucesso apresentada",
+      "Veículo persistido",
+      "Lista de veículos atualizada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET010-CT003",
+    "specification": "MC-ET010",
+    "caseCode": "CT003",
+    "name": "Bloquear cadastro com campos obrigatórios vazios",
+    "title": "CT003 Bloquear cadastro com campos obrigatórios vazios",
+    "type": "Validação",
+    "severity": "Médio",
+    "objective": "Validar a obrigatoriedade dos campos do veículo",
+    "preconditions": [
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acessar cadastro por modelo",
+      "Manter um ou mais campos obrigatórios vazios",
+      "Confirmar cadastro"
+    ],
+    "expectedResults": [
+      "Campos obrigatórios indicados",
+      "Cadastro não realizado",
+      "Banco de dados inalterado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET010-CT004",
+    "specification": "MC-ET010",
+    "caseCode": "CT004",
+    "name": "Bloquear veículo duplicado por modelo",
+    "title": "CT004 Bloquear veículo duplicado por modelo",
+    "type": "Validação, Invariante",
+    "severity": "Alto",
+    "objective": "Validar a prevenção de combinação duplicada entre veículos ativos",
+    "preconditions": [
+      "Usuário autenticado",
+      "Combinação de veículo já cadastrada"
+    ],
+    "steps": [
+      "Selecionar a mesma marca, modelo, ano e versão",
+      "Confirmar cadastro"
+    ],
+    "expectedResults": [
+      "Mensagem de veículo já cadastrado apresentada",
+      "Novo registro não criado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET011-CT001",
+    "specification": "MC-ET011",
+    "caseCode": "CT001",
+    "name": "Carregar dados atuais do veículo",
+    "title": "CT001 Carregar dados atuais do veículo",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar o preenchimento inicial do formulário de edição",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui veículo ativo"
+    ],
+    "steps": [
+      "Acessar Meus Veículos",
+      "Selecionar Editar"
+    ],
+    "expectedResults": [
+      "Formulário apresentado",
+      "Marca, modelo, ano e versão atuais preenchidos"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET011-CT002",
+    "specification": "MC-ET011",
+    "caseCode": "CT002",
+    "name": "Redefinir campos por dependência",
+    "title": "CT002 Redefinir campos por dependência",
+    "type": "Funcional, Validação",
+    "severity": "Alto",
+    "objective": "Validar a consistência hierárquica ao alterar a marca",
+    "preconditions": [
+      "Usuário autenticado",
+      "Veículo ativo cadastrado"
+    ],
+    "steps": [
+      "Editar veículo",
+      "Alterar a marca"
+    ],
+    "expectedResults": [
+      "Campos dependentes ainda não selecionáveis enquanto dependência for preenchida",
+      "Campos dependentes atualizados correspondendo a suas dependências",
+      "Alteração de um campo redefine campos dependentes"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET011-CT003",
+    "specification": "MC-ET011",
+    "caseCode": "CT003",
+    "name": "Atualizar veículo com dados válidos",
+    "title": "CT003 Atualizar veículo com dados válidos",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a persistência da edição de veículo",
+    "preconditions": [
+      "Usuário autenticado",
+      "Veículo pertence ao usuário"
+    ],
+    "steps": [
+      "Editar os dados do veículo",
+      "Selecionar combinação válida",
+      "Confirmar edição"
+    ],
+    "expectedResults": [
+      "Mensagem de sucesso apresentada",
+      "Veículo atualizado",
+      "Lista apresenta os novos dados"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET011-CT004",
+    "specification": "MC-ET011",
+    "caseCode": "CT004",
+    "name": "Bloquear edição com campos obrigatórios vazios",
+    "title": "CT004 Bloquear edição com campos obrigatórios vazios",
+    "type": "Validação",
+    "severity": "Médio",
+    "objective": "Validar a rejeição de edição incompleta",
+    "preconditions": [
+      "Usuário autenticado",
+      "Veículo ativo cadastrado"
+    ],
+    "steps": [
+      "Editar veículo",
+      "Remover valor de campo obrigatório",
+      "Confirmar edição"
+    ],
+    "expectedResults": [
+      "Mensagem de validação apresentada",
+      "Alteração não persistida",
+      "Dados anteriores preservados"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET011-CT005",
+    "specification": "MC-ET011",
+    "caseCode": "CT005",
+    "name": "Bloquear veículos duplicados na edição",
+    "title": "CT005 Bloquear veículos duplicados na edição",
+    "type": "Validação, Invariante",
+    "severity": "Alto",
+    "objective": "Validar que a edição não resulte em veículo ativo duplicado",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui dois veículos ativos distintos"
+    ],
+    "steps": [
+      "Editar um veículo",
+      "Selecionar a combinação do outro veículo",
+      "Confirmar edição"
+    ],
+    "expectedResults": [
+      "Mensagem de veículo já cadastrado apresentada",
+      "Alteração não persistida"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET012-CT001",
+    "specification": "MC-ET012",
+    "caseCode": "CT001",
+    "name": "Definir veículo secundário como principal",
+    "title": "CT001 Definir veículo secundário como principal",
+    "type": "Funcional, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar a alteração do veículo principal",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui dois veículos ativos",
+      "Um veículo está definido como principal"
+    ],
+    "steps": [
+      "Acessar Meus Veículos",
+      "Selecionar o veículo secundário",
+      "Acionar Tornar principal"
+    ],
+    "expectedResults": [
+      "Veículo selecionado definido como principal",
+      "Veículo anterior deixa de ser principal",
+      "Somente um veículo principal permanece ativo"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET012-CT002",
+    "specification": "MC-ET012",
+    "caseCode": "CT002",
+    "name": "Manter veículo já principal",
+    "title": "CT002 Manter veículo já principal",
+    "type": "Funcional, Invariante",
+    "severity": "Médio",
+    "objective": "Validar o comportamento ao selecionar o veículo já definido como principal",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui veículo principal"
+    ],
+    "steps": [
+      "Acessar Meus Veículos",
+      "Visualizar o veículo principal"
+    ],
+    "expectedResults": [
+      "Veículo permanece principal",
+      "Ação redundante não apresentada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET013-CT001",
+    "specification": "MC-ET013",
+    "caseCode": "CT001",
+    "name": "Cancelar exclusão de veículo",
+    "title": "CT001 Cancelar exclusão de veículo",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar que o cancelamento do modal preserve o veículo",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui veículo ativo"
+    ],
+    "steps": [
+      "Acessar Meus Veículos",
+      "Acionar Excluir",
+      "Cancelar a confirmação"
+    ],
+    "expectedResults": [
+      "Modal fechado",
+      "Veículo permanece ativo",
+      "Banco de dados inalterado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET013-CT002",
+    "specification": "MC-ET013",
+    "caseCode": "CT002",
+    "name": "Excluir veículo secundário",
+    "title": "CT002 Excluir veículo secundário",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a exclusão lógica de um veículo não principal",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui veículo principal e veículo secundário"
+    ],
+    "steps": [
+      "Selecionar o veículo secundário",
+      "Acionar Excluir",
+      "Confirmar exclusão"
+    ],
+    "expectedResults": [
+      "Veículo removido da lista ativa",
+      "Exclusão lógica aplicada",
+      "Veículo principal atual preservado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET013-CT003",
+    "specification": "MC-ET013",
+    "caseCode": "CT003",
+    "name": "Excluir veículo principal",
+    "title": "CT003 Excluir veículo principal",
+    "type": "Funcional, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar a promoção automática do veículo ativo criado ou atualizado mais recentemente",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui veículo principal e outros veículos ativos com datas distintas"
+    ],
+    "steps": [
+      "Excluir o veículo principal",
+      "Confirmar exclusão"
+    ],
+    "expectedResults": [
+      "Veículo principal removido da lista ativa",
+      "Veículo ativo mais recente definido como principal",
+      "Desempate por maior identificador",
+      "Somente um principal mantido"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET013-CT004",
+    "specification": "MC-ET013",
+    "caseCode": "CT004",
+    "name": "Excluir o único veículo ativo",
+    "title": "CT004 Excluir o único veículo ativo",
+    "type": "Funcional, Invariante",
+    "severity": "Alto",
+    "objective": "Validar a exclusão quando não houver substituto elegível",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui somente um veículo ativo e principal"
+    ],
+    "steps": [
+      "Excluir o veículo",
+      "Confirmar exclusão"
+    ],
+    "expectedResults": [
+      "Veículo removido da lista ativa",
+      "Usuário permanece sem veículo principal",
+      "Estado vazio apresentado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET014-CT001",
+    "specification": "MC-ET014",
+    "caseCode": "CT001",
+    "name": "Apresentar estado vazio de endereços",
+    "title": "CT001 Apresentar estado vazio de endereços",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar a área Meus Endereços quando não houver registros ativos",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "Usuário sem endereços ativos"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Acessar Meus Endereços"
+    ],
+    "expectedResults": [
+      "Mensagem de estado vazio apresentada",
+      "Ação para adicionar endereço apresentada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET014-CT002",
+    "specification": "MC-ET014",
+    "caseCode": "CT002",
+    "name": "Apresentar múltiplos endereços e principal",
+    "title": "CT002 Apresentar múltiplos endereços e principal",
+    "type": "Funcional, Invariante",
+    "severity": "Alto",
+    "objective": "Validar a listagem de múltiplos endereços com apenas um principal",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui múltiplos endereços ativos"
+    ],
+    "steps": [
+      "Acessar Meus Endereços",
+      "Visualizar a listagem"
+    ],
+    "expectedResults": [
+      "Endereços ativos apresentados",
+      "Somente um endereço identificado como principal"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET015-CT001",
+    "specification": "MC-ET015",
+    "caseCode": "CT001",
+    "name": "Consultar endereço por CEP válido",
+    "title": "CT001 Consultar endereço por CEP válido",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar a consulta e o preenchimento do endereço por CEP",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "CEP válido disponível na integração"
+    ],
+    "steps": [
+      "Acessar Meus Endereços",
+      "Selecionar Adicionar endereço",
+      "Informar CEP válido",
+      "Executar consulta"
+    ],
+    "expectedResults": [
+      "Logradouro, bairro, cidade e UF preenchidos conforme retorno",
+      "Campos complementares permanecem disponíveis para preenchimento",
+      "Endereço não cadastrado antes da confirmação"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET015-CT002",
+    "specification": "MC-ET015",
+    "caseCode": "CT002",
+    "name": "Tratar CEP não localizado",
+    "title": "CT002 Tratar CEP não localizado",
+    "type": "Funcional, Integração",
+    "severity": "Médio",
+    "objective": "Validar o comportamento para CEP válido sem endereço localizado",
+    "preconditions": [
+      "Usuário autenticado",
+      "CEP não localizado pela integração"
+    ],
+    "steps": [
+      "Acessar cadastro de endereço",
+      "Informar CEP não localizado",
+      "Executar consulta"
+    ],
+    "expectedResults": [
+      "Mensagem de CEP não encontrado apresentada",
+      "Endereço não cadastrado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET015-CT003",
+    "specification": "MC-ET015",
+    "caseCode": "CT003",
+    "name": "Bloquear CEP inválido",
+    "title": "CT003 Bloquear CEP inválido",
+    "type": "Validação",
+    "severity": "Médio",
+    "objective": "Validar a rejeição de formato de CEP inválido",
+    "preconditions": [
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acessar cadastro de endereço",
+      "Informar CEP inválido",
+      "Executar consulta"
+    ],
+    "expectedResults": [
+      "Mensagem de validação apresentada",
+      "Consulta externa não executada",
+      "Endereço não cadastrado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET015-CT004",
+    "specification": "MC-ET015",
+    "caseCode": "CT004",
+    "name": "Tratar indisponibilidade da API de CEP",
+    "title": "CT004 Tratar indisponibilidade da API de CEP",
+    "type": "Integração",
+    "severity": "Alto",
+    "objective": "Validar a apresentação do modal de indisponibilidade da consulta",
+    "preconditions": [
+      "Usuário autenticado",
+      "API de CEP indisponível"
+    ],
+    "steps": [
+      "Acessar cadastro de endereço",
+      "Informar CEP válido",
+      "Executar consulta"
+    ],
+    "expectedResults": [
+      "Modal ou mensagem Consulta indisponível, tente novamente mais tarde apresentado",
+      "Endereço não cadastrado",
+      "Erro registrado para observabilidade"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET015-CT005",
+    "specification": "MC-ET015",
+    "caseCode": "CT005",
+    "name": "Bloquear cadastro sem campos obrigatórios",
+    "title": "CT005 Bloquear cadastro sem campos obrigatórios",
+    "type": "Validação",
+    "severity": "Médio",
+    "objective": "Validar a obrigatoriedade dos dados do endereço",
+    "preconditions": [
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acessar cadastro de endereço",
+      "Informar CEP válido",
+      "Manter um ou mais campos obrigatórios vazios",
+      "Confirmar cadastro"
+    ],
+    "expectedResults": [
+      "Campos obrigatórios indicados",
+      "Cadastro não realizado",
+      "Banco de dados inalterado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET015-CT006",
+    "specification": "MC-ET015",
+    "caseCode": "CT006",
+    "name": "Bloquear cadastro de endereço duplicado",
+    "title": "CT006 Bloquear cadastro de endereço duplicado",
+    "type": "Validação, Invariante",
+    "severity": "Alto",
+    "objective": "Validar a unicidade dos endereços ativos do cliente",
+    "preconditions": [
+      "Usuário autenticado",
+      "Endereço com mesmos campos já cadastrado e ativo"
+    ],
+    "steps": [
+      "Acessar cadastro de endereço",
+      "Inserir endereço já cadastrado",
+      "Confirmar cadastro"
+    ],
+    "expectedResults": [
+      "Mensagem de endereço já cadastrado apresentada",
+      "Novo registro não criado",
+      "Banco de dados sem duplicidade"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET015-CT007",
+    "specification": "MC-ET015",
+    "caseCode": "CT007",
+    "name": "Cadastrar endereço com dados válidos",
+    "title": "CT007 Cadastrar endereço com dados válidos",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a persistência de um novo endereço",
+    "preconditions": [
+      "Usuário autenticado",
+      "Dados obrigatórios válidos"
+    ],
+    "steps": [
+      "Consultar CEP",
+      "Preencher número e complemento quando aplicável",
+      "Confirmar cadastro"
+    ],
+    "expectedResults": [
+      "Mensagem de sucesso apresentada",
+      "Endereço persistido",
+      "Lista de endereços atualizada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET015-CT008",
+    "specification": "MC-ET015",
+    "caseCode": "CT008",
+    "name": "Cadastrar primeiro endereço como principal",
+    "title": "CT008 Cadastrar primeiro endereço como principal",
+    "type": "Funcional, Invariante",
+    "severity": "Alto",
+    "objective": "Validar a consistência do principal no cadastro inicial",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário sem endereços ativos"
+    ],
+    "steps": [
+      "Cadastrar um endereço válido",
+      "Consultar a listagem"
+    ],
+    "expectedResults": [
+      "Endereço cadastrado",
+      "Endereço definido como principal conforme fluxo documentado",
+      "Somente um principal existente"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET016-CT001",
+    "specification": "MC-ET016",
+    "caseCode": "CT001",
+    "name": "Carregar dados atuais do endereço",
+    "title": "CT001 Carregar dados atuais do endereço",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar o preenchimento inicial do formulário de edição",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "Usuário possui endereço ativo"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Acessar Meus Endereços",
+      "Acionar Editar no endereço"
+    ],
+    "expectedResults": [
+      "Formulário de edição apresentado",
+      "Dados atuais do endereço preenchidos",
+      "Endereço carregado pertence ao usuário autenticado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET016-CT002",
+    "specification": "MC-ET016",
+    "caseCode": "CT002",
+    "name": "Editar endereço",
+    "title": "CT002 Editar endereço",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar a atualização do endereço a partir de um novo CEP válido",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui endereço ativo"
+    ],
+    "steps": [
+      "Acessar a edição do endereço",
+      "Alterar o CEP",
+      "Alterar número, complemento ou referência",
+      "Executar consulta",
+      "Conferir os dados retornados",
+      "Confirmar edição"
+    ],
+    "expectedResults": [
+      "Dados do novo CEP apresentados",
+      "Endereço atualizado com os dados confirmados",
+      "Mensagem de sucesso apresentada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET016-CT003",
+    "specification": "MC-ET016",
+    "caseCode": "CT003",
+    "name": "Bloquear edição com CEP inválido",
+    "title": "CT003 Bloquear edição com CEP inválido",
+    "type": "Validação",
+    "severity": "Médio",
+    "objective": "Validar a rejeição de CEP em formato inválido durante a edição",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui endereço ativo"
+    ],
+    "steps": [
+      "Acessar a edição do endereço",
+      "Informar CEP inválido",
+      "Confirmar edição"
+    ],
+    "expectedResults": [
+      "Mensagem de validação apresentada",
+      "Consulta de CEP não executada",
+      "Endereço anterior preservado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET016-CT004",
+    "specification": "MC-ET016",
+    "caseCode": "CT004",
+    "name": "Tratar CEP não localizado na edição",
+    "title": "CT004 Tratar CEP não localizado na edição",
+    "type": "Funcional, Integração",
+    "severity": "Médio",
+    "objective": "Validar o tratamento de CEP válido sem endereço localizado",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui endereço ativo",
+      "CEP não localizado pela integração"
+    ],
+    "steps": [
+      "Acessar a edição do endereço",
+      "Informar o CEP não localizado",
+      "Executar consulta"
+    ],
+    "expectedResults": [
+      "Mensagem de CEP não encontrado apresentada",
+      "Alteração não persistida",
+      "Endereço anterior preservado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET016-CT005",
+    "specification": "MC-ET016",
+    "caseCode": "CT005",
+    "name": "Tratar indisponibilidade da API de CEP na edição",
+    "title": "CT005 Tratar indisponibilidade da API de CEP na edição",
+    "type": "Integração",
+    "severity": "Alto",
+    "objective": "Validar o tratamento de falha da consulta de CEP durante a edição",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui endereço ativo",
+      "API de CEP indisponível"
+    ],
+    "steps": [
+      "Acessar a edição do endereço",
+      "Informar CEP válido",
+      "Executar consulta"
+    ],
+    "expectedResults": [
+      "Mensagem Consulta indisponível, tente novamente mais tarde apresentada",
+      "Alteração não persistida",
+      "Endereço anterior preservado",
+      "Falha registrada para observabilidade"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET016-CT006",
+    "specification": "MC-ET016",
+    "caseCode": "CT006",
+    "name": "Bloquear edição com campos obrigatórios vazios",
+    "title": "CT006 Bloquear edição com campos obrigatórios vazios",
+    "type": "Validação",
+    "severity": "Médio",
+    "objective": "Validar a obrigatoriedade dos campos do endereço",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui endereço ativo"
+    ],
+    "steps": [
+      "Acessar a edição do endereço",
+      "Remover o conteúdo de um campo obrigatório",
+      "Confirmar edição"
+    ],
+    "expectedResults": [
+      "Campo obrigatório indicado",
+      "Alteração não realizada",
+      "Dados anteriores preservados"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET016-CT008",
+    "specification": "MC-ET016",
+    "caseCode": "CT008",
+    "name": "Preservar endereço histórico do pedido",
+    "title": "CT008 Preservar endereço histórico do pedido",
+    "type": "Funcional, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar que a edição cadastral não altere o endereço registrado em pedidos anteriores",
+    "preconditions": [
+      "Usuário autenticado",
+      "Endereço utilizado em pedido histórico"
+    ],
+    "steps": [
+      "Registrar o endereço apresentado no pedido",
+      "Editar o endereço cadastral",
+      "Consultar novamente o pedido histórico"
+    ],
+    "expectedResults": [
+      "Endereço cadastral atualizado",
+      "Snapshot do endereço no pedido permanece inalterado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET017-CT001",
+    "specification": "MC-ET017",
+    "caseCode": "CT001",
+    "name": "Definir endereço secundário como principal",
+    "title": "CT001 Definir endereço secundário como principal",
+    "type": "Funcional, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar a alteração do endereço principal",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui dois endereços ativos",
+      "Um endereço está definido como principal"
+    ],
+    "steps": [
+      "Acessar Meus Endereços",
+      "Selecionar o endereço secundário",
+      "Acionar Tornar principal"
+    ],
+    "expectedResults": [
+      "Endereço selecionado definido como principal",
+      "Endereço anterior deixa de ser principal",
+      "Somente um endereço principal permanece ativo"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET017-CT002",
+    "specification": "MC-ET017",
+    "caseCode": "CT002",
+    "name": "Manter endereço já principal",
+    "title": "CT002 Manter endereço já principal",
+    "type": "Funcional, Invariante",
+    "severity": "Médio",
+    "objective": "Validar o comportamento do endereço já definido como principal",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui endereço principal"
+    ],
+    "steps": [
+      "Acessar Meus Endereços",
+      "Visualizar o endereço principal"
+    ],
+    "expectedResults": [
+      "Endereço permanece principal",
+      "Ação redundante não apresentada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET018-CT001",
+    "specification": "MC-ET018",
+    "caseCode": "CT001",
+    "name": "Cancelar exclusão de endereço",
+    "title": "CT001 Cancelar exclusão de endereço",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar que o cancelamento da confirmação preserve o endereço",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui endereço ativo"
+    ],
+    "steps": [
+      "Acessar Meus Endereços",
+      "Acionar Excluir",
+      "Cancelar a confirmação"
+    ],
+    "expectedResults": [
+      "Confirmação fechada",
+      "Endereço permanece ativo",
+      "Banco de dados inalterado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET018-CT002",
+    "specification": "MC-ET018",
+    "caseCode": "CT002",
+    "name": "Excluir endereço secundário",
+    "title": "CT002 Excluir endereço secundário",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a exclusão lógica de um endereço não principal",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui endereço principal e endereço secundário"
+    ],
+    "steps": [
+      "Selecionar o endereço secundário",
+      "Acionar Excluir",
+      "Confirmar exclusão"
+    ],
+    "expectedResults": [
+      "Endereço removido da lista ativa",
+      "Exclusão lógica aplicada quando necessária",
+      "Endereço principal atual preservado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET018-CT003",
+    "specification": "MC-ET018",
+    "caseCode": "CT003",
+    "name": "Excluir endereço principal",
+    "title": "CT003 Excluir endereço principal",
+    "type": "Funcional, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar a promoção automática do endereço elegível mais recente",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui endereço principal e outros endereços ativos com datas distintas"
+    ],
+    "steps": [
+      "Excluir o endereço principal",
+      "Confirmar exclusão"
+    ],
+    "expectedResults": [
+      "Endereço principal removido da lista ativa",
+      "Endereço ativo criado ou atualizado mais recentemente ou com maior identificador definido como principal",
+      "Somente um principal mantido"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET018-CT004",
+    "specification": "MC-ET018",
+    "caseCode": "CT004",
+    "name": "Excluir o único endereço ativo",
+    "title": "CT004 Excluir o único endereço ativo",
+    "type": "Funcional, Invariante",
+    "severity": "Alto",
+    "objective": "Validar a exclusão quando não houver substituto elegível",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui somente um endereço ativo e principal"
+    ],
+    "steps": [
+      "Excluir o endereço",
+      "Confirmar exclusão"
+    ],
+    "expectedResults": [
+      "Endereço removido da lista ativa",
+      "Usuário permanece sem endereço principal",
+      "Estado vazio apresentado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET018-CT005",
+    "specification": "MC-ET018",
+    "caseCode": "CT005",
+    "name": "Preservar endereço excluído no pedido histórico",
+    "title": "CT005 Preservar endereço excluído no pedido histórico",
+    "type": "Funcional, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar a preservação do snapshot após exclusão do endereço cadastral",
+    "preconditions": [
+      "Usuário autenticado",
+      "Endereço utilizado em pedido histórico"
+    ],
+    "steps": [
+      "Registrar o endereço apresentado no pedido",
+      "Excluir o endereço cadastral",
+      "Consultar novamente o pedido"
+    ],
+    "expectedResults": [
+      "Endereço indisponível para novas compras",
+      "Endereço histórico do pedido permanece inalterado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET019-CT001",
+    "specification": "MC-ET019",
+    "caseCode": "CT001",
+    "name": "Apresentar estado vazio de pedidos",
+    "title": "CT001 Apresentar estado vazio de pedidos",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar a apresentação da área Meus Pedidos sem registros",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "Usuário não possui pedidos"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Acessar Meus Pedidos"
+    ],
+    "expectedResults": [
+      "Mensagem de estado vazio apresentada",
+      "Ação de acesso ao catálogo apresentada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET019-CT002",
+    "specification": "MC-ET019",
+    "caseCode": "CT002",
+    "name": "Listar pedidos",
+    "title": "CT002 Listar pedidos",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a apresentação do histórico de pedidos do cliente",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui múltiplos pedidos"
+    ],
+    "steps": [
+      "Acessar Meus Pedidos",
+      "Visualizar a listagem"
+    ],
+    "expectedResults": [
+      "Pedidos do usuário apresentados",
+      "Dados resumidos coerentes com o estado canônico do pedido",
+      "Ordenação aplicada conforme definição do sistema"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET020-CT001",
+    "specification": "MC-ET020",
+    "caseCode": "CT001",
+    "name": "Acessar detalhes do pedido pela listagem",
+    "title": "CT001 Acessar detalhes do pedido pela listagem",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar o acesso à visão completa do pedido",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui pedido"
+    ],
+    "steps": [
+      "Acessar Meus Pedidos",
+      "Selecionar um pedido"
+    ],
+    "expectedResults": [
+      "Página de detalhes apresentada",
+      "Número do pedido corresponde ao registro selecionado",
+      "Produtos do pedido apresentados",
+      "Quantidades, valores e endereço de entrega coerentes"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET020-CT003",
+    "specification": "MC-ET020",
+    "caseCode": "CT003",
+    "name": "Comprar novamente preservando o pedido original",
+    "title": "CT003 Comprar novamente preservando o pedido original",
+    "type": "Funcional, Invariante",
+    "severity": "Alto",
+    "objective": "Validar que Comprar novamente inicie uma nova intenção comercial sem alterar o pedido histórico",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido entregue",
+      "Itens disponíveis para nova compra"
+    ],
+    "steps": [
+      "Acessar os detalhes do pedido",
+      "Acionar Comprar novamente"
+    ],
+    "expectedResults": [
+      "Itens disponíveis encaminhados à nova jornada comercial",
+      "Pedido original permanece inalterado",
+      "Itens indisponíveis são tratados conforme disponibilidade"
+    ],
+    "layers": []
+  },
+  {
+    "id": "MC-ET021-CT001",
+    "specification": "MC-ET021",
+    "caseCode": "CT001",
+    "name": "Apresentar pagamento pendente válido",
+    "title": "CT001 Apresentar pagamento pendente válido",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar as informações financeiras de uma cobrança válida",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido possui pagamento pendente",
+      "Forma de pagamento não selecionada ou pagamento recusado"
+    ],
+    "steps": [
+      "Acessar os detalhes do pedido",
+      "Visualizar a seção de pagamento pendente"
+    ],
+    "expectedResults": [
+      "Valor da cobrança apresentado",
+      "Formas de pagamento disponíveis apresentadas conforme backend"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET021-CT003",
+    "specification": "MC-ET021",
+    "caseCode": "CT003",
+    "name": "Selecionar forma de pagamento pendente",
+    "title": "CT003 Selecionar forma de pagamento pendente",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar o modal de escolha entre as formas disponibilizadas pelo backend",
+    "preconditions": [
+      "Pedido próprio com pagamento pendente",
+      "PIX e/ou cartão disponíveis"
+    ],
+    "steps": [
+      "Acessar o pedido",
+      "Acionar pagamento",
+      "Selecionar uma forma disponível"
+    ],
+    "expectedResults": [
+      "Modal corresponde à tela definida",
+      "Somente formas elegíveis aparecem",
+      "Seleção encaminha ao fluxo da forma escolhida"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET022-CT001",
+    "specification": "MC-ET022",
+    "caseCode": "CT001",
+    "name": "Gerar cobrança PIX",
+    "title": "CT001 Gerar cobrança PIX",
+    "type": "Funcional, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar a geração da cobrança PIX para pedido pendente",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido com pagamento pendente",
+      "PIX disponível"
+    ],
+    "steps": [
+      "Selecionar PIX",
+      "Confirmar geração da cobrança"
+    ],
+    "expectedResults": [
+      "Cobrança PIX criada",
+      "QR Code apresentado",
+      "Chave PIX apresentada",
+      "Tempo de expiração apresentado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET022-CT002",
+    "specification": "MC-ET022",
+    "caseCode": "CT002",
+    "name": "Copiar chave PIX",
+    "title": "CT002 Copiar chave PIX",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar a cópia da chave disponibilizada",
+    "preconditions": [
+      "Usuário autenticado",
+      "Cobrança PIX válida gerada"
+    ],
+    "steps": [
+      "Acessar a cobrança PIX",
+      "Acionar Copiar chave"
+    ],
+    "expectedResults": [
+      "Chave copiada integralmente",
+      "Mensagem de confirmação apresentada"
+    ],
+    "layers": [
+      "Frontend"
+    ]
+  },
+  {
+    "id": "MC-ET022-CT003",
+    "specification": "MC-ET022",
+    "caseCode": "CT003",
+    "name": "Apresentar cobrança PIX pendente",
+    "title": "CT003 Apresentar cobrança PIX pendente",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a situação de cobrança aguardando pagamento",
+    "preconditions": [
+      "Usuário autenticado",
+      "Cobrança PIX pendente e válida"
+    ],
+    "steps": [
+      "Acessar o pedido",
+      "Visualizar o pagamento PIX"
+    ],
+    "expectedResults": [
+      "QR Code e chave disponíveis",
+      "Contagem ou horário de expiração coerente",
+      "Situação pendente apresentada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET022-CT004",
+    "specification": "MC-ET022",
+    "caseCode": "CT004",
+    "name": "Atualizar pedido após confirmação do PIX",
+    "title": "CT004 Atualizar pedido após confirmação do PIX",
+    "type": "Funcional, Integração, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar a atualização financeira após confirmação do pagamento",
+    "preconditions": [
+      "Usuário autenticado",
+      "Cobrança PIX pendente"
+    ],
+    "steps": [
+      "Simular confirmação do pagamento pelo domínio responsável",
+      "Processar webhook ou evento financeiro",
+      "Consultar o pedido"
+    ],
+    "expectedResults": [
+      "Pagamento atualizado como aprovado",
+      "Pedido reflete a nova situação financeira",
+      "Ação de pagamento indisponível"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET022-CT005",
+    "specification": "MC-ET022",
+    "caseCode": "CT005",
+    "name": "Gerar novo PIX após expiração",
+    "title": "CT005 Gerar novo PIX após expiração",
+    "type": "Funcional, Transacional",
+    "severity": "Alto",
+    "objective": "Validar o bloqueio de uma cobrança expirada",
+    "preconditions": [
+      "Usuário autenticado",
+      "Cobrança PIX alcançou a expiração"
+    ],
+    "steps": [
+      "Acessar o pagamento PIX após a expiração",
+      "Acionar Gerar novo código"
+    ],
+    "expectedResults": [
+      "Cobrança apresentada como expirada",
+      "QR Code antigo não utilizável",
+      "Ação para gerar novo código apresentada quando permitida",
+      "Novo QR Code, chave e prazo apresentados"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET023-CT001",
+    "specification": "MC-ET023",
+    "caseCode": "CT001",
+    "name": "Apresentar formulário de cartão",
+    "title": "CT001 Apresentar formulário de cartão",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a apresentação dos campos necessários ao pagamento",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido com pagamento pendente",
+      "Cartão de crédito disponível"
+    ],
+    "steps": [
+      "Selecionar cartão de crédito"
+    ],
+    "expectedResults": [
+      "Campos do cartão apresentados",
+      "Opções de parcelamento carregadas conforme backend"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET023-CT002",
+    "specification": "MC-ET023",
+    "caseCode": "CT002",
+    "name": "Aprovar pagamento com cartão válido",
+    "title": "CT002 Aprovar pagamento com cartão válido",
+    "type": "Funcional, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar o processamento de um cartão aprovado",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido com pagamento pendente",
+      "Dados de cartão de teste aprovados"
+    ],
+    "steps": [
+      "Preencher os dados do cartão",
+      "Selecionar parcelamento",
+      "Confirmar pagamento"
+    ],
+    "expectedResults": [
+      "Confirmação bloqueada com entradas inválidas ou não preenchidas",
+      "Transação encaminhada ao domínio de Pagamento",
+      "Pagamento aprovado",
+      "Pedido atualizado",
+      "Mensagem de sucesso apresentada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET023-CT003",
+    "specification": "MC-ET023",
+    "caseCode": "CT003",
+    "name": "Recusar pagamento com cartão",
+    "title": "CT003 Recusar pagamento com cartão",
+    "type": "Funcional, Transacional",
+    "severity": "Alto",
+    "objective": "Validar o tratamento de uma transação recusada",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido com pagamento pendente",
+      "Dados de cartão de teste recusados"
+    ],
+    "steps": [
+      "Preencher os dados do cartão",
+      "Confirmar pagamento"
+    ],
+    "expectedResults": [
+      "Pagamento recusado",
+      "Mensagem de recusa apresentada",
+      "Pedido permanece pendente",
+      "Nova tentativa ou seleção de outra forma disponibilizada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET023-CT004",
+    "specification": "MC-ET023",
+    "caseCode": "CT004",
+    "name": "Tratar pagamento de cartão pendente",
+    "title": "CT004 Tratar pagamento de cartão pendente",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar o estado intermediário retornado pelo domínio de Pagamento",
+    "preconditions": [
+      "Usuário autenticado",
+      "Gateway configurado para resposta pendente"
+    ],
+    "steps": [
+      "Enviar pagamento com cartão",
+      "Consultar a situação do pedido"
+    ],
+    "expectedResults": [
+      "Situação pendente apresentada",
+      "Pedido não apresentado como pago antes da confirmação",
+      "Atualização posterior processada pelo evento responsável"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET023-CT005",
+    "specification": "MC-ET023",
+    "caseCode": "CT005",
+    "name": "Validar parcelamento selecionado",
+    "title": "CT005 Validar parcelamento selecionado",
+    "type": "Funcional, Invariante",
+    "severity": "Alto",
+    "objective": "Validar que somente parcelas autorizadas possam ser utilizadas",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido possui opções de parcelamento"
+    ],
+    "steps": [
+      "Selecionar uma opção disponível",
+      "Confirmar o pagamento"
+    ],
+    "expectedResults": [
+      "Parcelamento enviado corresponde à opção selecionada",
+      "Valor total e parcelas refletem o backend"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET024-CT001",
+    "specification": "MC-ET024",
+    "caseCode": "CT001",
+    "name": "Apresentar NF-e disponível",
+    "title": "CT001 Apresentar NF-e disponível",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a apresentação da ação de download da NF-e de venda emitida para o pedido",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido próprio possui NF-e de venda emitida"
+    ],
+    "steps": [
+      "Acessar os detalhes do pedido",
+      "Visualizar a seção de documentos fiscais"
+    ],
+    "expectedResults": [
+      "NF-e vinculada ao pedido apresentada",
+      "Ação de download disponível",
+      "Nenhuma ação de abertura do documento apresentada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET024-CT002",
+    "specification": "MC-ET024",
+    "caseCode": "CT002",
+    "name": "Baixar NF-e de venda com integridade e headers",
+    "title": "CT002 Baixar NF-e de venda com integridade e headers",
+    "type": "Funcional, Invariante, Segurança",
+    "severity": "Crítico",
+    "objective": "Validar o download autorizado e a integridade do arquivo fiscal, incluindo os headers da resposta",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido próprio possui NF-e de venda disponível",
+      "Documento fiscal disponível na origem autorizada"
+    ],
+    "steps": [
+      "Acessar os detalhes do pedido",
+      "Acionar Download da NF-e",
+      "Inspecionar a resposta e os headers HTTP",
+      "Comparar o identificador, conteúdo ou hash com o documento da origem fiscal"
+    ],
+    "expectedResults": [
+      "Arquivo fiscal correto baixado",
+      "Documento corresponde ao pedido selecionado",
+      "Conteúdo fiscal íntegro e inalterado",
+      "Arquivo legível",
+      "Content-Type coerente com o formato do documento",
+      "Content-Disposition configurado com nome de arquivo adequado",
+      "Nenhum metadado interno indevido exposto"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET024-CT004",
+    "specification": "MC-ET024",
+    "caseCode": "CT004",
+    "name": "Tratar documento fiscal indisponível",
+    "title": "CT004 Tratar documento fiscal indisponível",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar o comportamento quando o domínio Fiscal possuir a referência da NF-e, mas não disponibilizar temporariamente o arquivo",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido próprio possui referência fiscal",
+      "Arquivo fiscal temporariamente indisponível"
+    ],
+    "steps": [
+      "Acessar os detalhes do pedido",
+      "Acionar Download da NF-e"
+    ],
+    "expectedResults": [
+      "Mensagem de indisponibilidade apresentada",
+      "Nenhum arquivo vazio, corrompido ou incorreto entregue",
+      "Pedido e referência fiscal permanecem inalterados",
+      "Falha registrada para observabilidade"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET025-CT001",
+    "specification": "MC-ET025",
+    "caseCode": "CT001",
+    "name": "Apresentar rastreamento do pedido",
+    "title": "CT001 Apresentar rastreamento do pedido",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar a apresentação do rastreamento disponível para um pedido enviado",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "Pedido próprio enviado com rastreamento disponível"
+    ],
+    "steps": [
+      "Acessar Meus Pedidos",
+      "Acessar os detalhes do pedido",
+      "Visualizar a área de rastreamento"
+    ],
+    "expectedResults": [
+      "Código ou link de rastreamento apresentado",
+      "Eventos logísticos apresentados na sequência recebida",
+      "Situação da entrega corresponde ao backend"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET025-CT002",
+    "specification": "MC-ET025",
+    "caseCode": "CT002",
+    "name": "Atualizar rastreamento por evento logístico",
+    "title": "CT002 Atualizar rastreamento por evento logístico",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar a atualização do rastreamento após recebimento de novo evento logístico",
+    "preconditions": [
+      "Pedido próprio com rastreamento disponível",
+      "Novo evento logístico disponível"
+    ],
+    "steps": [
+      "Processar o evento logístico",
+      "Acessar novamente os detalhes do pedido"
+    ],
+    "expectedResults": [
+      "Novo evento apresentado",
+      "Situação logística atualizada",
+      "Eventos anteriores preservados"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET025-CT003",
+    "specification": "MC-ET025",
+    "caseCode": "CT003",
+    "name": "Apresentar pedido sem rastreamento disponível",
+    "title": "CT003 Apresentar pedido sem rastreamento disponível",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar o comportamento quando o domínio logístico não disponibilizar rastreamento",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido próprio sem código ou eventos de rastreamento"
+    ],
+    "steps": [
+      "Acessar os detalhes do pedido",
+      "Visualizar a área de entrega"
+    ],
+    "expectedResults": [
+      "Ação de rastreamento não apresentada",
+      "Situação disponível do pedido apresentada sem inferência de eventos logísticos"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET026-CT001",
+    "specification": "MC-ET026",
+    "caseCode": "CT001",
+    "name": "Cancelar pedido elegível",
+    "title": "CT001 Cancelar pedido elegível",
+    "type": "Funcional, Transacional",
+    "severity": "Crítico",
+    "objective": "Validar o cancelamento de um pedido que permanece elegível no momento da confirmação",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido próprio elegível para cancelamento"
+    ],
+    "steps": [
+      "Acessar os detalhes do pedido",
+      "Acionar Cancelar pedido",
+      "Confirmar o cancelamento"
+    ],
+    "expectedResults": [
+      "Elegibilidade revalidada pelo backend",
+      "Cancelamento aceito pelo domínio de Pedido",
+      "Pedido atualizado como cancelado",
+      "Mensagem de sucesso apresentada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET026-CT002",
+    "specification": "MC-ET026",
+    "caseCode": "CT002",
+    "name": "Desistir do cancelamento do pedido",
+    "title": "CT002 Desistir do cancelamento do pedido",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar que a desistência na confirmação não altere o pedido",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido próprio elegível para cancelamento"
+    ],
+    "steps": [
+      "Acionar Cancelar pedido",
+      "Cancelar ou fechar a confirmação"
+    ],
+    "expectedResults": [
+      "Pedido permanece no estado anterior",
+      "Nenhum comando de cancelamento executado",
+      "Banco de dados inalterado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET026-CT003",
+    "specification": "MC-ET026",
+    "caseCode": "CT003",
+    "name": "Bloquear cancelamento após perda de elegibilidade",
+    "title": "CT003 Bloquear cancelamento após perda de elegibilidade",
+    "type": "Funcional, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar a revalidação quando o estado do pedido mudar antes da confirmação",
+    "preconditions": [
+      "Usuário autenticado",
+      "Ação de cancelamento inicialmente disponível",
+      "Pedido perde elegibilidade antes da confirmação"
+    ],
+    "steps": [
+      "Acessar os detalhes do pedido",
+      "Acionar Cancelar pedido",
+      "Alterar o estado do pedido no domínio responsável",
+      "Confirmar o cancelamento"
+    ],
+    "expectedResults": [
+      "Cancelamento bloqueado pelo backend",
+      "Mensagem coerente apresentada",
+      "Estado atual do pedido preservado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET027-CT001",
+    "specification": "MC-ET027",
+    "caseCode": "CT001",
+    "name": "Apresentar itens elegíveis para devolução",
+    "title": "CT001 Apresentar itens elegíveis para devolução",
+    "type": "Funcional, Invariante",
+    "severity": "Alto",
+    "objective": "Validar a apresentação dos itens e quantidades elegíveis de um pedido entregue",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido próprio entregue",
+      "Pedido possui itens elegíveis e não elegíveis"
+    ],
+    "steps": [
+      "Acessar os detalhes do pedido",
+      "Acionar Solicitar devolução"
+    ],
+    "expectedResults": [
+      "Itens elegíveis disponibilizados para seleção",
+      "Itens não elegíveis bloqueados ou justificados",
+      "Quantidade máxima considera itens já devolvidos ou em processo"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET027-CT002",
+    "specification": "MC-ET027",
+    "caseCode": "CT002",
+    "name": "Solicitar devolução por desistência ou arrependimento",
+    "title": "CT002 Solicitar devolução por desistência ou arrependimento",
+    "type": "Funcional, Validação",
+    "severity": "Alto",
+    "objective": "Validar a criação de devolução sem evidências para desistência ou arrependimento",
+    "preconditions": [
+      "Usuário autenticado",
+      "Item próprio elegível para devolução"
+    ],
+    "steps": [
+      "Selecionar o item e a quantidade",
+      "Selecionar desistência ou arrependimento",
+      "Preencher os demais campos obrigatórios",
+      "Aceitar os termos quando aplicável",
+      "Confirmar a solicitação"
+    ],
+    "expectedResults": [
+      "Upload de evidências não exigido nem permitido",
+      "Elegibilidade revalidada",
+      "Solicitação criada",
+      "Protocolo apresentado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP",
+      "Jobs e Webhooks"
+    ]
+  },
+  {
+    "id": "MC-ET027-CT003",
+    "specification": "MC-ET027",
+    "caseCode": "CT003",
+    "name": "Solicitar devolução por erro da XBRI ou transportadora",
+    "title": "CT003 Solicitar devolução por erro da XBRI ou transportadora",
+    "type": "Funcional, Validação",
+    "severity": "Alto",
+    "objective": "Validar a criação da devolução com descrição e evidências obrigatórias",
+    "preconditions": [
+      "Usuário autenticado",
+      "Item próprio elegível para devolução",
+      "Arquivo de evidência válido disponível"
+    ],
+    "steps": [
+      "Selecionar o item e a quantidade",
+      "Selecionar erro da XBRI ou transportadora",
+      "Informar a descrição",
+      "Anexar evidência válida",
+      "Aceitar os termos quando aplicável",
+      "Confirmar a solicitação"
+    ],
+    "expectedResults": [
+      "Descrição e evidência aceitas",
+      "Solicitação criada",
+      "Anexos vinculados ao processo",
+      "Protocolo apresentado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET027-CT004",
+    "specification": "MC-ET027",
+    "caseCode": "CT004",
+    "name": "Bloquear quantidade de devolução superior à elegível",
+    "title": "CT004 Bloquear quantidade de devolução superior à elegível",
+    "type": "Validação, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar que a quantidade solicitada não exceda o saldo disponível para devolução",
+    "preconditions": [
+      "Usuário autenticado",
+      "Item com quantidade parcialmente devolvida ou em processo"
+    ],
+    "steps": [
+      "Selecionar quantidade superior à comprada menos as quantidades já devolvidas ou em processo",
+      "Confirmar a solicitação"
+    ],
+    "expectedResults": [
+      "Mensagem de validação apresentada",
+      "Solicitação não criada",
+      "Quantidade histórica preservada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET027-CT005",
+    "specification": "MC-ET027",
+    "caseCode": "CT005",
+    "name": "Bloquear evidência inválida ou ausente",
+    "title": "CT005 Bloquear evidência inválida ou ausente",
+    "type": "Validação, Segurança",
+    "severity": "Alto",
+    "objective": "Validar as regras de arquivo e obrigatoriedade de evidências",
+    "preconditions": [
+      "Usuário autenticado",
+      "Motivo exige evidência"
+    ],
+    "steps": [
+      "Tentar concluir sem anexar evidência",
+      "Repetir com arquivo de tipo ou tamanho inválido"
+    ],
+    "expectedResults": [
+      "Solicitação bloqueada",
+      "Mensagem de validação apresentada",
+      "Arquivo inválido não persistido"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET027-CT006",
+    "specification": "MC-ET027",
+    "caseCode": "CT006",
+    "name": "Bloquear solicitação sem aceite obrigatório",
+    "title": "CT006 Bloquear solicitação sem aceite obrigatório",
+    "type": "Validação",
+    "severity": "Alto",
+    "objective": "Validar que a solicitação não seja criada sem a confirmação dos termos",
+    "preconditions": [
+      "Usuário autenticado",
+      "Fluxo exige aceite dos termos",
+      "Dados da devolução preenchidos corretamente"
+    ],
+    "steps": [
+      "Manter o aceite desmarcado",
+      "Confirmar a solicitação"
+    ],
+    "expectedResults": [
+      "Solicitação bloqueada",
+      "Mensagem de aceite obrigatório apresentada",
+      "Nenhum processo criado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET028-CT001",
+    "specification": "MC-ET028",
+    "caseCode": "CT001",
+    "name": "Apresentar estado vazio de devoluções",
+    "title": "CT001 Apresentar estado vazio de devoluções",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar a área Devoluções quando o cliente não possuir processos",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "Usuário sem devoluções"
+    ],
+    "steps": [
+      "Acessar Minha Conta",
+      "Acessar Devoluções"
+    ],
+    "expectedResults": [
+      "Mensagem de estado vazio apresentada",
+      "Nenhuma ação sugerida"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET028-CT002",
+    "specification": "MC-ET028",
+    "caseCode": "CT002",
+    "name": "Listar devoluções do cliente",
+    "title": "CT002 Listar devoluções do cliente",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a apresentação resumida dos processos de devolução",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui devoluções em diferentes fases"
+    ],
+    "steps": [
+      "Acessar Devoluções",
+      "Visualizar a listagem"
+    ],
+    "expectedResults": [
+      "Somente devoluções do usuário apresentadas",
+      "Protocolo, pedido relacionado, itens resumidos e fase atual apresentados"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET028-CT003",
+    "specification": "MC-ET028",
+    "caseCode": "CT003",
+    "name": "Apresentar ações conforme estado da devolução",
+    "title": "CT003 Apresentar ações conforme estado da devolução",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar que a listagem reflita as ações retornadas pelo domínio responsável",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui devoluções com e sem ações disponíveis"
+    ],
+    "steps": [
+      "Acessar Devoluções",
+      "Comparar as ações retornadas pelo backend com as apresentadas"
+    ],
+    "expectedResults": [
+      "Somente ações autorizadas exibidas",
+      "Devoluções sem ação permanecem disponíveis apenas para consulta"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET029-CT001",
+    "specification": "MC-ET029",
+    "caseCode": "CT001",
+    "name": "Acessar detalhes da devolução pela listagem",
+    "title": "CT001 Acessar detalhes da devolução pela listagem",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar o acesso ao acompanhamento a partir da área Devoluções",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui devolução"
+    ],
+    "steps": [
+      "Acessar Devoluções",
+      "Selecionar uma devolução"
+    ],
+    "expectedResults": [
+      "Detalhes da devolução selecionada apresentados",
+      "Protocolo e pedido relacionado correspondem à seleção"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET029-CT002",
+    "specification": "MC-ET029",
+    "caseCode": "CT002",
+    "name": "Acessar a mesma devolução pelo pedido",
+    "title": "CT002 Acessar a mesma devolução pelo pedido",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar que o acesso pelo pedido converja para a mesma visualização",
+    "preconditions": [
+      "Usuário autenticado",
+      "Pedido possui devolução vinculada"
+    ],
+    "steps": [
+      "Acessar Meus Pedidos",
+      "Acessar os detalhes do pedido",
+      "Selecionar a devolução vinculada"
+    ],
+    "expectedResults": [
+      "Mesma página de acompanhamento apresentada",
+      "Informações equivalentes às acessadas pelo menu Devoluções"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET029-CT003",
+    "specification": "MC-ET029",
+    "caseCode": "CT003",
+    "name": "Apresentar histórico, fases, mensagens e pendências",
+    "title": "CT003 Apresentar histórico, fases, mensagens e pendências",
+    "type": "Funcional, Invariante",
+    "severity": "Alto",
+    "objective": "Validar a projeção completa do processo de devolução",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução possui eventos, mensagens, documentos ou pendências"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar as informações do processo"
+    ],
+    "expectedResults": [
+      "Protocolo e itens apresentados",
+      "Timeline e fase atual correspondem ao backend",
+      "Mensagens, pendências, coleta e ações disponíveis apresentadas quando aplicáveis"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks"
+    ]
+  },
+  {
+    "id": "MC-ET029-CT004",
+    "specification": "MC-ET029",
+    "caseCode": "CT004",
+    "name": "Exibir somente anexos autorizados",
+    "title": "CT004 Exibir somente anexos autorizados",
+    "type": "Segurança, Compliance/LGPD",
+    "severity": "Crítico",
+    "objective": "Validar a visibilidade dos anexos liberados para o cliente",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução possui anexos autorizados e internos"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Inspecionar os anexos retornados e apresentados"
+    ],
+    "expectedResults": [
+      "Somente anexos liberados ao cliente apresentados",
+      "Anexos internos ou restritos não retornados"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET030-CT001",
+    "specification": "MC-ET030",
+    "caseCode": "CT001",
+    "name": "Cancelar devolução elegível",
+    "title": "CT001 Cancelar devolução elegível",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar o cancelamento de uma devolução cujo estado permita a ação",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria elegível para cancelamento"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Acionar Cancelar devolução",
+      "Confirmar o cancelamento"
+    ],
+    "expectedResults": [
+      "Estado revalidado pelo backend",
+      "Cancelamento aceito",
+      "Devolução atualizada como cancelada",
+      "Mensagem de sucesso apresentada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP",
+      "Jobs e Webhooks"
+    ]
+  },
+  {
+    "id": "MC-ET030-CT002",
+    "specification": "MC-ET030",
+    "caseCode": "CT002",
+    "name": "Desistir do cancelamento da devolução",
+    "title": "CT002 Desistir do cancelamento da devolução",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar que a desistência preserve o processo",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução elegível para cancelamento"
+    ],
+    "steps": [
+      "Acionar Cancelar devolução",
+      "Cancelar ou fechar a confirmação"
+    ],
+    "expectedResults": [
+      "Devolução permanece no estado anterior",
+      "Nenhum comando executado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET030-CT003",
+    "specification": "MC-ET030",
+    "caseCode": "CT003",
+    "name": "Bloquear cancelamento após mudança de estado",
+    "title": "CT003 Bloquear cancelamento após mudança de estado",
+    "type": "Funcional, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar a revalidação da elegibilidade no momento da confirmação",
+    "preconditions": [
+      "Usuário autenticado",
+      "Ação inicialmente disponível",
+      "Estado alterado antes da confirmação"
+    ],
+    "steps": [
+      "Abrir a confirmação de cancelamento",
+      "Alterar o estado da devolução no domínio responsável",
+      "Confirmar"
+    ],
+    "expectedResults": [
+      "Cancelamento bloqueado",
+      "Mensagem coerente apresentada",
+      "Novo estado preservado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET031-CT001",
+    "specification": "MC-ET031",
+    "caseCode": "CT001",
+    "name": "Apresentar cobrança de frete de devolução",
+    "title": "CT001 Apresentar cobrança de frete de devolução",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar a cobrança autorizada de frete de retorno",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria possui cobrança válida de frete de retorno"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar a pendência de frete"
+    ],
+    "expectedResults": [
+      "Responsabilidade e valor apresentados conforme backend",
+      "Ação de pagamento apresentada",
+      "Minha Conta não calcula ou altera o valor"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET031-CT002",
+    "specification": "MC-ET031",
+    "caseCode": "CT002",
+    "name": "Gerar e pagar cobrança PIX de frete de devolução",
+    "title": "CT002 Gerar e pagar cobrança PIX de frete de devolução",
+    "type": "Funcional, Transacional, Integração",
+    "severity": "Crítico",
+    "objective": "Validar a geração e confirmação do pagamento do frete de retorno",
+    "preconditions": [
+      "Cobrança válida de frete de retorno",
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acionar Pagar frete",
+      "Gerar a cobrança PIX",
+      "Simular a confirmação do pagamento",
+      "Consultar a devolução"
+    ],
+    "expectedResults": [
+      "QR Code, chave e expiração apresentados",
+      "Pagamento confirmado uma única vez",
+      "Próxima etapa operacional liberada",
+      "Devolução não concluída apenas pelo pagamento"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET031-CT003",
+    "specification": "MC-ET031",
+    "caseCode": "CT003",
+    "name": "Expirar e reemitir PIX do frete de devolução",
+    "title": "CT003 Expirar e reemitir PIX do frete de devolução",
+    "type": "Funcional, Transacional",
+    "severity": "Alto",
+    "objective": "Validar o bloqueio da cobrança expirada e a geração de nova cobrança",
+    "preconditions": [
+      "Cobrança PIX de frete expirada",
+      "Pendência permanece válida"
+    ],
+    "steps": [
+      "Acessar a cobrança expirada",
+      "Acionar a geração de novo código"
+    ],
+    "expectedResults": [
+      "Cobrança antiga permanece expirada",
+      "Nova cobrança válida criada",
+      "Somente uma cobrança ativa para a finalidade"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET032-CT001",
+    "specification": "MC-ET032",
+    "caseCode": "CT001",
+    "name": "Apresentar cobrança de frete de reenvio",
+    "title": "CT001 Apresentar cobrança de frete de reenvio",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar a cobrança autorizada para continuidade do reenvio",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria possui inconsistência e cobrança de frete de reenvio"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar a pendência financeira"
+    ],
+    "expectedResults": [
+      "Justificativa e anexos autorizados apresentados quando aplicáveis",
+      "Valor de frete de retorno e/ou reenvio apresentado conforme backend",
+      "Ação de pagamento disponível"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET032-CT002",
+    "specification": "MC-ET032",
+    "caseCode": "CT002",
+    "name": "Gerar e pagar cobrança PIX de frete de reenvio",
+    "title": "CT002 Gerar e pagar cobrança PIX de frete de reenvio",
+    "type": "Funcional, Transacional, Integração",
+    "severity": "Crítico",
+    "objective": "Validar a geração e confirmação do pagamento necessário ao reenvio",
+    "preconditions": [
+      "Cobrança válida de frete de reenvio",
+      "Usuário autenticado"
+    ],
+    "steps": [
+      "Acionar Pagar frete",
+      "Gerar a cobrança PIX",
+      "Simular a confirmação financeira"
+    ],
+    "expectedResults": [
+      "Cobrança gerada com QR Code, chave e expiração",
+      "Pagamento confirmado",
+      "Etapa de reenvio liberada",
+      "Processo permanece aberto até conclusão operacional"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET032-CT003",
+    "specification": "MC-ET032",
+    "caseCode": "CT003",
+    "name": "Expirar e reemitir PIX do frete de reenvio",
+    "title": "CT003 Expirar e reemitir PIX do frete de reenvio",
+    "type": "Funcional, Transacional",
+    "severity": "Alto",
+    "objective": "Validar o tratamento da expiração sem acumular cobranças ativas",
+    "preconditions": [
+      "Cobrança PIX de reenvio expirada",
+      "Pendência permanece aplicável"
+    ],
+    "steps": [
+      "Acessar a cobrança expirada",
+      "Gerar novo código"
+    ],
+    "expectedResults": [
+      "Cobrança anterior permanece expirada",
+      "Nova cobrança válida disponibilizada",
+      "Somente uma cobrança ativa para a finalidade"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET033-CT001",
+    "specification": "MC-ET033",
+    "caseCode": "CT001",
+    "name": "Apresentar rastreamento da devolução",
+    "title": "CT001 Apresentar rastreamento da devolução",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar o acompanhamento logístico do produto devolvido",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria possui coleta, postagem ou rastreamento"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar a área logística"
+    ],
+    "expectedResults": [
+      "Modalidade e instruções apresentadas",
+      "Código ou link apresentado quando disponível",
+      "Eventos e situação correspondem ao domínio logístico"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET033-CT002",
+    "specification": "MC-ET033",
+    "caseCode": "CT002",
+    "name": "Atualizar rastreamento da devolução",
+    "title": "CT002 Atualizar rastreamento da devolução",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar a projeção de novos eventos de coleta e transporte",
+    "preconditions": [
+      "Devolução própria em fluxo logístico",
+      "Novo evento disponível"
+    ],
+    "steps": [
+      "Processar o novo evento logístico",
+      "Consultar novamente a devolução"
+    ],
+    "expectedResults": [
+      "Timeline atualizada",
+      "Produto coletado, em transporte ou recebido apresentado conforme evento",
+      "Histórico anterior preservado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET033-CT003",
+    "specification": "MC-ET033",
+    "caseCode": "CT003",
+    "name": "Apresentar devolução sem rastreio",
+    "title": "CT003 Apresentar devolução sem rastreio",
+    "type": "Funcional",
+    "severity": "Médio",
+    "objective": "Validar o processo logístico sem coleta ou rastreamento visível",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução não possui rastreamento disponibilizado"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar a timeline"
+    ],
+    "expectedResults": [
+      "Nenhum código inexistente apresentado",
+      "Fase recebida do backend apresentada",
+      "Processo pode avançar diretamente para Produto recebido quando aplicável"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET034-CT001",
+    "specification": "MC-ET034",
+    "caseCode": "CT001",
+    "name": "Apresentar devolução aguardando ou em análise",
+    "title": "CT001 Apresentar devolução aguardando ou em análise",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a fase visual da análise conforme o estado do domínio responsável",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria aguardando análise ou em análise"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar a timeline e mensagens"
+    ],
+    "expectedResults": [
+      "Fase Produto recebido ou Produto em análise apresentada conforme backend",
+      "Nenhuma decisão antecipada pelo Minha Conta"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET034-CT002",
+    "specification": "MC-ET034",
+    "caseCode": "CT002",
+    "name": "Apresentar devolução aprovada",
+    "title": "CT002 Apresentar devolução aprovada",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a apresentação do resultado favorável e das ações decorrentes",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria aprovada pelo domínio responsável"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar o resultado da análise"
+    ],
+    "expectedResults": [
+      "Resultado de aprovação apresentado",
+      "Reembolso indicado conforme decisão recebida"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks"
+    ]
+  },
+  {
+    "id": "MC-ET034-CT003",
+    "specification": "MC-ET034",
+    "caseCode": "CT003",
+    "name": "Apresentar devolução reprovada",
+    "title": "CT003 Apresentar devolução reprovada",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar a apresentação da reprovação sem expor informações internas",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria reprovada"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar o resultado da análise"
+    ],
+    "expectedResults": [
+      "Resultado de reprovação apresentado",
+      "Justificativa liberada ao cliente apresentada",
+      "Informações internas do Customer Care ou seller não expostas"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET035-CT001",
+    "specification": "MC-ET035",
+    "caseCode": "CT001",
+    "name": "Apresentar reembolso da devolução",
+    "title": "CT001 Apresentar reembolso da devolução",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar as informações de reembolso disponibilizadas ao cliente",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria aprovada para reembolso"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar a área de reembolso"
+    ],
+    "expectedResults": [
+      "Informações sobre restituição apresentados"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET036-CT001",
+    "specification": "MC-ET036",
+    "caseCode": "CT001",
+    "name": "Apresentar informações de reenvio",
+    "title": "CT001 Apresentar informações de reenvio",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar a situação do reenvio autorizado ao cliente",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria aprovada para reenvio"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar a área de reenvio"
+    ],
+    "expectedResults": [
+      "Situação aguardando despacho, enviada ou entregue apresentada conforme backend",
+      "Informações logísticas apresentadas quando disponíveis"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET036-CT002",
+    "specification": "MC-ET036",
+    "caseCode": "CT002",
+    "name": "Atualizar situação e rastreamento do reenvio",
+    "title": "CT002 Atualizar situação e rastreamento do reenvio",
+    "type": "Funcional, Integração",
+    "severity": "Alto",
+    "objective": "Validar a atualização do reenvio por eventos logísticos",
+    "preconditions": [
+      "Reenvio próprio autorizado",
+      "Novo evento de despacho ou entrega disponível"
+    ],
+    "steps": [
+      "Processar o evento logístico",
+      "Consultar novamente a devolução"
+    ],
+    "expectedResults": [
+      "Situação do reenvio atualizada",
+      "Código, link e eventos apresentados quando disponíveis",
+      "Histórico preservado"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET036-CT003",
+    "specification": "MC-ET036",
+    "caseCode": "CT003",
+    "name": "Apresentar reenvio condicionado ao pagamento de frete",
+    "title": "CT003 Apresentar reenvio condicionado ao pagamento de frete",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar que o reenvio permaneça bloqueado enquanto houver pendência financeira",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria com reenvio autorizado",
+      "Cobrança de frete pendente"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar a situação do reenvio"
+    ],
+    "expectedResults": [
+      "Pendência de frete apresentada",
+      "Reenvio não indicado como despachado antes da confirmação financeira",
+      "Ação de pagamento apresentada quando autorizada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend"
+    ]
+  },
+  {
+    "id": "MC-ET037-CT001",
+    "specification": "MC-ET037",
+    "caseCode": "CT001",
+    "name": "Baixar NF-e de devolução",
+    "title": "CT001 Baixar NF-e de devolução",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar o download da NF-e de devolução vinculada ao processo",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria possui NF-e de devolução disponível"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Acionar Download da NF-e de devolução"
+    ],
+    "expectedResults": [
+      "Arquivo fiscal correto baixado",
+      "Arquivo corresponde à devolução selecionada",
+      "Arquivo íntegro e legível",
+      "Content-Type e Content-Disposition coerentes"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET037-CT002",
+    "specification": "MC-ET037",
+    "caseCode": "CT002",
+    "name": "Baixar NF-e de reenvio",
+    "title": "CT002 Baixar NF-e de reenvio",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar o download da NF-e vinculada ao reenvio",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria possui NF-e de reenvio disponível"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Acionar Download da NF-e de reenvio"
+    ],
+    "expectedResults": [
+      "Arquivo fiscal correto baixado",
+      "Documento corresponde ao reenvio selecionado",
+      "Arquivo íntegro e legível"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET037-CT003",
+    "specification": "MC-ET037",
+    "caseCode": "CT003",
+    "name": "Apresentar indisponibilidade de documento fiscal",
+    "title": "CT003 Apresentar indisponibilidade de documento fiscal",
+    "type": "Funcional, Integração",
+    "severity": "Médio",
+    "objective": "Validar que o download não seja oferecido quando o documento não estiver disponível",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria sem NF-e disponível ou com arquivo temporariamente indisponível"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar a área de documentos",
+      "Tentar o download quando houver referência indisponível"
+    ],
+    "expectedResults": [
+      "Ação não apresentada quando não houver documento",
+      "Mensagem de indisponibilidade apresentada em falha temporária",
+      "Nenhum arquivo vazio ou incorreto entregue"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Observabilidade"
+    ]
+  },
+  {
+    "id": "MC-ET038-CT001",
+    "specification": "MC-ET038",
+    "caseCode": "CT001",
+    "name": "Apresentar conclusão por reembolso",
+    "title": "CT001 Apresentar conclusão por reembolso",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar o encerramento visual da devolução concluída por reembolso",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria concluída por reembolso"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar a fase de conclusão"
+    ],
+    "expectedResults": [
+      "Conclusão apresentada",
+      "Resultado de reembolso identificado",
+      "Histórico e informações financeiras disponíveis",
+      "Ações incompatíveis indisponíveis"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks"
+    ]
+  },
+  {
+    "id": "MC-ET038-CT002",
+    "specification": "MC-ET038",
+    "caseCode": "CT002",
+    "name": "Apresentar conclusão por reenvio",
+    "title": "CT002 Apresentar conclusão por reenvio",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar o encerramento visual após a conclusão do reenvio",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria concluída por reenvio"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar a fase de conclusão"
+    ],
+    "expectedResults": [
+      "Conclusão apresentada",
+      "Resultado de reenvio identificado",
+      "Informações logísticas finais apresentadas",
+      "Ações incompatíveis indisponíveis"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Jobs e Webhooks"
+    ]
+  },
+  {
+    "id": "MC-ET038-CT003",
+    "specification": "MC-ET038",
+    "caseCode": "CT003",
+    "name": "Apresentar conclusão por reprovação ou cancelamento",
+    "title": "CT003 Apresentar conclusão por reprovação ou cancelamento",
+    "type": "Funcional",
+    "severity": "Alto",
+    "objective": "Validar os demais desfechos finais da devolução",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devolução própria reprovada ou cancelada"
+    ],
+    "steps": [
+      "Acessar os detalhes da devolução",
+      "Visualizar a conclusão do processo"
+    ],
+    "expectedResults": [
+      "Desfecho correto apresentado",
+      "Justificativa autorizada apresentada quando disponível",
+      "Nenhuma ação incompatível com o estado final habilitada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET038-CT004",
+    "specification": "MC-ET038",
+    "caseCode": "CT004",
+    "name": "Preservar estado final recebido do domínio responsável",
+    "title": "CT004 Preservar estado final recebido do domínio responsável",
+    "type": "Invariante",
+    "severity": "Crítico",
+    "objective": "Validar que o Minha Conta não altere ou infira o desfecho da devolução",
+    "preconditions": [
+      "Usuário autenticado",
+      "Devoluções com diferentes estados finais canônicos"
+    ],
+    "steps": [
+      "Comparar o estado recebido do backend com a conclusão apresentada",
+      "Manipular parâmetros visuais ou payloads do frontend"
+    ],
+    "expectedResults": [
+      "Conclusão permanece coerente com o backend",
+      "Frontend não altera reembolso, reenvio, reprovação ou cancelamento"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET039-CT001",
+    "specification": "MC-ET039",
+    "caseCode": "CT001",
+    "name": "Alterar senha com dados válidos",
+    "title": "CT001 Alterar senha com dados válidos",
+    "type": "Funcional, Segurança",
+    "severity": "Crítico",
+    "objective": "Validar a atualização da senha com senha atual correta e nova senha conforme a política",
+    "preconditions": [
+      "Conta ativa cadastrada",
+      "Usuário autenticado",
+      "Senha atual conhecida"
+    ],
+    "steps": [
+      "Acessar Gerenciar conta",
+      "Acessar Alterar senha",
+      "Informar a senha atual",
+      "Informar nova senha válida",
+      "Confirmar a nova senha",
+      "Concluir a alteração"
+    ],
+    "expectedResults": [
+      "Senha atual validada",
+      "Nova senha persistida",
+      "Mensagem de sucesso apresentada",
+      "Senha anterior não autentica mais",
+      "Nova senha autentica corretamente"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados",
+      "Headers HTTP"
+    ]
+  },
+  {
+    "id": "MC-ET039-CT002",
+    "specification": "MC-ET039",
+    "caseCode": "CT002",
+    "name": "Bloquear alteração com senha atual incorreta",
+    "title": "CT002 Bloquear alteração com senha atual incorreta",
+    "type": "Validação, Segurança",
+    "severity": "Alto",
+    "objective": "Validar que a senha não seja alterada sem confirmação da credencial atual",
+    "preconditions": [
+      "Usuário autenticado",
+      "Senha atual conhecida"
+    ],
+    "steps": [
+      "Acessar Alterar senha",
+      "Informar senha atual incorreta",
+      "Informar nova senha válida e confirmação correspondente",
+      "Concluir"
+    ],
+    "expectedResults": [
+      "Mensagem de validação apresentada",
+      "Senha não alterada",
+      "Credencial anterior permanece válida"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET039-CT003",
+    "specification": "MC-ET039",
+    "caseCode": "CT003",
+    "name": "Bloquear nova senha fora da política mínima",
+    "title": "CT003 Bloquear nova senha fora da política mínima",
+    "type": "Validação, Segurança",
+    "severity": "Alto",
+    "objective": "Validar a exigência de oito caracteres, letra maiúscula, letra minúscula e número",
+    "preconditions": [
+      "Usuário autenticado",
+      "Senha atual correta"
+    ],
+    "steps": [
+      "Tentar alterar para senha com menos de oito caracteres",
+      "Repetir sem letra maiúscula",
+      "Repetir sem letra minúscula",
+      "Repetir sem número"
+    ],
+    "expectedResults": [
+      "Cada senha inválida rejeitada",
+      "Regra não atendida indicada",
+      "Senha atual preservada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET039-CT004",
+    "specification": "MC-ET039",
+    "caseCode": "CT004",
+    "name": "Bloquear confirmação divergente",
+    "title": "CT004 Bloquear confirmação divergente",
+    "type": "Validação",
+    "severity": "Alto",
+    "objective": "Validar que a confirmação coincida com a nova senha",
+    "preconditions": [
+      "Usuário autenticado",
+      "Senha atual correta"
+    ],
+    "steps": [
+      "Informar nova senha válida",
+      "Informar confirmação diferente",
+      "Concluir a alteração"
+    ],
+    "expectedResults": [
+      "Mensagem de divergência apresentada",
+      "Senha não alterada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  }
+]

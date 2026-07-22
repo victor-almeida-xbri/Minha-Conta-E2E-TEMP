@@ -1,0 +1,1182 @@
+Especificação,Código CT,Código Composto,Título,Nome,Tipos,Severidade,Objetivo,Pré-condições,Passos,Resultados esperados,Camadas validadas
+MC-ET001,CT001,MC-ET001-CT001,CT001 Realizar login (e-mail e senha),Realizar login (e-mail e senha),Funcional,Crítico,Validar login correto com e-mail e senha,"Conta ativa cadastrada
+Usuário não autenticado","Acessar plataforma
+Logar com e-mail e senha de um usuário cadastrado","Mensagem de sucesso
+Botão de conta apresenta menu de ações
+Tela de login ocultada
+Sessão autenticada de forma segura","Frontend, Headers HTTP, Backend, Banco de Dados"
+,CT002,MC-ET001-CT002,CT002 Falhar login (e-mail e senha),Falhar login (e-mail e senha),Funcional,Crítico,Validar falha de login com e-mail e/ou senha incorreto,"Conta ativa cadastrada
+Usuário não autenticado","Acessar plataforma
+Logar com e-mail e/ou senha incorretos","Mensagem de falha
+Sem login realizado","Frontend, Headers HTTP, Backend, Banco de Dados"
+,CT003,MC-ET001-CT003,CT003 Requisitar reCAPTCHA,Requisitar reCAPTCHA,Segurança,Médio,Validar solicitação de reCAPTCHA após múltiplos erros de login,Usuário não autenticado,"Acessar plataforma
+Logar com e-mail e/ou senha incorretos múltiplas vezes seguidas","Após o limite definido pela política de segurança de tentativas de login, é solicitada verificação reCAPTCHA","Frontend, Backend"
+,CT004,MC-ET001-CT004,CT004 Login com SQL Injection,Login com SQL Injection,Segurança,Crítico,Validar tratamento e bloqueio de entradas vindas da interface,"Conta ativa cadastrada
+Usuário não autenticado","Acessar plataforma
+SQL Injection nos campos de login ","Mensagem de falha
+Falha nos logins
+Banco de dados inalterado","Frontend, Backend, Banco de Dados"
+,CT005,MC-ET001-CT005,CT005 Realizar login (e-mail e senha) via endpoint,Realizar login (e-mail e senha) via endpoint,Funcional,Crítico,Validar login correto com e-mail e senha via endpoint,Conta ativa cadastrada,"Acessar endpoint de autenticação
+Inserir e-mail e senha de um usuário logado","Código de sucesso
+Retorno do token de autorização","Backend, Banco de Dados"
+,CT006,MC-ET001-CT006,CT006 Falhar login (e-mail e senha) via endpoint,Falhar login (e-mail e senha) via endpoint,Funcional,Crítico,Validar falha de login com e-mail e/ou senha incorreto via endpoint,Conta ativa cadastrada,"Acessar endpoint de autenticação
+Inserir e-mail e/ou senha incorretos",Código de falha,"Backend, Banco de Dados"
+,CT007,MC-ET001-CT007,CT007 Múltiplas tentativas de login via endpoint,Múltiplas tentativas de login via endpoint,Segurança,Crítico,Validar bloqueio de múltiplas tentativas falhas de login via endpoint,-,"Acessar endpoint de autenticação
+Inserir e-mail e senha corretos e incorretos
+Realizar requisição múltiplas vezes","Código de bloqueio de requisição
+Requisição rejeitada temporariamente ",Backend
+,CT008,MC-ET001-CT008,CT008 Login com SQL Injection via endpoint,Login com SQL Injection via endpoint,Segurança,Crítico,Validar tratamento e bloqueio de entradas da requisição de login,Conta ativa cadastrada,"Acessar endpoint de autenticação
+SQL Injection nos campos de login","Código de falha
+Falha no login
+Banco de dados inalterado","Backend, Banco de Dados"
+MC-ET002,CT001,MC-ET002-CT001,CT001 Registrar evento de login válido,Registrar evento de login válido,Auditoria,Alto,Validar registro de login válido,"Conta ativa cadastrada
+
+","Acessar endpoint de autenticação
+Inserir e-mail e senha correto
+","Registro de evento de tentativa de login (sucesso)
+","Backend, Banco de Dados, Logs e Auditoria"
+,,MC-ET002-CT002,,Registrar evento de login inválido,Auditoria,Alto,Validar registro de login inválido,-,"Acessar endpoint de autenticação
+Inserir e-mail e senha incorreto
+",Registro de evento de tentativa de login (falha),"Backend, Banco de Dados, Logs e Auditoria"
+MC-ET003,CT001,MC-ET003-CT001,CT001 Acessar Minha Conta com usuário autenticado,Acessar Minha Conta com usuário autenticado,Funcional,Crítico,Validar acesso autenticado ao dashboard do Minha Conta,"Conta ativa cadastrada
+Usuário autenticado","Acessar plataforma
+Acessar menu do usuário
+Acessar Minha Conta","Apresentação do dashboard do cliente
+Token de autorização armazenada na sessão","Frontend, Headers HTTP, Backend"
+,CT002,MC-ET003-CT002,CT002 Acessar Minha Conta sem autenticação,Acessar Minha Conta sem autenticação,Segurança,Crítico,Validar bloqueio de informações à usuários não autenticados,Usuário não autenticado,Acessar url do dashboard da Minha Conta,"Mensagem de falha
+Redirecionamento à tela inicial",Frontend
+,,MC-ET003-CT003,,Acessar Minha Conta com token expirado,Segurança,Alto,Validar a expiração do token de autorização determina a reautenticação,"Conta ativa cadastrada
+Usuário autenticado","Acessar Minha Conta
+Aguardar expiração do token
+Recarregar página","Mensagem para logar novamente
+Redirecionamento à tela inicial","Frontend, Headers HTTP"
+,,MC-ET003-CT004,,Encerrar sessão autenticada,"Funcional, Segurança",Alto,Validar o encerramento voluntário da sessão e a restrição de uso posterior,Usuário autenticado; Sessão válida,Acessar o menu da conta; Acionar Sair; Tentar acessar novamente uma área autenticada,Sessão encerrada; Dados do Minha Conta não permanecem acessíveis; Novo acesso exige autenticação,"Frontend, Backend, Headers HTTP, Logs e Auditoria"
+MC-ET004,CT001,MC-ET004-CT001,CT001 Apresentar dados principais cadastrados no dashboard,Apresentar dados principais cadastrados no dashboard,Funcional,Médio,Validar a apresentação do veículo principal e do endereço principal disponíveis para o cliente,Usuário autenticado; Usuário possui veículo principal e/ou endereço principal,Acessar Minha Conta; Visualizar os cards de veículo e endereço,Veículo principal apresentado quando existente; Endereço principal apresentado quando existente; Informações pertencem ao usuário autenticado,"Frontend, Backend"
+,CT002,MC-ET004-CT002,CT002 Apresentar últimos pedidos,Apresentar últimos pedidos,Funcional,Médio,Validar apresentação dos últimos pedidos do cliente,"Conta ativa cadastrada
+Usuário autenticado
+Usuário possui 1-3 pedidos","Acessar Minha Conta
+Visualizar dashboard",Apresentação de no máximo 2 cards dos últimos pedidos,"Frontend, Backend"
+,CT003,MC-ET004-CT003,CT003 Apresentar identificação(PF),Apresentar identificação(PF),Funcional,Alto,Validar apresentação da identificação do cliente (pessoa física) com dados sensíveis mascarados,"Conta ativa cadastrada
+Usuário PF autenticado","Acessar Minha Conta
+Visualizar dashboard","Apresentação da identificação
+CPF mascarado para cliente PF","Frontend, Backend"
+,,MC-ET004-CT004,,Apresentar identificação (PJ),Funcional,Alto,Validar apresentação da identificação do cliente (pessoa jurídica),"Conta ativa cadastrada
+Usuário PJ autenticado","Acessar Minha Conta
+Visualizar dashboard",Apresentação da identificação,"Frontend, Backend"
+,,MC-ET004-CT005,,Requisitar informações do dashboard Minha Conta via endpoint,Compliance/LGPD,Alto,Validar apresentação de identificação do cliente com CPF mascarado,Usuário PF autenticado,"Acessar endpoint de dashboard Minha Conta
+Requisitar informações apresentadas no dashboard","Código de sucesso (200 OK)
+Retorno de informações do dashboard Minha Conta do cliente
+CPF mascarado para cliente PF",Backend
+,CT006,MC-ET004-CT006,CT006 Apresentar pneus compatíveis,Apresentar pneus compatíveis,"Funcional, Integração",Baixo,Validar apresentação dos pneus compatíveis com o veículo principal do cliente,"Conta ativa cadastrada
+Usuário autenticado
+Usuário possui veículo principal","Acessar Minha Conta
+Visualizar dashboard",Apresentação de pneus compatíveis com o veículo principal ,"Frontend, Backend"
+,CT007,MC-ET004-CT007,CT007 Apresentar estados vazios do dashboard,Apresentar estados vazios do dashboard,Funcional,Médio,Validar os estados vazios das informações resumidas do dashboard,"Usuário autenticado; Executar com usuário sem veículos, sem endereços e sem pedidos",Acessar Minha Conta para cada cenário de massa; Visualizar o dashboard,Mensagem de estado vazio correspondente apresentada; Nenhuma informação inexistente exibida; Ação primária coerente apresentada quando prevista,"Frontend, Backend"
+,CT008,MC-ET004-CT008,CT008 Apresentar top modelos de pneus,Apresentar top modelos de pneus,Funcional,Médio,Validar apresentação de top modelos de pneus quando não há pneus compatíveis,"Conta ativa cadastrada
+Usuário autenticado
+Usuário não possui veículos ou não há pneus compatíveis com o veículo principal","Acessar Minha Conta
+Visualizar dashboard",Apresentação de modelos mais vendidos do marketplace,"Frontend, Backend"
+,CT009,MC-ET004-CT009,CT009 Apresentar anúncio,Apresentar anúncio,Funcional,Médio,Validar apresentação de anúncio personalizado pro cliente,"Conta ativa cadastrada
+Usuário autenticado","Acessar Minha Conta
+Visualizar dashboard",Apresentação de anúncio válido da plataforma,"Frontend, Backend"
+MC-ET005,CT001,MC-ET005-CT001,CT001 Validar menu de navegação do Minha Conta,Validar menu de navegação do Minha Conta,Funcional,Médio,Validar o acesso às áreas disponíveis pelo menu superior do Minha Conta,Usuário autenticado,"Acessar Minha Conta; Acionar sequencialmente Início, Identificação, Meus Veículos, Meus Endereços, Meus Pedidos, Devoluções e Gerenciar conta",Cada item redireciona à área correspondente; Área atual permanece destacada; Nenhuma alteração persistente é executada pela navegação,"Frontend, Backend"
+,CT002,MC-ET005-CT002,CT002 Validar redirecionamentos dos estados vazios do dashboard,Validar redirecionamentos dos estados vazios do dashboard,Funcional,Médio,Validar que as ações dos estados vazios apenas redirecionem à área responsável,"Usuário autenticado; Executar com usuário sem pedidos, sem veículos e sem endereços",Acionar a ação do estado vazio de pedidos; Acionar a ação do estado vazio de veículos; Acionar a ação do estado vazio de endereços,Pedidos redirecionam ao catálogo; Veículos redirecionam ao cadastro em Meus Veículos; Endereços redirecionam ao cadastro em Meus Endereços; Nenhuma entidade é criada diretamente no dashboard,"Frontend, Backend"
+,CT003,MC-ET005-CT003,CT003 Validar redirecionamento dos cards cadastrais,Validar redirecionamento dos cards cadastrais,Funcional,Médio,Validar o acesso às áreas cadastrais pelos cards de identificação e endereço,Usuário autenticado; Usuário possui identificação; Usuário possui endereço principal,Acionar o card de identificação; Retornar ao dashboard; Acionar o card de endereço,Card de identificação redireciona para Identificação; Card de endereço redireciona para Meus Endereços,"Frontend, Backend"
+,CT004,MC-ET005-CT004,CT004 Validar ações do card de veículo,Validar ações do card de veículo,"Funcional, Integração",Alto,Validar os redirecionamentos disponíveis a partir do veículo principal,Usuário autenticado; Usuário possui veículo principal,Acionar Alterar veículo; Retornar ao dashboard; Acionar Ver pneus compatíveis,Alterar veículo redireciona para Meus Veículos; Ver pneus compatíveis redireciona ao catálogo com o contexto do veículo; Compatibilidade tem origem no domínio responsável,"Frontend, Backend, Headers HTTP"
+,CT005,MC-ET005-CT005,CT005 Validar ações dos pedidos no dashboard,Validar ações dos pedidos no dashboard,Funcional,Alto,Validar o acesso à listagem e aos detalhes dos pedidos apresentados,Usuário autenticado; Usuário possui pelo menos dois pedidos,Acionar Ver todos os pedidos; Retornar ao dashboard; Acionar Ver pedido no primeiro card; Repetir no segundo card,Ver todos os pedidos redireciona para Meus Pedidos; São apresentados no máximo os dois pedidos mais recentes; Cada ação Ver pedido abre o pedido correspondente,"Frontend, Backend, Headers HTTP"
+,CT006,MC-ET005-CT006,CT006 Validar redirecionamento dos cards de pneus,Validar redirecionamento dos cards de pneus,Funcional,Médio,Validar o acesso ao produto apresentado nos cards de pneus,Usuário autenticado; Executar com card de pneu compatível e card de top modelos,Acionar o card de pneu apresentado em cada cenário,Usuário redirecionado para a página do pneu selecionado; Produto de destino corresponde ao card acionado,"Frontend, Backend, Headers HTTP"
+MC-ET006,CT001,MC-ET006-CT001,CT001 Apresentar identificação de usuário PF,Apresentar identificação de usuário PF,Funcional,Alto,Validar a apresentação dos dados cadastrais de pessoa física,"Conta ativa cadastrada
+Usuário PF autenticado","Acessar Minha Conta
+Acessar Identificação","Dados do usuário PF apresentados
+CPF apresentado conforme regra de mascaramento
+Tipo de cadastro apresentado
+Campos editáveis e não editáveis diferenciados","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT002,MC-ET006-CT002,CT002 Apresentar identificação de usuário PJ,Apresentar identificação de usuário PJ,Funcional,Alto,Validar a apresentação dos dados cadastrais de pessoa jurídica,"Conta ativa cadastrada
+Usuário PJ autenticado","Acessar Minha Conta
+Acessar Identificação","Dados do usuário PJ apresentados
+CNPJ apresentado conforme regra de mascaramento
+Razão social apresentada
+Inscrição estadual e situação do ICMS apresentadas quando aplicáveis
+Campos editáveis e não editáveis diferenciados","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT003,MC-ET006-CT003,CT003 Bloquear edição de CPF e tipo cadastral,Bloquear edição de CPF e tipo cadastral,Invariante,Crítico,Validar que CPF e tipo cadastral não possam ser alterados pela interface,"Conta ativa cadastrada
+Usuário PF autenticado","Acessar Minha Conta
+Acessar Identificação
+Inspecionar os campos CPF e tipo cadastral","CPF indisponível para edição
+Tipo cadastral indisponível para edição
+","Frontend, Backend"
+,CT004,MC-ET006-CT004,CT004 Bloquear edição de CNPJ e tipo cadastral,Bloquear edição de CNPJ e tipo cadastral,Invariante,Crítico,Validar que CNPJ e tipo cadastral não possam ser alterados pela interface,"Conta ativa cadastrada
+Usuário PJ autenticado","Acessar Minha Conta
+Acessar Identificação
+Inspecionar os campos CNPJ e tipo cadastral","CNPJ indisponível para edição
+Tipo cadastral indisponível para edição
+","Frontend, Backend"
+,CT005,MC-ET006-CT005,CT005 Consultar identificação via endpoint,Consultar identificação via endpoint,Compliance/LGPD,Alto,Validar o retorno mínimo e autorizado dos dados de identificação,"Conta ativa cadastrada
+Usuário autenticado","Acessar endpoint de identificação
+Enviar requisição com token válido","Código de sucesso
+Retorno dos dados do usuário autenticado
+Ausência de dados internos ou administrativos indevidos
+Dados sensíveis retornados conforme política de proteção","Backend, Headers HTTP"
+,CT006,MC-ET006-CT006,CT006 Bloquear consulta de identificação de outro usuário,Bloquear consulta de identificação de outro usuário,Segurança,Crítico,Validar a titularidade na consulta de dados cadastrais,"Duas contas ativas cadastradas
+Usuário A autenticado","Acessar endpoint de identificação
+Alterar identificador da requisição para o Usuário B
+Enviar requisição com token do Usuário A","Código de falha de autorização
+Nenhum dado do Usuário B retornado","Backend, Headers HTTP"
+MC-ET007,CT001,MC-ET007-CT001,CT001 Alterar dados editáveis de usuário PF,Alterar dados editáveis de usuário PF,Funcional,Alto,Validar a atualização dos dados permitidos de pessoa física,"Conta ativa cadastrada
+Usuário PF autenticado","Acessar Identificação
+Alterar nome e telefone
+Confirmar atualização","Mensagem de sucesso
+Nome e telefone atualizados
+CPF e tipo cadastral inalterados
+Dados persistidos","Frontend, Backend, Banco de Dados"
+,CT002,MC-ET007-CT002,CT002 Alterar dados editáveis de usuário PJ,Alterar dados editáveis de usuário PJ,Funcional,Alto,Validar a atualização dos dados permitidos de pessoa jurídica,"Conta ativa cadastrada
+Usuário PJ autenticado","Acessar Identificação
+Alterar telefone, situação do contribuinte e inscrição estadual (apenas se ICMS=ativo)
+Confirmar atualização","Mensagem de sucesso
+Campos permitidos atualizados
+CNPJ e tipo cadastral inalterados
+Dados persistidos","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT003,MC-ET007-CT003,CT003 Bloquear telefone inválido,Bloquear telefone inválido,Validação,Médio,Validar a rejeição de telefone inválido na atualização cadastral,"Conta ativa cadastrada
+Usuário autenticado","Acessar Identificação
+Informar telefone inválido
+Confirmar atualização","Mensagem de validação apresentada
+Atualização não realizada
+Dados anteriores preservados","Frontend, Backend, Banco de Dados"
+,CT004,MC-ET007-CT004,CT004 Bloquear alteração de documento via payload,Bloquear alteração de documento via payload,"Segurança, Validação",Crítico,"Validar que CPF, CNPJ e tipo cadastral não possam ser alterados diretamente pelo endpoint","Conta ativa cadastrada
+Usuário autenticado","Inspecionar requisição de atualização cadastral
+Adicionar CPF, CNPJ ou tipo cadastral alterado ao payload
+Enviar requisição","Requisição rejeitada ou campos proibidos ignorados conforme contrato
+Documento principal inalterado
+Tipo cadastral inalterado
+Banco de dados consistente","Backend, Banco de Dados, Headers HTTP"
+,CT005,MC-ET007-CT005,CT005 Bloquear alteração cadastral de outro usuário,Bloquear alteração cadastral de outro usuário,Segurança,Crítico,Validar titularidade na atualização dos dados de identificação,"Duas contas ativas cadastradas
+Usuário A autenticado","Acessar endpoint de atualização
+Alterar o identificador para o Usuário B
+Enviar dados válidos com token do Usuário A","Código de falha de autorização
+Dados do Usuário B inalterados","Backend, Banco de Dados, Headers HTTP"
+,CT006,MC-ET007-CT006,CT006 Preservar dados históricos após alteração cadastral,Preservar dados históricos após alteração cadastral,Invariante,Alto,Validar que a atualização do perfil não altere snapshots e registros históricos,"Usuário autenticado
+Usuário possui pedido histórico","Registrar os dados do pedido antes da alteração
+Alterar dados editáveis da identificação
+Consultar novamente o pedido histórico","Perfil atualizado
+Dados históricos do pedido inalterados
+Snapshots preservados","Frontend, Backend, Banco de Dados"
+,CT007,MC-ET007-CT007,CT007 Registrar auditoria da alteração de identificação,Registrar auditoria da alteração de identificação,Auditoria,Alto,Validar a geração do evento auditável da atualização cadastral,"Conta ativa cadastrada
+Usuário autenticado","Alterar dados editáveis
+Confirmar atualização
+Consultar trilha de auditoria","Evento de autosserviço registrado
+Ator, data e hora, entidade, ação e resultado registrados
+Dados sensíveis não expostos integralmente","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+MC-ET008,CT001,MC-ET008-CT001,CT001 Apresentar estado vazio de veículos,Apresentar estado vazio de veículos,Funcional,Médio,Validar a apresentação da área Meus Veículos sem registros ativos,"Conta ativa cadastrada
+Usuário autenticado
+Usuário sem veículos ativos","Acessar Minha Conta
+Acessar Meus Veículos","Mensagem de estado vazio apresentada
+Ação para adicionar veículo apresentada
+Nenhum veículo de outro usuário exibido","Frontend, Backend, Banco de Dados"
+,CT002,MC-ET008-CT002,CT002 Apresentar múltiplos veículos e principal,Apresentar múltiplos veículos e principal,"Funcional, Invariante",Alto,Validar a apresentação de múltiplos veículos com apenas um principal,"Conta ativa cadastrada
+Usuário autenticado
+Usuário possui dois veículos ativos","Acessar Meus Veículos
+Visualizar os registros","Veículos ativos apresentados
+Somente um veículo identificado como principal","Frontend, Backend, Banco de Dados"
+,CT003,MC-ET008-CT003,CT003 Bloquear consulta de veículos de outro usuário,Bloquear consulta de veículos de outro usuário,Segurança,Crítico,Validar a titularidade da consulta de veículos,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui veículos","Acessar endpoint de veículos
+Alterar identificador para o Usuário B
+Enviar requisição com token do Usuário A","Código de falha de autorização
+Nenhum veículo do Usuário B retornado","Backend, Headers HTTP"
+MC-ET009,CT001,MC-ET009-CT001,CT001 Consultar veículo por placa válida,Consultar veículo por placa válida,"Funcional, Integração",Alto,Validar a consulta de uma placa existente na integração veicular,"Conta ativa cadastrada
+Usuário autenticado
+Placa válida disponível na API","Acessar Meus Veículos
+Selecionar Adicionar veículo
+Selecionar busca por placa
+Informar placa válida
+Executar consulta","Dados do veículo retornados pela integração
+Veículo cadastrado
+Nenhum cadastro realizado antes da confirmação","Frontend, Backend"
+,CT002,MC-ET009-CT002,CT002 Tratar placa não localizada,Tratar placa não localizada,"Funcional, Integração",Médio,Validar o tratamento do retorno sem veículo encontrado,"Usuário autenticado
+Placa válida não localizada pela API","Acessar cadastro por placa
+Informar placa não localizada
+Executar consulta","Mensagem de veículo não encontrado apresentada
+Cadastro não realizado
+Usuário permanece no fluxo de cadastro","Frontend, Backend"
+,CT003,MC-ET009-CT003,CT003 Bloquear placa inválida,Bloquear placa inválida,Validação,Médio,Validar a rejeição de formato de placa inválido,Usuário autenticado,"Acessar cadastro por placa
+Informar placa em formato inválido
+Executar consulta","Mensagem de validação apresentada
+Consulta externa não executada
+Veículo não cadastrado",Frontend
+,CT004,MC-ET009-CT004,CT004 Tratar indisponibilidade da consulta de placa,Tratar indisponibilidade da consulta de placa,Integração,Alto,Validar o comportamento quando a API veicular estiver indisponível,"Usuário autenticado
+API de consulta veicular indisponível","Acessar cadastro por placa
+Informar placa válida
+Executar consulta","Mensagem de consulta indisponível apresentada
+Orientação para tentar novamente mais tarde
+Veículo não cadastrado
+Erro registrado para observabilidade","Frontend, Backend, Observabilidade"
+,CT005,MC-ET009-CT005,CT005 Bloquear cadastro de veículo duplicado,Bloquear cadastro de veículo duplicado,"Validação, Invariante",Alto,Validar a unicidade dos veículos ativos do cliente,"Usuário autenticado
+Veículo correspondente já cadastrado e ativo","Acessar cadastro por placa
+Consultar a placa já vinculada
+Confirmar cadastro","Mensagem de veículo já cadastrado apresentada
+Novo registro não criado
+Banco de dados sem duplicidade","Frontend, Backend, Banco de Dados"
+,CT006,MC-ET009-CT006,CT006 Cadastrar primeiro veículo por placa,Cadastrar primeiro veículo por placa,"Funcional, Invariante",Alto,Validar o cadastro do primeiro veículo do usuário,"Usuário autenticado
+Usuário sem veículos ativos
+Placa válida localizada","Consultar veículo por placa
+Confirmar os dados
+Cadastrar veículo","Veículo cadastrado
+Veículo definido como principal conforme fluxo documentado
+Lista atualizada","Frontend, Backend, Banco de Dados"
+,CT007,MC-ET009-CT007,CT007 Impedir duplicidade por requisição repetida,Impedir duplicidade por requisição repetida,Idempotência,Alto,Validar que o reenvio da mesma solicitação não crie veículos duplicados,"Usuário autenticado
+Veículo ainda não cadastrado","Enviar requisição válida de cadastro
+Reenviar imediatamente a mesma requisição","Somente um veículo criado
+Segunda requisição tratada sem duplicidade
+Banco de dados consistente","Backend, Banco de Dados, Headers HTTP, Observabilidade"
+,CT008,MC-ET009-CT008,CT008 Bloquear cadastro para outro usuário,Bloquear cadastro para outro usuário,Segurança,Crítico,Validar que um usuário não cadastre veículo em conta de terceiro,"Duas contas ativas cadastradas
+Usuário A autenticado","Inspecionar requisição de cadastro
+Alterar o identificador do titular para o Usuário B
+Enviar requisição","Código de falha de autorização
+Veículo não vinculado ao Usuário B","Backend, Banco de Dados, Headers HTTP"
+,CT009,MC-ET009-CT009,CT009 Registrar auditoria do cadastro por placa,Registrar auditoria do cadastro por placa,Auditoria,Alto,Validar a geração do evento de autosserviço após cadastro bem-sucedido,"Usuário autenticado
+Placa válida não cadastrada","Cadastrar veículo por placa
+Consultar trilha de auditoria","Evento de cadastro registrado
+Ator, data e hora, veículo, ação e resultado registrados","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+MC-ET010,CT001,MC-ET010-CT001,"CT001 Carregamento dinâmico de marca, modelo, ano e versão","Carregamento dinâmico de marca, modelo, ano e versão",Funcional,Médio,Validar a apresentação das marcas disponíveis no cadastro manual,"Conta ativa cadastrada
+Usuário autenticado","Acessar Meus Veículos 
+Selecionar Adicionar veículo
+Selecionar cadastro por modelo
+Selecionar modelo
+Selecionar marca
+Selecionar ano
+Selecionar versão","Lista de marcas apresentada
+Campos dependentes ainda não selecionáveis enquanto dependência for preenchida
+Campos dependentes atualizados correspondendo a suas dependências
+Alteração de um campo redefine campos dependentes
+","Frontend, Backend"
+,CT002,MC-ET010-CT002,CT002 Cadastrar veículo por modelo,Cadastrar veículo por modelo,Funcional,Alto,Validar o cadastro manual com combinação válida,"Usuário autenticado
+Combinação de marca, modelo, ano e versão válida","Preencher marca, modelo, ano e versão
+Confirmar cadastro","Mensagem de sucesso apresentada
+Veículo persistido
+Lista de veículos atualizada","Frontend, Backend, Banco de Dados"
+,CT003,MC-ET010-CT003,CT003 Bloquear cadastro com campos obrigatórios vazios,Bloquear cadastro com campos obrigatórios vazios,Validação,Médio,Validar a obrigatoriedade dos campos do veículo,Usuário autenticado,"Acessar cadastro por modelo
+Manter um ou mais campos obrigatórios vazios
+Confirmar cadastro","Campos obrigatórios indicados
+Cadastro não realizado
+Banco de dados inalterado","Frontend, Backend, Banco de Dados"
+,CT004,MC-ET010-CT004,CT004 Bloquear veículo duplicado por modelo,Bloquear veículo duplicado por modelo,"Validação, Invariante",Alto,Validar a prevenção de combinação duplicada entre veículos ativos,"Usuário autenticado
+Combinação de veículo já cadastrada","Selecionar a mesma marca, modelo, ano e versão
+Confirmar cadastro","Mensagem de veículo já cadastrado apresentada
+Novo registro não criado","Frontend, Backend, Banco de Dados"
+,CT005,MC-ET010-CT005,CT005 Impedir duplicidade por envio repetido,Impedir duplicidade por envio repetido,Idempotência,Alto,Validar que requisições repetidas não criem registros duplicados,"Usuário autenticado
+Combinação válida ainda não cadastrada","Enviar requisição de cadastro
+Reenviar a mesma requisição","Somente um veículo criado
+Banco de dados sem duplicidade","Backend, Banco de Dados, Headers HTTP, Observabilidade"
+,CT006,MC-ET010-CT006,CT006 Registrar auditoria do cadastro por modelo,Registrar auditoria do cadastro por modelo,Auditoria,Alto,Validar o registro do evento de autosserviço,"Usuário autenticado
+Cadastro manual realizado com sucesso",Consultar trilha de auditoria,"Evento de cadastro registrado
+Ator, data e hora, veículo, ação e resultado registrados","Backend, Banco de Dados, Logs e Auditoria"
+MC-ET011,CT001,MC-ET011-CT001,CT001 Carregar dados atuais do veículo,Carregar dados atuais do veículo,Funcional,Médio,Validar o preenchimento inicial do formulário de edição,"Usuário autenticado
+Usuário possui veículo ativo","Acessar Meus Veículos
+Selecionar Editar","Formulário apresentado
+Marca, modelo, ano e versão atuais preenchidos","Frontend, Backend"
+,CT002,MC-ET011-CT002,CT002 Redefinir campos por dependência,Redefinir campos por dependência,"Funcional, Validação",Alto,Validar a consistência hierárquica ao alterar a marca,"Usuário autenticado
+Veículo ativo cadastrado","Editar veículo
+Alterar a marca","Campos dependentes ainda não selecionáveis enquanto dependência for preenchida
+Campos dependentes atualizados correspondendo a suas dependências
+Alteração de um campo redefine campos dependentes","Frontend, Backend"
+,CT003,MC-ET011-CT003,CT003 Atualizar veículo com dados válidos,Atualizar veículo com dados válidos,Funcional,Alto,Validar a persistência da edição de veículo,"Usuário autenticado
+Veículo pertence ao usuário","Editar os dados do veículo
+Selecionar combinação válida
+Confirmar edição","Mensagem de sucesso apresentada
+Veículo atualizado
+Lista apresenta os novos dados","Frontend, Backend, Banco de Dados"
+,CT004,MC-ET011-CT004,CT004 Bloquear edição com campos obrigatórios vazios,Bloquear edição com campos obrigatórios vazios,Validação,Médio,Validar a rejeição de edição incompleta,"Usuário autenticado
+Veículo ativo cadastrado","Editar veículo
+Remover valor de campo obrigatório
+Confirmar edição","Mensagem de validação apresentada
+Alteração não persistida
+Dados anteriores preservados","Frontend, Backend, Banco de Dados"
+,CT005,MC-ET011-CT005,CT005 Bloquear veículos duplicados na edição,Bloquear veículos duplicados na edição,"Validação, Invariante",Alto,Validar que a edição não resulte em veículo ativo duplicado,"Usuário autenticado
+Usuário possui dois veículos ativos distintos","Editar um veículo
+Selecionar a combinação do outro veículo
+Confirmar edição","Mensagem de veículo já cadastrado apresentada
+Alteração não persistida","Frontend, Backend, Banco de Dados"
+,CT006,MC-ET011-CT006,CT006 Bloquear edição de veículo de outro usuário,Bloquear edição de veículo de outro usuário,Segurança,Crítico,Validar a titularidade na edição de veículo,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui veículo ativo","Acessar endpoint de edição
+Informar identificador do veículo do Usuário B
+Enviar alteração com token do Usuário A","Código de falha de autorização
+Veículo do Usuário B inalterado","Backend, Banco de Dados, Headers HTTP"
+,CT007,MC-ET011-CT007,CT007 Preservar histórico após edição de veículo,Preservar histórico após edição de veículo,Funcional,Alto,"Validar que a edição não altere recomendações, carrinhos ou pedidos históricos","Usuário autenticado
+Veículo vinculado a registros históricos","Registrar dados históricos antes da edição
+Editar o veículo
+Consultar os registros históricos","Veículo atual atualizado
+Registros históricos inalterados","Backend, Banco de Dados"
+,CT008,MC-ET011-CT008,CT008 Registrar auditoria da edição de veículo,Registrar auditoria da edição de veículo,Auditoria,Alto,Validar o evento de autosserviço da alteração,"Usuário autenticado
+Veículo editado com sucesso",Consultar trilha de auditoria,"Evento de edição registrado
+Ator, data e hora, veículo, ação e resultado registrados","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+MC-ET012,CT001,MC-ET012-CT001,CT001 Definir veículo secundário como principal,Definir veículo secundário como principal,"Funcional, Invariante",Crítico,Validar a alteração do veículo principal,"Usuário autenticado
+Usuário possui dois veículos ativos
+Um veículo está definido como principal","Acessar Meus Veículos
+Selecionar o veículo secundário
+Acionar Tornar principal","Veículo selecionado definido como principal
+Veículo anterior deixa de ser principal
+Somente um veículo principal permanece ativo","Frontend, Backend, Banco de Dados"
+,CT002,MC-ET012-CT002,CT002 Manter veículo já principal,Manter veículo já principal,"Funcional, Invariante",Médio,Validar o comportamento ao selecionar o veículo já definido como principal,"Usuário autenticado
+Usuário possui veículo principal","Acessar Meus Veículos
+Visualizar o veículo principal","Veículo permanece principal
+Ação redundante não apresentada","Frontend, Backend, Banco de Dados"
+,CT003,MC-ET012-CT003,CT003 Bloquear definição de veículo inativo,Bloquear definição de veículo inativo,Invariante,Alto,Validar que somente veículos ativos possam ser definidos como principal,"Usuário autenticado
+Usuário possui veículo inativo","Acessar endpoint de definição de principal
+Informar identificador do veículo inativo","Requisição rejeitada
+Veículo inativo não definido como principal
+Principal atual preservado","Backend, Banco de Dados"
+,CT004,MC-ET012-CT004,CT004 Bloquear veículo de outro usuário como principal,Bloquear veículo de outro usuário como principal,"Segurança, Invariante",Crítico,Validar a titularidade na definição do veículo principal,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui veículo ativo","Acessar endpoint de definição de principal
+Enviar identificador do veículo do Usuário B","Código de falha de autorização
+Veículos dos dois usuários inalterados","Backend, Banco de Dados, Headers HTTP"
+,CT005,MC-ET012-CT005,CT005 Preservar principal único em requisição repetida,Preservar principal único em requisição repetida,"Invariante, Idempotência",Crítico,Validar a consistência diante de repetição do comando,"Usuário autenticado
+Usuário possui dois veículos ativos","Enviar comando para definir veículo principal
+Reenviar o mesmo comando","Somente um veículo principal
+Nenhum registro duplicado ou estado inconsistente","Backend, Banco de Dados, Observabilidade"
+,CT006,MC-ET012-CT006,CT006 Registrar auditoria da alteração de principal,Registrar auditoria da alteração de principal,Auditoria,Alto,Validar o registro da definição de veículo principal,"Usuário autenticado
+Alteração de principal concluída",Consultar trilha de auditoria,"Evento registrado
+Veículo anterior e novo veículo principal correlacionados quando aplicável
+Ator, data e hora e resultado registrados","Backend, Banco de Dados, Logs e Auditoria"
+MC-ET013,CT001,MC-ET013-CT001,CT001 Cancelar exclusão de veículo,Cancelar exclusão de veículo,Funcional,Médio,Validar que o cancelamento do modal preserve o veículo,"Usuário autenticado
+Usuário possui veículo ativo","Acessar Meus Veículos
+Acionar Excluir
+Cancelar a confirmação","Modal fechado
+Veículo permanece ativo
+Banco de dados inalterado","Frontend, Backend, Banco de Dados"
+,CT002,MC-ET013-CT002,CT002 Excluir veículo secundário,Excluir veículo secundário,Funcional,Alto,Validar a exclusão lógica de um veículo não principal,"Usuário autenticado
+Usuário possui veículo principal e veículo secundário","Selecionar o veículo secundário
+Acionar Excluir
+Confirmar exclusão","Veículo removido da lista ativa
+Exclusão lógica aplicada
+Veículo principal atual preservado","Frontend, Backend, Banco de Dados"
+,CT003,MC-ET013-CT003,CT003 Excluir veículo principal,Excluir veículo principal,"Funcional, Invariante",Crítico,Validar a promoção automática do veículo ativo criado ou atualizado mais recentemente,"Usuário autenticado
+Usuário possui veículo principal e outros veículos ativos com datas distintas","Excluir o veículo principal
+Confirmar exclusão","Veículo principal removido da lista ativa
+Veículo ativo mais recente definido como principal
+Desempate por maior identificador
+Somente um principal mantido","Frontend, Backend, Banco de Dados"
+,CT004,MC-ET013-CT004,CT004 Excluir o único veículo ativo,Excluir o único veículo ativo,"Funcional, Invariante",Alto,Validar a exclusão quando não houver substituto elegível,"Usuário autenticado
+Usuário possui somente um veículo ativo e principal","Excluir o veículo
+Confirmar exclusão","Veículo removido da lista ativa
+Usuário permanece sem veículo principal
+Estado vazio apresentado","Frontend, Backend, Banco de Dados"
+,CT005,MC-ET013-CT005,CT005 Bloquear exclusão de veículo de outro usuário,Bloquear exclusão de veículo de outro usuário,Segurança,Crítico,Validar a titularidade da exclusão,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui veículo ativo","Acessar endpoint de exclusão
+Informar identificador do veículo do Usuário B","Código de falha de autorização
+Veículo do Usuário B permanece ativo","Backend, Banco de Dados, Headers HTTP"
+,CT006,MC-ET013-CT006,CT006 Tratar repetição da exclusão,Tratar repetição da exclusão,Idempotência,Alto,Validar que uma exclusão repetida não gere inconsistência,"Usuário autenticado
+Veículos ativos pertencentes ao usuário","Confirmar exclusão
+Reenviar a mesma requisição de exclusão","Veículo permanece excluído uma única vez
+Nenhum novo efeito sobre outro veículo
+Banco de dados consistente","Backend, Banco de Dados, Observabilidade"
+,CT007,MC-ET013-CT007,CT007 Registrar auditoria da exclusão de veículo,Registrar auditoria da exclusão de veículo,Auditoria,Alto,Validar a trilha da exclusão e da promoção automática,"Usuário autenticado
+Exclusão concluída",Consultar trilha de auditoria,"Evento de exclusão registrado
+Evento de alteração do principal registrado quando aplicável
+Ator, data e hora, entidade e resultado registrados","Backend, Banco de Dados, Logs e Auditoria"
+MC-ET014,CT001,MC-ET014-CT001,CT001 Apresentar estado vazio de endereços,Apresentar estado vazio de endereços,Funcional,Médio,Validar a área Meus Endereços quando não houver registros ativos,"Conta ativa cadastrada
+Usuário autenticado
+Usuário sem endereços ativos","Acessar Minha Conta
+Acessar Meus Endereços","Mensagem de estado vazio apresentada
+Ação para adicionar endereço apresentada","Frontend, Backend, Banco de Dados"
+,CT002,MC-ET014-CT002,CT002 Apresentar múltiplos endereços e principal,Apresentar múltiplos endereços e principal,"Funcional, Invariante",Alto,Validar a listagem de múltiplos endereços com apenas um principal,"Usuário autenticado
+Usuário possui múltiplos endereços ativos","Acessar Meus Endereços
+Visualizar a listagem","Endereços ativos apresentados
+Somente um endereço identificado como principal","Frontend, Backend, Banco de Dados"
+,CT003,MC-ET014-CT003,CT003 Bloquear consulta de endereços de outro usuário,Bloquear consulta de endereços de outro usuário,Segurança,Crítico,Validar titularidade na consulta de endereços,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui endereços","Acessar endpoint de endereços
+Alterar identificador para o Usuário B
+Enviar requisição com token do Usuário A","Código de falha de autorização
+Nenhum endereço do Usuário B retornado","Backend, Headers HTTP"
+MC-ET015,CT001,MC-ET015-CT001,CT001 Consultar endereço por CEP válido,Consultar endereço por CEP válido,"Funcional, Integração",Alto,Validar a consulta e o preenchimento do endereço por CEP,"Conta ativa cadastrada
+Usuário autenticado
+CEP válido disponível na integração","Acessar Meus Endereços
+Selecionar Adicionar endereço
+Informar CEP válido
+Executar consulta","Logradouro, bairro, cidade e UF preenchidos conforme retorno
+Campos complementares permanecem disponíveis para preenchimento
+Endereço não cadastrado antes da confirmação","Frontend, Backend, Headers HTTP, Observabilidade"
+,CT002,MC-ET015-CT002,CT002 Tratar CEP não localizado,Tratar CEP não localizado,"Funcional, Integração",Médio,Validar o comportamento para CEP válido sem endereço localizado,"Usuário autenticado
+CEP não localizado pela integração","Acessar cadastro de endereço
+Informar CEP não localizado
+Executar consulta","Mensagem de CEP não encontrado apresentada
+Endereço não cadastrado","Frontend, Backend, Headers HTTP"
+,CT003,MC-ET015-CT003,CT003 Bloquear CEP inválido,Bloquear CEP inválido,Validação,Médio,Validar a rejeição de formato de CEP inválido,Usuário autenticado,"Acessar cadastro de endereço
+Informar CEP inválido
+Executar consulta","Mensagem de validação apresentada
+Consulta externa não executada
+Endereço não cadastrado","Frontend, Backend"
+,CT004,MC-ET015-CT004,CT004 Tratar indisponibilidade da API de CEP,Tratar indisponibilidade da API de CEP,Integração,Alto,Validar a apresentação do modal de indisponibilidade da consulta,"Usuário autenticado
+API de CEP indisponível","Acessar cadastro de endereço
+Informar CEP válido
+Executar consulta","Modal ou mensagem Consulta indisponível, tente novamente mais tarde apresentado
+Endereço não cadastrado
+Erro registrado para observabilidade","Frontend, Backend, Observabilidade"
+,CT005,MC-ET015-CT005,CT005 Bloquear cadastro sem campos obrigatórios,Bloquear cadastro sem campos obrigatórios,Validação,Médio,Validar a obrigatoriedade dos dados do endereço,Usuário autenticado,"Acessar cadastro de endereço
+Informar CEP válido
+Manter um ou mais campos obrigatórios vazios
+Confirmar cadastro","Campos obrigatórios indicados
+Cadastro não realizado
+Banco de dados inalterado","Frontend, Backend, Banco de Dados"
+,CT006,MC-ET015-CT006,CT006 Bloquear cadastro de endereço duplicado,Bloquear cadastro de endereço duplicado,"Validação, Invariante",Alto,Validar a unicidade dos endereços ativos do cliente,"Usuário autenticado
+Endereço com mesmos campos já cadastrado e ativo","Acessar cadastro de endereço
+Inserir endereço já cadastrado
+Confirmar cadastro","Mensagem de endereço já cadastrado apresentada
+Novo registro não criado
+Banco de dados sem duplicidade","Frontend, Backend, Banco de Dados"
+,CT007,MC-ET015-CT007,CT007 Cadastrar endereço com dados válidos,Cadastrar endereço com dados válidos,Funcional,Alto,Validar a persistência de um novo endereço,"Usuário autenticado
+Dados obrigatórios válidos","Consultar CEP
+Preencher número e complemento quando aplicável
+Confirmar cadastro","Mensagem de sucesso apresentada
+Endereço persistido
+Lista de endereços atualizada","Frontend, Backend, Banco de Dados"
+,CT008,MC-ET015-CT008,CT008 Cadastrar primeiro endereço como principal,Cadastrar primeiro endereço como principal,"Funcional, Invariante",Alto,Validar a consistência do principal no cadastro inicial,"Usuário autenticado
+Usuário sem endereços ativos","Cadastrar um endereço válido
+Consultar a listagem","Endereço cadastrado
+Endereço definido como principal conforme fluxo documentado
+Somente um principal existente","Frontend, Backend, Banco de Dados"
+,CT009,MC-ET015-CT009,CT009 Impedir duplicidade por requisição repetida,Impedir duplicidade por requisição repetida,Idempotência,Alto,Validar que o reenvio da solicitação não crie endereços duplicados,"Usuário autenticado
+Novo endereço válido ainda não cadastrado","Enviar requisição de cadastro
+Reenviar a mesma requisição","Somente um endereço criado
+Banco de dados sem duplicidade","Backend, Banco de Dados, Headers HTTP, Observabilidade"
+,CT010,MC-ET015-CT010,CT010 Bloquear cadastro em conta de outro usuário,Bloquear cadastro em conta de outro usuário,Segurança,Crítico,Validar a titularidade no cadastro de endereço,"Duas contas ativas cadastradas
+Usuário A autenticado","Inspecionar requisição de cadastro
+Alterar titular para o Usuário B
+Enviar requisição","Código de falha de autorização
+Endereço não vinculado ao Usuário B","Backend, Banco de Dados, Headers HTTP"
+,CT011,MC-ET015-CT011,CT011 Registrar auditoria do cadastro de endereço,Registrar auditoria do cadastro de endereço,Auditoria,Alto,Validar a geração do evento de autosserviço,"Usuário autenticado
+Endereço cadastrado com sucesso",Consultar trilha de auditoria,"Evento de cadastro registrado
+Ator, data e hora, endereço, ação e resultado registrados
+Dados pessoais protegidos conforme política","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+MC-ET016,CT001,MC-ET016-CT001,CT001 Carregar dados atuais do endereço,Carregar dados atuais do endereço,Funcional,Médio,Validar o preenchimento inicial do formulário de edição,"Conta ativa cadastrada
+Usuário autenticado
+Usuário possui endereço ativo","Acessar Minha Conta
+Acessar Meus Endereços
+Acionar Editar no endereço","Formulário de edição apresentado
+Dados atuais do endereço preenchidos
+Endereço carregado pertence ao usuário autenticado","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT002,MC-ET016-CT002,CT002 Editar endereço,Editar endereço,"Funcional, Integração",Alto,Validar a atualização do endereço a partir de um novo CEP válido,"Usuário autenticado
+Usuário possui endereço ativo","Acessar a edição do endereço
+Alterar o CEP
+Alterar número, complemento ou referência
+Executar consulta
+Conferir os dados retornados
+Confirmar edição","Dados do novo CEP apresentados
+Endereço atualizado com os dados confirmados
+Mensagem de sucesso apresentada","Frontend, Backend, Banco de Dados, Headers HTTP, Observabilidade"
+,CT003,MC-ET016-CT003,CT003 Bloquear edição com CEP inválido,Bloquear edição com CEP inválido,Validação,Médio,Validar a rejeição de CEP em formato inválido durante a edição,"Usuário autenticado
+Usuário possui endereço ativo","Acessar a edição do endereço
+Informar CEP inválido
+Confirmar edição","Mensagem de validação apresentada
+Consulta de CEP não executada
+Endereço anterior preservado","Frontend, Backend, Banco de Dados"
+,CT004,MC-ET016-CT004,CT004 Tratar CEP não localizado na edição,Tratar CEP não localizado na edição,"Funcional, Integração",Médio,Validar o tratamento de CEP válido sem endereço localizado,"Usuário autenticado
+Usuário possui endereço ativo
+CEP não localizado pela integração","Acessar a edição do endereço
+Informar o CEP não localizado
+Executar consulta","Mensagem de CEP não encontrado apresentada
+Alteração não persistida
+Endereço anterior preservado","Frontend, Backend, Headers HTTP"
+,CT005,MC-ET016-CT005,CT005 Tratar indisponibilidade da API de CEP na edição,Tratar indisponibilidade da API de CEP na edição,Integração,Alto,Validar o tratamento de falha da consulta de CEP durante a edição,"Usuário autenticado
+Usuário possui endereço ativo
+API de CEP indisponível","Acessar a edição do endereço
+Informar CEP válido
+Executar consulta","Mensagem Consulta indisponível, tente novamente mais tarde apresentada
+Alteração não persistida
+Endereço anterior preservado
+Falha registrada para observabilidade","Frontend, Backend, Observabilidade"
+,CT006,MC-ET016-CT006,CT006 Bloquear edição com campos obrigatórios vazios,Bloquear edição com campos obrigatórios vazios,Validação,Médio,Validar a obrigatoriedade dos campos do endereço,"Usuário autenticado
+Usuário possui endereço ativo","Acessar a edição do endereço
+Remover o conteúdo de um campo obrigatório
+Confirmar edição","Campo obrigatório indicado
+Alteração não realizada
+Dados anteriores preservados","Frontend, Backend, Banco de Dados"
+,CT007,MC-ET016-CT007,CT007 Bloquear edição de endereço de outro usuário,Bloquear edição de endereço de outro usuário,Segurança,Crítico,Validar a titularidade na edição de endereço,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui endereço ativo","Acessar o endpoint de edição
+Informar o identificador do endereço do Usuário B
+Enviar alteração com o token do Usuário A","Código de falha de autorização
+Endereço do Usuário B inalterado","Backend, Banco de Dados, Headers HTTP"
+,CT008,MC-ET016-CT008,CT008 Preservar endereço histórico do pedido,Preservar endereço histórico do pedido,"Funcional, Invariante",Crítico,Validar que a edição cadastral não altere o endereço registrado em pedidos anteriores,"Usuário autenticado
+Endereço utilizado em pedido histórico","Registrar o endereço apresentado no pedido
+Editar o endereço cadastral
+Consultar novamente o pedido histórico","Endereço cadastral atualizado
+Snapshot do endereço no pedido permanece inalterado","Frontend, Backend, Banco de Dados"
+,CT009,MC-ET016-CT009,CT009 Registrar auditoria da edição de endereço,Registrar auditoria da edição de endereço,Auditoria,Alto,Validar a geração do evento auditável da edição,"Usuário autenticado
+Endereço editado com sucesso",Consultar a trilha de auditoria,"Evento de edição registrado
+Ator, data e hora, entidade, ação e resultado registrados
+Dados pessoais protegidos conforme política","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+MC-ET017,CT001,MC-ET017-CT001,CT001 Definir endereço secundário como principal,Definir endereço secundário como principal,"Funcional, Invariante",Crítico,Validar a alteração do endereço principal,"Usuário autenticado
+Usuário possui dois endereços ativos
+Um endereço está definido como principal","Acessar Meus Endereços
+Selecionar o endereço secundário
+Acionar Tornar principal","Endereço selecionado definido como principal
+Endereço anterior deixa de ser principal
+Somente um endereço principal permanece ativo","Frontend, Backend, Banco de Dados"
+,CT002,MC-ET017-CT002,CT002 Manter endereço já principal,Manter endereço já principal,"Funcional, Invariante",Médio,Validar o comportamento do endereço já definido como principal,"Usuário autenticado
+Usuário possui endereço principal","Acessar Meus Endereços
+Visualizar o endereço principal","Endereço permanece principal
+Ação redundante não apresentada","Frontend, Backend, Banco de Dados"
+,CT003,MC-ET017-CT003,CT003 Bloquear definição de endereço inativo,Bloquear definição de endereço inativo,Invariante,Alto,Validar que somente endereços ativos possam ser definidos como principal,"Usuário autenticado
+Usuário possui endereço inativo","Acessar endpoint de definição de principal
+Informar o identificador do endereço inativo","Requisição rejeitada
+Endereço inativo não definido como principal
+Principal atual preservado","Backend, Banco de Dados"
+,CT004,MC-ET017-CT004,CT004 Bloquear endereço de outro usuário como principal,Bloquear endereço de outro usuário como principal,"Segurança, Invariante",Crítico,Validar a titularidade na definição do endereço principal,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui endereço ativo","Acessar endpoint de definição de principal
+Enviar o identificador do endereço do Usuário B","Código de falha de autorização
+Endereços dos dois usuários inalterados","Backend, Banco de Dados, Headers HTTP"
+,CT005,MC-ET017-CT005,CT005 Preservar principal único em comandos repetidos,Preservar principal único em comandos repetidos,"Invariante, Idempotência",Crítico,Validar a consistência diante da repetição do comando,"Usuário autenticado
+Usuário possui dois endereços ativos","Enviar comando para definir endereço principal
+Reenviar o mesmo comando","Somente um endereço principal
+Nenhum registro duplicado ou estado inconsistente","Backend, Banco de Dados, Observabilidade"
+,CT006,MC-ET017-CT006,CT006 Registrar auditoria da alteração de endereço principal,Registrar auditoria da alteração de endereço principal,Auditoria,Alto,Validar o registro da definição do endereço principal,"Usuário autenticado
+Alteração de principal concluída",Consultar a trilha de auditoria,"Evento registrado
+Endereço anterior e novo principal correlacionados quando aplicável
+Ator, data e hora e resultado registrados","Backend, Banco de Dados, Logs e Auditoria"
+MC-ET018,CT001,MC-ET018-CT001,CT001 Cancelar exclusão de endereço,Cancelar exclusão de endereço,Funcional,Médio,Validar que o cancelamento da confirmação preserve o endereço,"Usuário autenticado
+Usuário possui endereço ativo","Acessar Meus Endereços
+Acionar Excluir
+Cancelar a confirmação","Confirmação fechada
+Endereço permanece ativo
+Banco de dados inalterado","Frontend, Backend, Banco de Dados"
+,CT002,MC-ET018-CT002,CT002 Excluir endereço secundário,Excluir endereço secundário,Funcional,Alto,Validar a exclusão lógica de um endereço não principal,"Usuário autenticado
+Usuário possui endereço principal e endereço secundário","Selecionar o endereço secundário
+Acionar Excluir
+Confirmar exclusão","Endereço removido da lista ativa
+Exclusão lógica aplicada quando necessária
+Endereço principal atual preservado","Frontend, Backend, Banco de Dados"
+,CT003,MC-ET018-CT003,CT003 Excluir endereço principal,Excluir endereço principal,"Funcional, Invariante",Crítico,Validar a promoção automática do endereço elegível mais recente,"Usuário autenticado
+Usuário possui endereço principal e outros endereços ativos com datas distintas","Excluir o endereço principal
+Confirmar exclusão","Endereço principal removido da lista ativa
+Endereço ativo criado ou atualizado mais recentemente ou com maior identificador definido como principal
+Somente um principal mantido","Frontend, Backend, Banco de Dados"
+,CT004,MC-ET018-CT004,CT004 Excluir o único endereço ativo,Excluir o único endereço ativo,"Funcional, Invariante",Alto,Validar a exclusão quando não houver substituto elegível,"Usuário autenticado
+Usuário possui somente um endereço ativo e principal","Excluir o endereço
+Confirmar exclusão","Endereço removido da lista ativa
+Usuário permanece sem endereço principal
+Estado vazio apresentado","Frontend, Backend, Banco de Dados"
+,CT005,MC-ET018-CT005,CT005 Preservar endereço excluído no pedido histórico,Preservar endereço excluído no pedido histórico,"Funcional, Invariante",Crítico,Validar a preservação do snapshot após exclusão do endereço cadastral,"Usuário autenticado
+Endereço utilizado em pedido histórico","Registrar o endereço apresentado no pedido
+Excluir o endereço cadastral
+Consultar novamente o pedido","Endereço indisponível para novas compras
+Endereço histórico do pedido permanece inalterado","Frontend, Backend, Banco de Dados"
+,CT006,MC-ET018-CT006,CT006 Bloquear exclusão de endereço de outro usuário,Bloquear exclusão de endereço de outro usuário,Segurança,Crítico,Validar a titularidade da exclusão,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui endereço ativo","Acessar endpoint de exclusão
+Informar o identificador do endereço do Usuário B","Código de falha de autorização
+Endereço do Usuário B permanece ativo","Backend, Banco de Dados, Headers HTTP"
+,CT007,MC-ET018-CT007,CT007 Tratar repetição da exclusão de endereço,Tratar repetição da exclusão de endereço,Idempotência,Alto,Validar que uma exclusão repetida não gere inconsistência,"Usuário autenticado
+Endereço ativo pertencente ao usuário","Confirmar exclusão
+Reenviar a mesma requisição de exclusão","Endereço permanece excluído uma única vez
+Nenhum novo efeito sobre o endereço principal
+Banco de dados consistente","Backend, Banco de Dados, Observabilidade"
+,CT008,MC-ET018-CT008,CT008 Registrar auditoria da exclusão de endereço,Registrar auditoria da exclusão de endereço,Auditoria,Alto,Validar a trilha da exclusão e da promoção automática,"Usuário autenticado
+Exclusão concluída",Consultar a trilha de auditoria,"Evento de exclusão registrado
+Evento de alteração do principal registrado quando aplicável
+Ator, data e hora, entidade e resultado registrados","Backend, Banco de Dados, Logs e Auditoria"
+MC-ET019,CT001,MC-ET019-CT001,CT001 Apresentar estado vazio de pedidos,Apresentar estado vazio de pedidos,Funcional,Médio,Validar a apresentação da área Meus Pedidos sem registros,"Conta ativa cadastrada
+Usuário autenticado
+Usuário não possui pedidos","Acessar Minha Conta
+Acessar Meus Pedidos","Mensagem de estado vazio apresentada
+Ação de acesso ao catálogo apresentada","Frontend, Backend, Banco de Dados"
+,CT002,MC-ET019-CT002,CT002 Listar pedidos,Listar pedidos,Funcional,Alto,Validar a apresentação do histórico de pedidos do cliente,"Usuário autenticado
+Usuário possui múltiplos pedidos","Acessar Meus Pedidos
+Visualizar a listagem","Pedidos do usuário apresentados
+Dados resumidos coerentes com o estado canônico do pedido
+Ordenação aplicada conforme definição do sistema","Frontend, Backend, Banco de Dados"
+,CT003,MC-ET019-CT003,CT003 Bloquear listagem de pedidos de outro usuário,Bloquear listagem de pedidos de outro usuário,Segurança,Crítico,Validar a titularidade da consulta de pedidos,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui pedidos","Acessar endpoint de pedidos
+Alterar o identificador ou filtro para o Usuário B
+Enviar requisição com o token do Usuário A","Código de falha de autorização ou retorno sem dados de terceiro
+Nenhum pedido do Usuário B exposto","Backend, Headers HTTP"
+,CT004,MC-ET019-CT004,CT004 Validar retorno mínimo da listagem de pedidos,Validar retorno mínimo da listagem de pedidos,"Segurança, Compliance/LGPD",Alto,Validar que a API não retorne informações internas indevidas,"Usuário autenticado
+Usuário possui pedidos","Acessar endpoint da listagem
+Inspecionar o payload retornado","Somente dados necessários à listagem retornados
+Ausência de dados internos, administrativos ou de outros usuários","Backend, Headers HTTP"
+MC-ET020,CT001,MC-ET020-CT001,CT001 Acessar detalhes do pedido pela listagem,Acessar detalhes do pedido pela listagem,Funcional,Alto,Validar o acesso à visão completa do pedido,"Usuário autenticado
+Usuário possui pedido","Acessar Meus Pedidos
+Selecionar um pedido","Página de detalhes apresentada
+Número do pedido corresponde ao registro selecionado
+Produtos do pedido apresentados
+Quantidades, valores e endereço de entrega coerentes","Frontend, Backend, Headers HTTP"
+,CT002,MC-ET020-CT002,CT002 Bloquear acesso ao pedido de outro usuário,Bloquear acesso ao pedido de outro usuário,Segurança,Crítico,Validar a titularidade no detalhe do pedido,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui pedido","Alterar o identificador do pedido na URL ou endpoint
+Enviar requisição com o token do Usuário A","Código de falha de autorização
+Nenhum dado do pedido do Usuário B retornado","Backend, Headers HTTP"
+,,MC-ET020-CT003,,Comprar novamente preservando o pedido original,"Funcional, Invariante",Alto,Validar que Comprar novamente inicie uma nova intenção comercial sem alterar o pedido histórico,Usuário autenticado; Pedido entregue; Itens disponíveis para nova compra,Acessar os detalhes do pedido; Acionar Comprar novamente,Itens disponíveis encaminhados à nova jornada comercial; Pedido original permanece inalterado; Itens indisponíveis são tratados conforme disponibilidade,
+,CT004,MC-ET020-CT004,CT004 Validar ausência de overfetching no detalhe do pedido,Validar ausência de overfetching no detalhe do pedido,"Segurança, Compliance/LGPD",Alto,Validar o retorno apenas dos dados necessários ao cliente,"Usuário autenticado
+Usuário possui pedido","Acessar endpoint de detalhes do pedido
+Inspecionar o payload retornado","Ausência de dados internos de seller, operação, antifraude ou administração não autorizados
+Dados pessoais e fiscais limitados ao necessário","Backend, Headers HTTP"
+MC-ET021,CT001,MC-ET021-CT001,CT001 Apresentar pagamento pendente válido,Apresentar pagamento pendente válido,"Funcional, Integração",Alto,Validar as informações financeiras de uma cobrança válida,"Usuário autenticado
+Pedido possui pagamento pendente
+Forma de pagamento não selecionada ou pagamento recusado","Acessar os detalhes do pedido
+Visualizar a seção de pagamento pendente","Valor da cobrança apresentado
+Formas de pagamento disponíveis apresentadas conforme backend","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT002,MC-ET021-CT002,CT002 Validar informações de pagamento via endpoint,Validar informações de pagamento via endpoint,Integração,Alto,"Validar que valor, validade e formas venham do domínio responsável","Usuário autenticado
+Pedido possui pagamento pendente","Acessar endpoint de pagamento pendente
+Inspecionar status, payload e headers","Código de sucesso
+Valor, validade e formas coerentes com o domínio de Pagamento
+Frontend não calcula condições de pagamento","Backend, Headers HTTP, Observabilidade"
+,,MC-ET021-CT003,,Selecionar forma de pagamento pendente,"Funcional, Integração",Alto,Validar o modal de escolha entre as formas disponibilizadas pelo backend,Pedido próprio com pagamento pendente; PIX e/ou cartão disponíveis,Acessar o pedido; Acionar pagamento; Selecionar uma forma disponível,Modal corresponde à tela definida; Somente formas elegíveis aparecem; Seleção encaminha ao fluxo da forma escolhida,"Frontend, Backend, Headers HTTP"
+,CT004,MC-ET021-CT004,CT004 Bloquear consulta de cobrança de outro usuário,Bloquear consulta de cobrança de outro usuário,Segurança,Crítico,Validar titularidade nas informações financeiras,"Duas contas ativas cadastradas
+Usuário A autenticado
+Pedido do Usuário B possui cobrança","Alterar o identificador do pedido ou cobrança
+Enviar requisição com o token do Usuário A","Código de falha de autorização
+Nenhum dado financeiro do Usuário B retornado","Backend, Headers HTTP"
+MC-ET022,CT001,MC-ET022-CT001,CT001 Gerar cobrança PIX,Gerar cobrança PIX,"Funcional, Transacional",Crítico,Validar a geração da cobrança PIX para pedido pendente,"Usuário autenticado
+Pedido com pagamento pendente
+PIX disponível","Selecionar PIX
+Confirmar geração da cobrança","Cobrança PIX criada
+QR Code apresentado
+Chave PIX apresentada
+Tempo de expiração apresentado","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT002,MC-ET022-CT002,CT002 Copiar chave PIX,Copiar chave PIX,Funcional,Médio,Validar a cópia da chave disponibilizada,"Usuário autenticado
+Cobrança PIX válida gerada","Acessar a cobrança PIX
+Acionar Copiar chave","Chave copiada integralmente
+Mensagem de confirmação apresentada",Frontend
+,CT003,MC-ET022-CT003,CT003 Apresentar cobrança PIX pendente,Apresentar cobrança PIX pendente,Funcional,Alto,Validar a situação de cobrança aguardando pagamento,"Usuário autenticado
+Cobrança PIX pendente e válida","Acessar o pedido
+Visualizar o pagamento PIX","QR Code e chave disponíveis
+Contagem ou horário de expiração coerente
+Situação pendente apresentada","Frontend, Backend"
+,CT004,MC-ET022-CT004,CT004 Atualizar pedido após confirmação do PIX,Atualizar pedido após confirmação do PIX,"Funcional, Integração, Transacional",Crítico,Validar a atualização financeira após confirmação do pagamento,"Usuário autenticado
+Cobrança PIX pendente","Simular confirmação do pagamento pelo domínio responsável
+Processar webhook ou evento financeiro
+Consultar o pedido","Pagamento atualizado como aprovado
+Pedido reflete a nova situação financeira
+Ação de pagamento indisponível","Frontend, Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT005,MC-ET022-CT005,CT005 Gerar novo PIX após expiração,Gerar novo PIX após expiração,"Funcional, Transacional",Alto,Validar o bloqueio de uma cobrança expirada,"Usuário autenticado
+Cobrança PIX alcançou a expiração","Acessar o pagamento PIX após a expiração
+Acionar Gerar novo código","Cobrança apresentada como expirada
+QR Code antigo não utilizável
+Ação para gerar novo código apresentada quando permitida
+Novo QR Code, chave e prazo apresentados","Frontend, Backend, Banco de Dados"
+,CT006,MC-ET022-CT006,CT006 Bloquear nova cobrança para pedido já pago,Bloquear nova cobrança para pedido já pago,"Invariante, Transacional",Crítico,Validar que um pedido pago não gere nova cobrança,"Usuário autenticado
+Pedido com pagamento aprovado",Enviar requisição de geração de PIX,"Requisição rejeitada
+Nenhuma nova cobrança criada
+Estado financeiro preservado","Backend, Banco de Dados, Headers HTTP"
+,CT007,MC-ET022-CT007,CT007 Impedir cobrança duplicada por duplo clique,Impedir cobrança duplicada por duplo clique,"Idempotência, Transacional",Crítico,Validar a não duplicidade na geração do PIX,"Usuário autenticado
+Pedido elegível para geração de PIX","Acionar a geração duas vezes em sequência
+Consultar cobranças persistidas","Somente uma cobrança ativa criada para a finalidade
+Respostas correlacionadas sem duplicidade financeira","Backend, Banco de Dados, Observabilidade"
+,CT008,MC-ET022-CT008,CT008 Impedir confirmação duplicada por webhook repetido,Impedir confirmação duplicada por webhook repetido,"Idempotência, Integração, Transacional",Crítico,Validar que callbacks repetidos não dupliquem o pagamento,"Cobrança PIX pendente
+Webhook de confirmação disponível","Enviar webhook de confirmação
+Reenviar o mesmo webhook","Pagamento confirmado uma única vez
+Nenhum lançamento financeiro duplicado
+Eventos repetidos tratados de forma idempotente","Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT009,MC-ET022-CT009,CT009 Bloquear PIX de pedido de outro usuário,Bloquear PIX de pedido de outro usuário,Segurança,Crítico,Validar titularidade na geração e consulta do PIX,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui pedido pendente",Enviar requisição de geração ou consulta para o pedido do Usuário B,"Código de falha de autorização
+Nenhuma cobrança criada ou exposta","Backend, Banco de Dados, Headers HTTP"
+,CT010,MC-ET022-CT010,CT010 Registrar auditoria do pagamento PIX,Registrar auditoria do pagamento PIX,Auditoria,Alto,Validar a trilha das ações de pagamento,"Usuário autenticado
+Cobrança PIX gerada ou paga",Consultar a trilha de auditoria,"Eventos de geração, reemissão e confirmação registrados conforme aplicável
+Ator, pedido, cobrança, data e hora e resultado registrados
+Chave e dados sensíveis protegidos","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+MC-ET023,CT001,MC-ET023-CT001,CT001 Apresentar formulário de cartão,Apresentar formulário de cartão,Funcional,Alto,Validar a apresentação dos campos necessários ao pagamento,"Usuário autenticado
+Pedido com pagamento pendente
+Cartão de crédito disponível",Selecionar cartão de crédito,"Campos do cartão apresentados
+Opções de parcelamento carregadas conforme backend","Frontend, Backend, Headers HTTP"
+,CT002,MC-ET023-CT002,CT002 Aprovar pagamento com cartão válido,Aprovar pagamento com cartão válido,"Funcional, Transacional",Crítico,Validar o processamento de um cartão aprovado,"Usuário autenticado
+Pedido com pagamento pendente
+Dados de cartão de teste aprovados","Preencher os dados do cartão
+Selecionar parcelamento
+Confirmar pagamento","Confirmação bloqueada com entradas inválidas ou não preenchidas
+Transação encaminhada ao domínio de Pagamento
+Pagamento aprovado
+Pedido atualizado
+Mensagem de sucesso apresentada","Frontend, Backend, Banco de Dados, Headers HTTP, Jobs e Webhooks, Observabilidade"
+,CT003,MC-ET023-CT003,CT003 Recusar pagamento com cartão,Recusar pagamento com cartão,"Funcional, Transacional",Alto,Validar o tratamento de uma transação recusada,"Usuário autenticado
+Pedido com pagamento pendente
+Dados de cartão de teste recusados","Preencher os dados do cartão
+Confirmar pagamento","Pagamento recusado
+Mensagem de recusa apresentada
+Pedido permanece pendente
+Nova tentativa ou seleção de outra forma disponibilizada","Frontend, Backend, Banco de Dados, Observabilidade"
+,CT004,MC-ET023-CT004,CT004 Tratar pagamento de cartão pendente,Tratar pagamento de cartão pendente,"Funcional, Integração",Alto,Validar o estado intermediário retornado pelo domínio de Pagamento,"Usuário autenticado
+Gateway configurado para resposta pendente","Enviar pagamento com cartão
+Consultar a situação do pedido","Situação pendente apresentada
+Pedido não apresentado como pago antes da confirmação
+Atualização posterior processada pelo evento responsável","Frontend, Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT005,MC-ET023-CT005,CT005 Validar parcelamento selecionado,Validar parcelamento selecionado,"Funcional, Invariante",Alto,Validar que somente parcelas autorizadas possam ser utilizadas,"Usuário autenticado
+Pedido possui opções de parcelamento","Selecionar uma opção disponível
+Confirmar o pagamento","Parcelamento enviado corresponde à opção selecionada
+Valor total e parcelas refletem o backend","Frontend, Backend, Banco de Dados"
+,CT006,MC-ET023-CT006,CT006 Bloquear parcelamento adulterado no payload,Bloquear parcelamento adulterado no payload,"Segurança, Validação",Crítico,Validar que uma parcela não oferecida não possa ser enviada diretamente,"Usuário autenticado
+Pedido possui conjunto limitado de parcelas","Inspecionar a requisição
+Alterar a quantidade ou condição de parcelas para valor não autorizado
+Enviar requisição","Requisição rejeitada
+Pagamento não processado
+Pedido permanece pendente","Backend, Banco de Dados, Headers HTTP"
+,CT007,MC-ET023-CT007,CT007 Impedir pagamento duplicado por duplo envio,Impedir pagamento duplicado por duplo envio,"Idempotência, Transacional",Crítico,Validar que requisições repetidas não gerem duas transações,"Usuário autenticado
+Pedido elegível para pagamento
+Cartão de teste aprovado","Enviar a solicitação de pagamento
+Reenviar imediatamente a mesma solicitação","Somente uma transação financeira efetivada
+Pedido atualizado uma única vez
+Nenhum lançamento duplicado","Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT008,MC-ET023-CT008,CT008 Impedir atualização duplicada por callback repetido,Impedir atualização duplicada por callback repetido,"Idempotência, Integração, Transacional",Crítico,Validar o processamento idempotente do retorno do gateway,"Transação de cartão iniciada
+Callback de confirmação disponível","Enviar callback de confirmação
+Reenviar o mesmo callback","Pagamento confirmado uma única vez
+Pedido sem duplicidade financeira ou de eventos","Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT009,MC-ET023-CT009,CT009 Bloquear pagamento do pedido de outro usuário,Bloquear pagamento do pedido de outro usuário,Segurança,Crítico,Validar titularidade no pagamento com cartão,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui pedido pendente",Enviar pagamento para o pedido do Usuário B com o token do Usuário A,"Código de falha de autorização
+Nenhuma transação criada","Backend, Banco de Dados, Headers HTTP"
+,CT010,MC-ET023-CT010,CT010 Proteger dados do cartão em logs e respostas,Proteger dados do cartão em logs e respostas,"Segurança, Compliance/LGPD",Crítico,Validar a ausência de exposição de dados sensíveis,"Pagamento de cartão executado
+Acesso técnico aos logs e à resposta disponível","Inspecionar payload de resposta
+Inspecionar logs e eventos correlacionados","Número completo, código de segurança e segredos não expostos
+Dados sensíveis mascarados ou ausentes","Backend, Logs e Auditoria, Observabilidade"
+,CT011,MC-ET023-CT011,CT011 Registrar auditoria do pagamento com cartão,Registrar auditoria do pagamento com cartão,Auditoria,Alto,Validar a trilha da tentativa de pagamento,"Usuário autenticado
+Tentativa de pagamento realizada",Consultar a trilha de auditoria,"Evento registrado para aprovação, recusa ou pendência
+Ator, pedido, forma, data e hora e resultado registrados
+Dados de cartão não registrados integralmente","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+MC-ET024,CT001,MC-ET024-CT001,CT001 Apresentar NF-e disponível,Apresentar NF-e disponível,Funcional,Alto,Validar a apresentação da ação de download da NF-e de venda emitida para o pedido,"Usuário autenticado
+Pedido próprio possui NF-e de venda emitida","Acessar os detalhes do pedido
+Visualizar a seção de documentos fiscais","NF-e vinculada ao pedido apresentada
+Ação de download disponível
+Nenhuma ação de abertura do documento apresentada","Frontend, Backend, Banco de Dados"
+,CT002,MC-ET024-CT002,CT002 Baixar NF-e de venda com integridade e headers,Baixar NF-e de venda com integridade e headers,"Funcional, Invariante, Segurança",Crítico,"Validar o download autorizado e a integridade do arquivo fiscal, incluindo os headers da resposta","Usuário autenticado
+Pedido próprio possui NF-e de venda disponível
+Documento fiscal disponível na origem autorizada","Acessar os detalhes do pedido
+Acionar Download da NF-e
+Inspecionar a resposta e os headers HTTP
+Comparar o identificador, conteúdo ou hash com o documento da origem fiscal","Arquivo fiscal correto baixado
+Documento corresponde ao pedido selecionado
+Conteúdo fiscal íntegro e inalterado
+Arquivo legível
+Content-Type coerente com o formato do documento
+Content-Disposition configurado com nome de arquivo adequado
+Nenhum metadado interno indevido exposto","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT003,MC-ET024-CT003,CT003 Bloquear download da NF-e de pedido de outro usuário,Bloquear download da NF-e de pedido de outro usuário,"Segurança, Compliance/LGPD",Crítico,Validar a autenticação e a titularidade no download do documento fiscal,"Duas contas ativas cadastradas
+Usuário A autenticado
+Pedido do Usuário B possui NF-e de venda disponível","Alterar o identificador do pedido ou documento na URL ou requisição
+Solicitar o download com o token do Usuário A","Código de falha de autorização conforme contrato da API
+Arquivo fiscal não retornado
+Nenhum dado fiscal do Usuário B exposto","Backend, Headers HTTP"
+,CT004,MC-ET024-CT004,CT004 Tratar documento fiscal indisponível,Tratar documento fiscal indisponível,"Funcional, Integração",Alto,"Validar o comportamento quando o domínio Fiscal possuir a referência da NF-e, mas não disponibilizar temporariamente o arquivo","Usuário autenticado
+Pedido próprio possui referência fiscal
+Arquivo fiscal temporariamente indisponível","Acessar os detalhes do pedido
+Acionar Download da NF-e","Mensagem de indisponibilidade apresentada
+Nenhum arquivo vazio, corrompido ou incorreto entregue
+Pedido e referência fiscal permanecem inalterados
+Falha registrada para observabilidade","Frontend, Backend, Observabilidade"
+,CT005,MC-ET024-CT005,CT005 Registrar auditoria do download da NF-e,Registrar auditoria do download da NF-e,Auditoria,Alto,Validar o registro auditável do download autorizado ou bloqueado da NF-e de venda,"Usuário autenticado
+Tentativa de download da NF-e realizada com sucesso ou bloqueada por autorização","Realizar o download autorizado da NF-e
+Realizar uma tentativa bloqueada quando aplicável
+Consultar a trilha de auditoria","Evento de download registrado
+Tentativa bloqueada registrada quando aplicável
+Ator, pedido, documento, data e hora, resultado e dados de correlação registrados
+Conteúdo integral da NF-e e dados fiscais sensíveis não expostos nos registros","Backend, Logs e Auditoria, Observabilidade"
+MC-ET025,CT001,MC-ET025-CT001,CT001 Apresentar rastreamento do pedido,Apresentar rastreamento do pedido,"Funcional, Integração",Alto,Validar a apresentação do rastreamento disponível para um pedido enviado,"Conta ativa cadastrada
+Usuário autenticado
+Pedido próprio enviado com rastreamento disponível","Acessar Meus Pedidos
+Acessar os detalhes do pedido
+Visualizar a área de rastreamento","Código ou link de rastreamento apresentado
+Eventos logísticos apresentados na sequência recebida
+Situação da entrega corresponde ao backend","Frontend, Backend, Banco de Dados, Headers HTTP, Observabilidade"
+,CT002,MC-ET025-CT002,CT002 Atualizar rastreamento por evento logístico,Atualizar rastreamento por evento logístico,"Funcional, Integração",Alto,Validar a atualização do rastreamento após recebimento de novo evento logístico,"Pedido próprio com rastreamento disponível
+Novo evento logístico disponível","Processar o evento logístico
+Acessar novamente os detalhes do pedido","Novo evento apresentado
+Situação logística atualizada
+Eventos anteriores preservados","Frontend, Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT003,MC-ET025-CT003,CT003 Apresentar pedido sem rastreamento disponível,Apresentar pedido sem rastreamento disponível,Funcional,Médio,Validar o comportamento quando o domínio logístico não disponibilizar rastreamento,"Usuário autenticado
+Pedido próprio sem código ou eventos de rastreamento","Acessar os detalhes do pedido
+Visualizar a área de entrega","Ação de rastreamento não apresentada
+Situação disponível do pedido apresentada sem inferência de eventos logísticos","Frontend, Backend"
+,CT004,MC-ET025-CT004,CT004 Bloquear rastreamento de pedido de outro usuário,Bloquear rastreamento de pedido de outro usuário,Segurança,Crítico,Validar a titularidade da consulta logística,"Duas contas ativas cadastradas
+Usuário A autenticado
+Pedido do Usuário B possui rastreamento","Alterar o identificador do pedido ou rastreamento na requisição
+Enviar a requisição com o token do Usuário A","Código de falha de autorização
+Nenhum evento ou código de rastreamento do Usuário B retornado","Backend, Headers HTTP"
+MC-ET026,CT001,MC-ET026-CT001,CT001 Cancelar pedido elegível,Cancelar pedido elegível,"Funcional, Transacional",Crítico,Validar o cancelamento de um pedido que permanece elegível no momento da confirmação,"Usuário autenticado
+Pedido próprio elegível para cancelamento","Acessar os detalhes do pedido
+Acionar Cancelar pedido
+Confirmar o cancelamento","Elegibilidade revalidada pelo backend
+Cancelamento aceito pelo domínio de Pedido
+Pedido atualizado como cancelado
+Mensagem de sucesso apresentada","Frontend, Backend, Banco de Dados, Headers HTTP, Jobs e Webhooks, Observabilidade"
+,CT002,MC-ET026-CT002,CT002 Desistir do cancelamento do pedido,Desistir do cancelamento do pedido,Funcional,Médio,Validar que a desistência na confirmação não altere o pedido,"Usuário autenticado
+Pedido próprio elegível para cancelamento","Acionar Cancelar pedido
+Cancelar ou fechar a confirmação","Pedido permanece no estado anterior
+Nenhum comando de cancelamento executado
+Banco de dados inalterado","Frontend, Backend, Banco de Dados"
+,CT003,MC-ET026-CT003,CT003 Bloquear cancelamento após perda de elegibilidade,Bloquear cancelamento após perda de elegibilidade,"Funcional, Invariante",Crítico,Validar a revalidação quando o estado do pedido mudar antes da confirmação,"Usuário autenticado
+Ação de cancelamento inicialmente disponível
+Pedido perde elegibilidade antes da confirmação","Acessar os detalhes do pedido
+Acionar Cancelar pedido
+Alterar o estado do pedido no domínio responsável
+Confirmar o cancelamento","Cancelamento bloqueado pelo backend
+Mensagem coerente apresentada
+Estado atual do pedido preservado","Frontend, Backend, Banco de Dados, Observabilidade"
+,CT004,MC-ET026-CT004,CT004 Tratar efeito financeiro do cancelamento,Tratar efeito financeiro do cancelamento,"Funcional, Transacional, Integração",Crítico,Validar o tratamento financeiro conforme a situação do pagamento,"Usuário autenticado
+Pedidos canceláveis com pagamento não capturado e capturado","Cancelar o pedido com pagamento não capturado
+Cancelar o pedido com pagamento capturado
+Consultar os resultados financeiros","Cobrança não capturada invalidada quando aplicável
+Estorno ou reembolso iniciado quando aplicável
+Nenhuma operação financeira incompatível executada","Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT005,MC-ET026-CT005,CT005 Impedir cancelamento e efeito financeiro duplicados,Impedir cancelamento e efeito financeiro duplicados,"Idempotência, Transacional",Crítico,"Validar que comandos ou callbacks repetidos não dupliquem cancelamento, estorno ou reembolso","Pedido próprio elegível
+Cancelamento ainda não concluído","Enviar a solicitação de cancelamento
+Reenviar a mesma solicitação ou callback","Pedido cancelado uma única vez
+Somente um efeito financeiro criado
+Eventos repetidos tratados sem duplicidade","Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT006,MC-ET026-CT006,CT006 Bloquear cancelamento de pedido de outro usuário,Bloquear cancelamento de pedido de outro usuário,Segurança,Crítico,Validar a titularidade da ação de cancelamento,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui pedido cancelável",Enviar solicitação de cancelamento para o pedido do Usuário B com o token do Usuário A,"Código de falha de autorização
+Pedido do Usuário B inalterado
+Nenhum efeito financeiro criado","Backend, Banco de Dados, Headers HTTP"
+,CT007,MC-ET026-CT007,CT007 Registrar auditoria do cancelamento do pedido,Registrar auditoria do cancelamento do pedido,Auditoria,Alto,"Validar a trilha da solicitação, bloqueio e conclusão do cancelamento","Usuário autenticado
+Tentativa de cancelamento realizada",Consultar a trilha de auditoria,"Evento registrado com ator, pedido, data e hora, ação e resultado
+Tentativas bloqueadas também registradas
+Dados sensíveis não expostos","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+MC-ET027,CT001,MC-ET027-CT001,CT001 Apresentar itens elegíveis para devolução,Apresentar itens elegíveis para devolução,"Funcional, Invariante",Alto,Validar a apresentação dos itens e quantidades elegíveis de um pedido entregue,"Usuário autenticado
+Pedido próprio entregue
+Pedido possui itens elegíveis e não elegíveis","Acessar os detalhes do pedido
+Acionar Solicitar devolução","Itens elegíveis disponibilizados para seleção
+Itens não elegíveis bloqueados ou justificados
+Quantidade máxima considera itens já devolvidos ou em processo","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT002,MC-ET027-CT002,CT002 Solicitar devolução por desistência ou arrependimento,Solicitar devolução por desistência ou arrependimento,"Funcional, Validação",Alto,Validar a criação de devolução sem evidências para desistência ou arrependimento,"Usuário autenticado
+Item próprio elegível para devolução","Selecionar o item e a quantidade
+Selecionar desistência ou arrependimento
+Preencher os demais campos obrigatórios
+Aceitar os termos quando aplicável
+Confirmar a solicitação","Upload de evidências não exigido nem permitido
+Elegibilidade revalidada
+Solicitação criada
+Protocolo apresentado","Frontend, Backend, Banco de Dados, Headers HTTP, Jobs e Webhooks"
+,CT003,MC-ET027-CT003,CT003 Solicitar devolução por erro da XBRI ou transportadora,Solicitar devolução por erro da XBRI ou transportadora,"Funcional, Validação",Alto,Validar a criação da devolução com descrição e evidências obrigatórias,"Usuário autenticado
+Item próprio elegível para devolução
+Arquivo de evidência válido disponível","Selecionar o item e a quantidade
+Selecionar erro da XBRI ou transportadora
+Informar a descrição
+Anexar evidência válida
+Aceitar os termos quando aplicável
+Confirmar a solicitação","Descrição e evidência aceitas
+Solicitação criada
+Anexos vinculados ao processo
+Protocolo apresentado","Frontend, Backend, Banco de Dados, Headers HTTP, Jobs e Webhooks, Observabilidade"
+,CT004,MC-ET027-CT004,CT004 Bloquear quantidade de devolução superior à elegível,Bloquear quantidade de devolução superior à elegível,"Validação, Invariante",Crítico,Validar que a quantidade solicitada não exceda o saldo disponível para devolução,"Usuário autenticado
+Item com quantidade parcialmente devolvida ou em processo","Selecionar quantidade superior à comprada menos as quantidades já devolvidas ou em processo
+Confirmar a solicitação","Mensagem de validação apresentada
+Solicitação não criada
+Quantidade histórica preservada","Frontend, Backend, Banco de Dados"
+,CT005,MC-ET027-CT005,CT005 Bloquear evidência inválida ou ausente,Bloquear evidência inválida ou ausente,"Validação, Segurança",Alto,Validar as regras de arquivo e obrigatoriedade de evidências,"Usuário autenticado
+Motivo exige evidência","Tentar concluir sem anexar evidência
+Repetir com arquivo de tipo ou tamanho inválido","Solicitação bloqueada
+Mensagem de validação apresentada
+Arquivo inválido não persistido","Frontend, Backend, Banco de Dados, Observabilidade"
+,CT006,MC-ET027-CT006,CT006 Bloquear solicitação sem aceite obrigatório,Bloquear solicitação sem aceite obrigatório,Validação,Alto,Validar que a solicitação não seja criada sem a confirmação dos termos,"Usuário autenticado
+Fluxo exige aceite dos termos
+Dados da devolução preenchidos corretamente","Manter o aceite desmarcado
+Confirmar a solicitação","Solicitação bloqueada
+Mensagem de aceite obrigatório apresentada
+Nenhum processo criado","Frontend, Backend, Banco de Dados"
+,CT007,MC-ET027-CT007,CT007 Impedir criação duplicada da devolução,Impedir criação duplicada da devolução,"Idempotência, Transacional",Crítico,Validar que duplo envio ou retry não crie duas solicitações para a mesma operação,"Usuário autenticado
+Solicitação válida ainda não criada","Enviar a solicitação
+Reenviar a mesma requisição","Somente uma devolução criada
+Um único protocolo gerado
+Quantidades elegíveis consumidas uma única vez","Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT008,MC-ET027-CT008,CT008 Bloquear devolução de pedido de outro usuário,Bloquear devolução de pedido de outro usuário,Segurança,Crítico,Validar a titularidade dos itens selecionados,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui item elegível","Alterar identificadores do pedido ou item na requisição
+Enviar com o token do Usuário A","Código de falha de autorização
+Nenhuma solicitação criada
+Nenhum dado do pedido do Usuário B exposto","Backend, Banco de Dados, Headers HTTP"
+,CT009,MC-ET027-CT009,CT009 Registrar auditoria da solicitação de devolução,Registrar auditoria da solicitação de devolução,Auditoria,Alto,"Validar a trilha da solicitação, anexos e aceite","Usuário autenticado
+Solicitação concluída ou bloqueada",Consultar a trilha de auditoria,"Ator, pedido, itens, ação, data e hora e resultado registrados
+Aceite e anexos correlacionados quando aplicável
+Conteúdo sensível não exposto indevidamente","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+MC-ET028,CT001,MC-ET028-CT001,CT001 Apresentar estado vazio de devoluções,Apresentar estado vazio de devoluções,Funcional,Médio,Validar a área Devoluções quando o cliente não possuir processos,"Conta ativa cadastrada
+Usuário autenticado
+Usuário sem devoluções","Acessar Minha Conta
+Acessar Devoluções","Mensagem de estado vazio apresentada
+Nenhuma ação sugerida","Frontend, Backend, Banco de Dados"
+,CT002,MC-ET028-CT002,CT002 Listar devoluções do cliente,Listar devoluções do cliente,Funcional,Alto,Validar a apresentação resumida dos processos de devolução,"Usuário autenticado
+Usuário possui devoluções em diferentes fases","Acessar Devoluções
+Visualizar a listagem","Somente devoluções do usuário apresentadas
+Protocolo, pedido relacionado, itens resumidos e fase atual apresentados","Frontend, Backend, Banco de Dados"
+,CT003,MC-ET028-CT003,CT003 Apresentar ações conforme estado da devolução,Apresentar ações conforme estado da devolução,Funcional,Alto,Validar que a listagem reflita as ações retornadas pelo domínio responsável,"Usuário autenticado
+Usuário possui devoluções com e sem ações disponíveis","Acessar Devoluções
+Comparar as ações retornadas pelo backend com as apresentadas","Somente ações autorizadas exibidas
+Devoluções sem ação permanecem disponíveis apenas para consulta","Frontend, Backend, Headers HTTP"
+,CT004,MC-ET028-CT004,CT004 Bloquear listagem de devoluções de outro usuário,Bloquear listagem de devoluções de outro usuário,Segurança,Crítico,Validar a titularidade da consulta,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui devoluções","Manipular filtro ou identificador da consulta para o Usuário B
+Enviar com o token do Usuário A","Nenhuma devolução do Usuário B retornada
+Código de falha quando aplicável","Backend, Headers HTTP"
+MC-ET029,CT001,MC-ET029-CT001,CT001 Acessar detalhes da devolução pela listagem,Acessar detalhes da devolução pela listagem,Funcional,Alto,Validar o acesso ao acompanhamento a partir da área Devoluções,"Usuário autenticado
+Usuário possui devolução","Acessar Devoluções
+Selecionar uma devolução","Detalhes da devolução selecionada apresentados
+Protocolo e pedido relacionado correspondem à seleção","Frontend, Backend, Headers HTTP"
+,CT002,MC-ET029-CT002,CT002 Acessar a mesma devolução pelo pedido,Acessar a mesma devolução pelo pedido,Funcional,Alto,Validar que o acesso pelo pedido converja para a mesma visualização,"Usuário autenticado
+Pedido possui devolução vinculada","Acessar Meus Pedidos
+Acessar os detalhes do pedido
+Selecionar a devolução vinculada","Mesma página de acompanhamento apresentada
+Informações equivalentes às acessadas pelo menu Devoluções","Frontend, Backend, Headers HTTP"
+,CT003,MC-ET029-CT003,"CT003 Apresentar histórico, fases, mensagens e pendências","Apresentar histórico, fases, mensagens e pendências","Funcional, Invariante",Alto,Validar a projeção completa do processo de devolução,"Usuário autenticado
+Devolução possui eventos, mensagens, documentos ou pendências","Acessar os detalhes da devolução
+Visualizar as informações do processo","Protocolo e itens apresentados
+Timeline e fase atual correspondem ao backend
+Mensagens, pendências, coleta e ações disponíveis apresentadas quando aplicáveis","Frontend, Backend, Banco de Dados, Jobs e Webhooks"
+,CT004,MC-ET029-CT004,CT004 Exibir somente anexos autorizados,Exibir somente anexos autorizados,"Segurança, Compliance/LGPD",Crítico,Validar a visibilidade dos anexos liberados para o cliente,"Usuário autenticado
+Devolução possui anexos autorizados e internos","Acessar os detalhes da devolução
+Inspecionar os anexos retornados e apresentados","Somente anexos liberados ao cliente apresentados
+Anexos internos ou restritos não retornados","Frontend, Backend, Headers HTTP"
+,CT005,MC-ET029-CT005,CT005 Bloquear detalhe de devolução de outro usuário,Bloquear detalhe de devolução de outro usuário,Segurança,Crítico,Validar a titularidade no acompanhamento da devolução,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui devolução","Alterar o identificador da devolução na URL ou endpoint
+Enviar com o token do Usuário A","Código de falha de autorização
+Nenhuma informação, anexo ou documento do Usuário B retornado","Backend, Headers HTTP"
+MC-ET030,CT001,MC-ET030-CT001,CT001 Cancelar devolução elegível,Cancelar devolução elegível,Funcional,Alto,Validar o cancelamento de uma devolução cujo estado permita a ação,"Usuário autenticado
+Devolução própria elegível para cancelamento","Acessar os detalhes da devolução
+Acionar Cancelar devolução
+Confirmar o cancelamento","Estado revalidado pelo backend
+Cancelamento aceito
+Devolução atualizada como cancelada
+Mensagem de sucesso apresentada","Frontend, Backend, Banco de Dados, Headers HTTP, Jobs e Webhooks"
+,CT002,MC-ET030-CT002,CT002 Desistir do cancelamento da devolução,Desistir do cancelamento da devolução,Funcional,Médio,Validar que a desistência preserve o processo,"Usuário autenticado
+Devolução elegível para cancelamento","Acionar Cancelar devolução
+Cancelar ou fechar a confirmação","Devolução permanece no estado anterior
+Nenhum comando executado","Frontend, Backend, Banco de Dados"
+,CT003,MC-ET030-CT003,CT003 Bloquear cancelamento após mudança de estado,Bloquear cancelamento após mudança de estado,"Funcional, Invariante",Crítico,Validar a revalidação da elegibilidade no momento da confirmação,"Usuário autenticado
+Ação inicialmente disponível
+Estado alterado antes da confirmação","Abrir a confirmação de cancelamento
+Alterar o estado da devolução no domínio responsável
+Confirmar","Cancelamento bloqueado
+Mensagem coerente apresentada
+Novo estado preservado","Frontend, Backend, Banco de Dados, Observabilidade"
+,CT004,MC-ET030-CT004,CT004 Impedir cancelamento duplicado,Impedir cancelamento duplicado,Idempotência,Alto,Validar que comandos repetidos não produzam eventos ou transições duplicadas,"Devolução própria elegível
+Cancelamento ainda não concluído","Enviar a solicitação de cancelamento
+Reenviar a mesma solicitação","Devolução cancelada uma única vez
+Nenhum estado ou evento duplicado","Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT005,MC-ET030-CT005,CT005 Bloquear cancelamento de devolução de outro usuário,Bloquear cancelamento de devolução de outro usuário,Segurança,Crítico,Validar a titularidade da ação,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui devolução cancelável",Enviar o cancelamento da devolução do Usuário B com o token do Usuário A,"Código de falha de autorização
+Devolução do Usuário B inalterada","Backend, Banco de Dados, Headers HTTP"
+,CT006,MC-ET030-CT006,CT006 Registrar auditoria do cancelamento da devolução,Registrar auditoria do cancelamento da devolução,Auditoria,Alto,Validar o registro da tentativa e do resultado do cancelamento,Tentativa de cancelamento realizada,Consultar a trilha de auditoria,"Ator, devolução, data e hora, ação e resultado registrados
+Tentativas bloqueadas também registradas","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+MC-ET031,CT001,MC-ET031-CT001,CT001 Apresentar cobrança de frete de devolução,Apresentar cobrança de frete de devolução,"Funcional, Integração",Alto,Validar a cobrança autorizada de frete de retorno,"Usuário autenticado
+Devolução própria possui cobrança válida de frete de retorno","Acessar os detalhes da devolução
+Visualizar a pendência de frete","Responsabilidade e valor apresentados conforme backend
+Ação de pagamento apresentada
+Minha Conta não calcula ou altera o valor","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT002,MC-ET031-CT002,CT002 Gerar e pagar cobrança PIX de frete de devolução,Gerar e pagar cobrança PIX de frete de devolução,"Funcional, Transacional, Integração",Crítico,Validar a geração e confirmação do pagamento do frete de retorno,"Cobrança válida de frete de retorno
+Usuário autenticado","Acionar Pagar frete
+Gerar a cobrança PIX
+Simular a confirmação do pagamento
+Consultar a devolução","QR Code, chave e expiração apresentados
+Pagamento confirmado uma única vez
+Próxima etapa operacional liberada
+Devolução não concluída apenas pelo pagamento","Frontend, Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT003,MC-ET031-CT003,CT003 Expirar e reemitir PIX do frete de devolução,Expirar e reemitir PIX do frete de devolução,"Funcional, Transacional",Alto,Validar o bloqueio da cobrança expirada e a geração de nova cobrança,"Cobrança PIX de frete expirada
+Pendência permanece válida","Acessar a cobrança expirada
+Acionar a geração de novo código","Cobrança antiga permanece expirada
+Nova cobrança válida criada
+Somente uma cobrança ativa para a finalidade","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT004,MC-ET031-CT004,CT004 Impedir pagamento duplicado do frete de devolução,Impedir pagamento duplicado do frete de devolução,"Idempotência, Transacional",Crítico,"Validar que retries, duplo clique ou callbacks repetidos não dupliquem o pagamento",Cobrança válida ou já paga de frete de retorno,"Repetir a solicitação de pagamento
+Repetir o callback de confirmação","Somente um pagamento efetivado
+Cobrança paga não pode ser paga novamente
+Nenhuma nova cobrança ativa criada para a mesma finalidade","Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,,MC-ET031-CT005,,Registrar auditoria do pagamento do frete de devolução,Auditoria,Alto,"Validar a trilha de geração, expiração, reemissão e pagamento da cobrança","Cobrança de frete de devolução gerada, expirada ou paga",Executar cada ação; Consultar auditoria,"Evento registra ator, devolução, cobrança, ação, data/hora, resultado e correlação; Dados sensíveis não são expostos","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+,CT006,MC-ET031-CT006,CT006 Bloquear cobrança de devolução de outro usuário,Bloquear cobrança de devolução de outro usuário,Segurança,Crítico,Validar a titularidade da cobrança e do pagamento,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui cobrança de frete",Consultar ou pagar a cobrança do Usuário B com o token do Usuário A,"Código de falha de autorização
+Nenhum dado financeiro exposto
+Nenhum pagamento criado","Backend, Banco de Dados, Headers HTTP"
+MC-ET032,CT001,MC-ET032-CT001,CT001 Apresentar cobrança de frete de reenvio,Apresentar cobrança de frete de reenvio,"Funcional, Integração",Alto,Validar a cobrança autorizada para continuidade do reenvio,"Usuário autenticado
+Devolução própria possui inconsistência e cobrança de frete de reenvio","Acessar os detalhes da devolução
+Visualizar a pendência financeira","Justificativa e anexos autorizados apresentados quando aplicáveis
+Valor de frete de retorno e/ou reenvio apresentado conforme backend
+Ação de pagamento disponível","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT002,MC-ET032-CT002,CT002 Gerar e pagar cobrança PIX de frete de reenvio,Gerar e pagar cobrança PIX de frete de reenvio,"Funcional, Transacional, Integração",Crítico,Validar a geração e confirmação do pagamento necessário ao reenvio,"Cobrança válida de frete de reenvio
+Usuário autenticado","Acionar Pagar frete
+Gerar a cobrança PIX
+Simular a confirmação financeira","Cobrança gerada com QR Code, chave e expiração
+Pagamento confirmado
+Etapa de reenvio liberada
+Processo permanece aberto até conclusão operacional","Frontend, Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT003,MC-ET032-CT003,CT003 Expirar e reemitir PIX do frete de reenvio,Expirar e reemitir PIX do frete de reenvio,"Funcional, Transacional",Alto,Validar o tratamento da expiração sem acumular cobranças ativas,"Cobrança PIX de reenvio expirada
+Pendência permanece aplicável","Acessar a cobrança expirada
+Gerar novo código","Cobrança anterior permanece expirada
+Nova cobrança válida disponibilizada
+Somente uma cobrança ativa para a finalidade","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT004,MC-ET032-CT004,CT004 Impedir pagamento duplicado do frete de reenvio,Impedir pagamento duplicado do frete de reenvio,"Idempotência, Transacional",Crítico,Validar a não duplicidade da cobrança e do pagamento,Cobrança de reenvio válida ou já paga,"Repetir o comando de pagamento
+Repetir o callback financeiro","Somente um pagamento registrado
+Cobrança paga indisponível para novo pagamento
+Nenhuma cobrança duplicada criada","Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,,MC-ET032-CT005,,Registrar auditoria do pagamento do frete de reenvio,Auditoria,Alto,Validar a trilha das operações financeiras de reenvio,"Cobrança de frete de reenvio gerada, expirada ou paga",Executar cada ação; Consultar auditoria,"Evento registra ator, devolução, finalidade, cobrança, ação e resultado; Dados sensíveis protegidos","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+,CT006,MC-ET032-CT006,CT006 Bloquear cobrança de reenvio de outro usuário,Bloquear cobrança de reenvio de outro usuário,Segurança,Crítico,Validar a titularidade da pendência financeira,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui cobrança de reenvio",Consultar ou pagar a cobrança do Usuário B com o token do Usuário A,"Código de falha de autorização
+Nenhum valor, justificativa ou anexo restrito exposto
+Nenhum pagamento criado","Backend, Banco de Dados, Headers HTTP"
+MC-ET033,CT001,MC-ET033-CT001,CT001 Apresentar rastreamento da devolução,Apresentar rastreamento da devolução,"Funcional, Integração",Alto,Validar o acompanhamento logístico do produto devolvido,"Usuário autenticado
+Devolução própria possui coleta, postagem ou rastreamento","Acessar os detalhes da devolução
+Visualizar a área logística","Modalidade e instruções apresentadas
+Código ou link apresentado quando disponível
+Eventos e situação correspondem ao domínio logístico","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT002,MC-ET033-CT002,CT002 Atualizar rastreamento da devolução,Atualizar rastreamento da devolução,"Funcional, Integração",Alto,Validar a projeção de novos eventos de coleta e transporte,"Devolução própria em fluxo logístico
+Novo evento disponível","Processar o novo evento logístico
+Consultar novamente a devolução","Timeline atualizada
+Produto coletado, em transporte ou recebido apresentado conforme evento
+Histórico anterior preservado","Frontend, Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT003,MC-ET033-CT003,CT003 Apresentar devolução sem rastreio,Apresentar devolução sem rastreio,Funcional,Médio,Validar o processo logístico sem coleta ou rastreamento visível,"Usuário autenticado
+Devolução não possui rastreamento disponibilizado","Acessar os detalhes da devolução
+Visualizar a timeline","Nenhum código inexistente apresentado
+Fase recebida do backend apresentada
+Processo pode avançar diretamente para Produto recebido quando aplicável","Frontend, Backend"
+,CT004,MC-ET033-CT004,CT004 Bloquear rastreamento de devolução de outro usuário,Bloquear rastreamento de devolução de outro usuário,Segurança,Crítico,Validar a titularidade das informações logísticas,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui devolução rastreável","Alterar o identificador da devolução ou rastreio
+Enviar com o token do Usuário A","Código de falha de autorização
+Nenhuma informação logística do Usuário B retornada","Backend, Headers HTTP"
+MC-ET034,CT001,MC-ET034-CT001,CT001 Apresentar devolução aguardando ou em análise,Apresentar devolução aguardando ou em análise,Funcional,Alto,Validar a fase visual da análise conforme o estado do domínio responsável,"Usuário autenticado
+Devolução própria aguardando análise ou em análise","Acessar os detalhes da devolução
+Visualizar a timeline e mensagens","Fase Produto recebido ou Produto em análise apresentada conforme backend
+Nenhuma decisão antecipada pelo Minha Conta","Frontend, Backend, Banco de Dados"
+,CT002,MC-ET034-CT002,CT002 Apresentar devolução aprovada,Apresentar devolução aprovada,Funcional,Alto,Validar a apresentação do resultado favorável e das ações decorrentes,"Usuário autenticado
+Devolução própria aprovada pelo domínio responsável","Acessar os detalhes da devolução
+Visualizar o resultado da análise","Resultado de aprovação apresentado
+Reembolso indicado conforme decisão recebida","Frontend, Backend, Banco de Dados, Jobs e Webhooks"
+,CT003,MC-ET034-CT003,CT003 Apresentar devolução reprovada,Apresentar devolução reprovada,Funcional,Alto,Validar a apresentação da reprovação sem expor informações internas,"Usuário autenticado
+Devolução própria reprovada","Acessar os detalhes da devolução
+Visualizar o resultado da análise","Resultado de reprovação apresentado
+Justificativa liberada ao cliente apresentada
+Informações internas do Customer Care ou seller não expostas","Frontend, Backend, Headers HTTP"
+,CT004,MC-ET034-CT004,CT004 Bloquear manipulação do resultado da análise,Bloquear manipulação do resultado da análise,"Segurança, Invariante",Crítico,Validar que o cliente não possa alterar a decisão operacional,"Usuário autenticado
+Devolução própria em análise ou analisada","Inspecionar os endpoints disponíveis
+Enviar payload para alterar aprovação, reprovação ou justificativa","Requisição rejeitada
+Resultado da análise inalterado
+Tentativa registrada para investigação","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+MC-ET035,CT001,MC-ET035-CT001,CT001 Apresentar reembolso da devolução,Apresentar reembolso da devolução,"Funcional, Integração",Alto,Validar as informações de reembolso disponibilizadas ao cliente,"Usuário autenticado
+Devolução própria aprovada para reembolso","Acessar os detalhes da devolução
+Visualizar a área de reembolso",Informações sobre restituição apresentados,"Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT002,MC-ET035-CT002,CT002 Impedir reembolso duplicado,Impedir reembolso duplicado,"Idempotência, Transacional",Crítico,Validar que callbacks ou comandos repetidos não criem duas restituições,"Devolução aprovada para reembolso
+Reembolso iniciado ou concluído","Repetir o evento ou comando de reembolso
+Consultar os registros financeiros","Somente um reembolso registrado para a finalidade
+Valor total não excede o autorizado
+Eventos duplicados tratados de forma idempotente","Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT003,MC-ET035-CT003,CT003 Bloquear reembolso de devolução de outro usuário,Bloquear reembolso de devolução de outro usuário,Segurança,Crítico,Validar a titularidade das informações financeiras,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui reembolso",Consultar o resultado reembolso do Usuário B com o token do Usuário A,"Código de falha de autorização
+Nenhum valor ou dado financeiro do Usuário B retornado","Backend, Headers HTTP"
+MC-ET036,CT001,MC-ET036-CT001,CT001 Apresentar informações de reenvio,Apresentar informações de reenvio,"Funcional, Integração",Alto,Validar a situação do reenvio autorizado ao cliente,"Usuário autenticado
+Devolução própria aprovada para reenvio","Acessar os detalhes da devolução
+Visualizar a área de reenvio","Situação aguardando despacho, enviada ou entregue apresentada conforme backend
+Informações logísticas apresentadas quando disponíveis","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT002,MC-ET036-CT002,CT002 Atualizar situação e rastreamento do reenvio,Atualizar situação e rastreamento do reenvio,"Funcional, Integração",Alto,Validar a atualização do reenvio por eventos logísticos,"Reenvio próprio autorizado
+Novo evento de despacho ou entrega disponível","Processar o evento logístico
+Consultar novamente a devolução","Situação do reenvio atualizada
+Código, link e eventos apresentados quando disponíveis
+Histórico preservado","Frontend, Backend, Banco de Dados, Jobs e Webhooks, Observabilidade"
+,CT003,MC-ET036-CT003,CT003 Apresentar reenvio condicionado ao pagamento de frete,Apresentar reenvio condicionado ao pagamento de frete,Funcional,Alto,Validar que o reenvio permaneça bloqueado enquanto houver pendência financeira,"Usuário autenticado
+Devolução própria com reenvio autorizado
+Cobrança de frete pendente","Acessar os detalhes da devolução
+Visualizar a situação do reenvio","Pendência de frete apresentada
+Reenvio não indicado como despachado antes da confirmação financeira
+Ação de pagamento apresentada quando autorizada","Frontend, Backend"
+,CT004,MC-ET036-CT004,CT004 Bloquear informações de reenvio de outro usuário,Bloquear informações de reenvio de outro usuário,Segurança,Crítico,Validar a titularidade do acompanhamento logístico,"Duas contas ativas cadastradas
+Usuário A autenticado
+Usuário B possui reenvio","Alterar o identificador da devolução ou reenvio
+Enviar com o token do Usuário A","Código de falha de autorização
+Nenhuma informação logística do Usuário B retornada","Backend, Headers HTTP"
+MC-ET037,CT001,MC-ET037-CT001,CT001 Baixar NF-e de devolução,Baixar NF-e de devolução,Funcional,Alto,Validar o download da NF-e de devolução vinculada ao processo,"Usuário autenticado
+Devolução própria possui NF-e de devolução disponível","Acessar os detalhes da devolução
+Acionar Download da NF-e de devolução","Arquivo fiscal correto baixado
+Arquivo corresponde à devolução selecionada
+Arquivo íntegro e legível
+Content-Type e Content-Disposition coerentes","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT002,MC-ET037-CT002,CT002 Baixar NF-e de reenvio,Baixar NF-e de reenvio,Funcional,Alto,Validar o download da NF-e vinculada ao reenvio,"Usuário autenticado
+Devolução própria possui NF-e de reenvio disponível","Acessar os detalhes da devolução
+Acionar Download da NF-e de reenvio","Arquivo fiscal correto baixado
+Documento corresponde ao reenvio selecionado
+Arquivo íntegro e legível","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT003,MC-ET037-CT003,CT003 Apresentar indisponibilidade de documento fiscal,Apresentar indisponibilidade de documento fiscal,"Funcional, Integração",Médio,Validar que o download não seja oferecido quando o documento não estiver disponível,"Usuário autenticado
+Devolução própria sem NF-e disponível ou com arquivo temporariamente indisponível","Acessar os detalhes da devolução
+Visualizar a área de documentos
+Tentar o download quando houver referência indisponível","Ação não apresentada quando não houver documento
+Mensagem de indisponibilidade apresentada em falha temporária
+Nenhum arquivo vazio ou incorreto entregue","Frontend, Backend, Observabilidade"
+,,MC-ET037-CT004,,Validar integridade e headers das NF-es da devolução,"Invariante, Segurança",Crítico,"Validar que os documentos fiscais baixados sejam íntegros, autorizados e corretamente entregues",NF-e de devolução e/ou reenvio disponível,Baixar cada tipo; Inspecionar headers; Comparar com a origem fiscal,Arquivo corresponde à devolução ou ao reenvio; Conteúdo íntegro; Headers corretos; Ausência de metadados internos indevidos,"Backend, Banco de Dados, Headers HTTP"
+,CT005,MC-ET037-CT005,CT005 Bloquear download de NF-e de outro usuário,Bloquear download de NF-e de outro usuário,"Segurança, Compliance/LGPD",Crítico,Validar a titularidade do documento fiscal da devolução,"Duas contas ativas cadastradas
+Usuário A autenticado
+Devolução do Usuário B possui NF-e","Alterar o identificador do documento ou devolução
+Solicitar o download com o token do Usuário A","Código de falha de autorização
+Arquivo não retornado
+Nenhum dado fiscal do Usuário B exposto","Backend, Headers HTTP"
+,CT006,MC-ET037-CT006,CT006 Registrar auditoria do download fiscal da devolução,Registrar auditoria do download fiscal da devolução,Auditoria,Alto,Validar a trilha auditável do download do documento,"Usuário autenticado
+Download da NF-e realizado ou bloqueado",Consultar a trilha de auditoria,"Ator, devolução, documento, data e hora e resultado registrados
+Tentativa bloqueada registrada quando aplicável
+Dados fiscais sensíveis protegidos","Backend, Logs e Auditoria, Observabilidade"
+MC-ET038,CT001,MC-ET038-CT001,CT001 Apresentar conclusão por reembolso,Apresentar conclusão por reembolso,Funcional,Alto,Validar o encerramento visual da devolução concluída por reembolso,"Usuário autenticado
+Devolução própria concluída por reembolso","Acessar os detalhes da devolução
+Visualizar a fase de conclusão","Conclusão apresentada
+Resultado de reembolso identificado
+Histórico e informações financeiras disponíveis
+Ações incompatíveis indisponíveis","Frontend, Backend, Banco de Dados, Jobs e Webhooks"
+,CT002,MC-ET038-CT002,CT002 Apresentar conclusão por reenvio,Apresentar conclusão por reenvio,Funcional,Alto,Validar o encerramento visual após a conclusão do reenvio,"Usuário autenticado
+Devolução própria concluída por reenvio","Acessar os detalhes da devolução
+Visualizar a fase de conclusão","Conclusão apresentada
+Resultado de reenvio identificado
+Informações logísticas finais apresentadas
+Ações incompatíveis indisponíveis","Frontend, Backend, Banco de Dados, Jobs e Webhooks"
+,CT003,MC-ET038-CT003,CT003 Apresentar conclusão por reprovação ou cancelamento,Apresentar conclusão por reprovação ou cancelamento,Funcional,Alto,Validar os demais desfechos finais da devolução,"Usuário autenticado
+Devolução própria reprovada ou cancelada","Acessar os detalhes da devolução
+Visualizar a conclusão do processo","Desfecho correto apresentado
+Justificativa autorizada apresentada quando disponível
+Nenhuma ação incompatível com o estado final habilitada","Frontend, Backend, Banco de Dados"
+,CT004,MC-ET038-CT004,CT004 Preservar estado final recebido do domínio responsável,Preservar estado final recebido do domínio responsável,Invariante,Crítico,Validar que o Minha Conta não altere ou infira o desfecho da devolução,"Usuário autenticado
+Devoluções com diferentes estados finais canônicos","Comparar o estado recebido do backend com a conclusão apresentada
+Manipular parâmetros visuais ou payloads do frontend","Conclusão permanece coerente com o backend
+Frontend não altera reembolso, reenvio, reprovação ou cancelamento","Frontend, Backend, Banco de Dados, Headers HTTP"
+MC-ET039,CT001,MC-ET039-CT001,CT001 Alterar senha com dados válidos,Alterar senha com dados válidos,"Funcional, Segurança",Crítico,Validar a atualização da senha com senha atual correta e nova senha conforme a política,"Conta ativa cadastrada
+Usuário autenticado
+Senha atual conhecida","Acessar Gerenciar conta
+Acessar Alterar senha
+Informar a senha atual
+Informar nova senha válida
+Confirmar a nova senha
+Concluir a alteração","Senha atual validada
+Nova senha persistida
+Mensagem de sucesso apresentada
+Senha anterior não autentica mais
+Nova senha autentica corretamente","Frontend, Backend, Banco de Dados, Headers HTTP"
+,CT002,MC-ET039-CT002,CT002 Bloquear alteração com senha atual incorreta,Bloquear alteração com senha atual incorreta,"Validação, Segurança",Alto,Validar que a senha não seja alterada sem confirmação da credencial atual,"Usuário autenticado
+Senha atual conhecida","Acessar Alterar senha
+Informar senha atual incorreta
+Informar nova senha válida e confirmação correspondente
+Concluir","Mensagem de validação apresentada
+Senha não alterada
+Credencial anterior permanece válida","Frontend, Backend, Banco de Dados"
+,CT003,MC-ET039-CT003,CT003 Bloquear nova senha fora da política mínima,Bloquear nova senha fora da política mínima,"Validação, Segurança",Alto,"Validar a exigência de oito caracteres, letra maiúscula, letra minúscula e número","Usuário autenticado
+Senha atual correta","Tentar alterar para senha com menos de oito caracteres
+Repetir sem letra maiúscula
+Repetir sem letra minúscula
+Repetir sem número","Cada senha inválida rejeitada
+Regra não atendida indicada
+Senha atual preservada","Frontend, Backend, Banco de Dados"
+,CT004,MC-ET039-CT004,CT004 Bloquear confirmação divergente,Bloquear confirmação divergente,Validação,Alto,Validar que a confirmação coincida com a nova senha,"Usuário autenticado
+Senha atual correta","Informar nova senha válida
+Informar confirmação diferente
+Concluir a alteração","Mensagem de divergência apresentada
+Senha não alterada","Frontend, Backend, Banco de Dados"
+,CT005,MC-ET039-CT005,CT005 Bloquear alteração de senha de outro usuário,Bloquear alteração de senha de outro usuário,Segurança,Crítico,Validar a titularidade e impedir manipulação do usuário no payload,"Duas contas ativas cadastradas
+Usuário A autenticado
+Senha atual do Usuário A conhecida","Inspecionar a requisição de alteração de senha
+Alterar o identificador para o Usuário B
+Enviar com o token do Usuário A","Código de falha de autorização
+Senha do Usuário B inalterada
+Nenhuma credencial exposta","Backend, Banco de Dados, Headers HTTP"
+,CT006,MC-ET039-CT006,"CT006 Proteger senhas em requisições, respostas e logs","Proteger senhas em requisições, respostas e logs","Segurança, Compliance/LGPD",Crítico,Validar a ausência de exposição de credenciais e segredos,"Tentativa de alteração de senha realizada
+Acesso técnico à requisição, resposta e logs disponível","Inspecionar a requisição e a resposta
+Inspecionar logs e eventos correlacionados","Senha atual, nova senha e confirmação não retornadas em respostas
+Senhas não registradas em logs ou auditoria
+Transmissão protegida conforme os headers e protocolo definidos","Backend, Logs e Auditoria, Headers HTTP, Observabilidade"
+,CT007,MC-ET039-CT007,CT007 Registrar auditoria da alteração de senha,Registrar auditoria da alteração de senha,Auditoria,Alto,Validar o evento auditável sem registrar o conteúdo das credenciais,Tentativa de alteração de senha realizada,Consultar a trilha de auditoria,"Ator, data e hora, ação e resultado registrados
+Sucesso e falhas relevantes auditáveis
+Nenhuma senha ou segredo registrado","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"

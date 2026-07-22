@@ -1,0 +1,25 @@
+{
+  "name": "minha-conta-doc-dev-027-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Suite Playwright rastreavel aos fluxos do DOC-DEV-027",
+  "type": "module",
+  "scripts": {
+    "manifest:build": "node scripts/build-manifest.mjs",
+    "seed": "node --env-file-if-exists=.env scripts/seed-doc-dev-027.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:debug": "playwright test --project=chromium --workers=1 --debug",
+    "test:list": "playwright test --list",
+    "test:regression": "npm run seed && playwright test",
+    "test:twice": "npm run seed && playwright test && npm run seed && playwright test",
+    "traceability": "node scripts/check-traceability.mjs",
+    "verify": "npm run typecheck && npm run traceability"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.3",
+    "typescript": "^6.0.3"
+  }
+}
