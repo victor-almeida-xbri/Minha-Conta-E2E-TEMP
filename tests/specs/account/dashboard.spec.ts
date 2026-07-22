@@ -1,6 +1,7 @@
 import { defineBlockedCase, defineFlowCase, expect, test } from '../../support/flow-test.js';
 import { expectNoServerError } from '../../support/navigation.js';
 import {
+  allVehicles,
   currentUser,
   latestOrders,
   loginForCase,
@@ -91,10 +92,37 @@ defineBlockedCase(
   'O dashboard atual sempre renderiza Modelos em destaque; ele não consulta nem apresenta pneus compatíveis com o veículo principal.',
 );
 
-defineBlockedCase(
-  'MC-ET004-CT007',
-  'O componente de últimos pedidos do dashboard recebe emptyState=false e não exibe o estado vazio de pedidos quando a API retorna lista vazia; o contrato exige os três estados vazios.',
-);
+defineFlowCase('MC-ET004-CT007', async ({ page, request, backendUrl, testInfo, testCase }) => {
+  await loginForCase(page, request, testCase.id, testInfo);
+  await openDashboard(page);
+  const [user, vehicles, orders] = await Promise.all([
+    currentUser(page, backendUrl),
+    allVehicles(page, backendUrl),
+    latestOrders(page, backendUrl),
+  ]);
+
+  await test.step('Confirmar usuário sem endereços, veículos e pedidos', async () => {
+    expect(user.addresses).toHaveLength(0);
+    expect(vehicles).toHaveLength(0);
+    expect(orders).toHaveLength(0);
+  });
+
+  await test.step('Validar os estados vazios e suas ações primárias', async () => {
+    const vehiclesCard = page.locator('app-account-registered-vehicles');
+    await expect(vehiclesCard.getByText('Nenhum veículo cadastrado', { exact: true })).toBeVisible();
+    await expect(vehiclesCard.getByRole('button', { name: 'Adicionar veículo' })).toBeVisible();
+    await expect(vehiclesCard.locator('.account-registered-vehicles')).toHaveCount(0);
+
+    const addressCard = page.locator('.card.default').filter({ hasText: 'MEUS ENDEREÇOS' });
+    await expect(addressCard).toContainText('Adicione um endereço para usar nas suas próximas compras.');
+
+    const ordersCard = page.locator('app-account-order-card');
+    await expect(ordersCard.getByText('Você ainda não fez nenhum pedido', { exact: true })).toBeVisible();
+    await expect(ordersCard.getByRole('button', { name: 'Encontre o seu pneu' })).toBeVisible();
+    await expect(ordersCard.locator('.order-card')).toHaveCount(0);
+    await expectNoServerError(page);
+  });
+});
 
 defineFlowCase('MC-ET004-CT008', async ({ page, request, testInfo, testCase }) => {
   await loginForCase(page, request, testCase.id, testInfo);

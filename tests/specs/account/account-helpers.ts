@@ -87,6 +87,10 @@ export async function primaryVehicle(page: Page, backendUrl: string): Promise<Ve
   return (await apiGet<{ data: Vehicle }>(page, backendUrl, '/api/v1/accounts/vehicles/primary')).data;
 }
 
+export async function allVehicles(page: Page, backendUrl: string): Promise<Vehicle[]> {
+  return (await apiGet<{ data: Vehicle[] }>(page, backendUrl, '/api/v1/accounts/vehicles/list')).data;
+}
+
 export async function openAccountTab(page: Page, name: string, path: string): Promise<void> {
   await page.locator('.tabs__item').filter({ hasText: new RegExp(`^${name}$`, 'i') }).first().click();
   await expect(page).toHaveURL(new RegExp(`/minha-conta/${path}/?$`));
