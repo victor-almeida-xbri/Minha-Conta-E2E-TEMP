@@ -1,6 +1,6 @@
 import { type Locator, type Page } from '@playwright/test';
 import { accountForCase, bearerHeaders, loginCustomerByApi } from '../../support/auth.js';
-import { defineBlockedCase, defineFlowCase, expect, test, type FlowContext } from '../../support/flow-test.js';
+import { defineFlowCase, expect, test, type FlowContext } from '../../support/flow-test.js';
 
 type Address = {
   id: number;
@@ -204,10 +204,26 @@ defineFlowCase('MC-ET015-CT003', async (context) => {
   expect(calls).toBe(0);
 });
 
-defineBlockedCase(
-  'MC-ET015-CT004',
-  'O frontend real converte indisponibilidade do ViaCEP para o mesmo estado de CEP não encontrado; não há mensagem de indisponibilidade nem distinção observável.',
-);
+defineFlowCase('MC-ET015-CT004', async (context) => {
+  const zipcode = '01310-100';
+  let lookupCalls = 0;
+  await context.page.route(`**/ws/${zipcode.replace(/\D/g, '')}/json/`, async (route) => {
+    lookupCalls += 1;
+    await route.abort('failed');
+  });
+  await loginAndOpenAddresses(context);
+  const countBefore = (await readAddresses(context.page, context.backendUrl)).length;
+  const dialog = await openNewAddress(context.page);
+
+  await dialog.getByLabel('CEP').fill(zipcode);
+
+  await expect.poll(() => lookupCalls, 'a consulta ao ViaCEP deve ser executada').toBeGreaterThan(0);
+  expect((await readAddresses(context.page, context.backendUrl)).length).toBe(countBefore);
+  await expect(
+    context.page.getByText(/Consulta indisponível, tente novamente mais tarde\.?/i),
+    'deve apresentar uma mensagem coerente com a indisponibilidade da consulta de CEP',
+  ).toBeVisible();
+});
 
 defineFlowCase('MC-ET015-CT005', async (context) => {
   const address = addressFor(context.testCase.id);
@@ -221,10 +237,33 @@ defineFlowCase('MC-ET015-CT005', async (context) => {
   expect((await readAddresses(context.page, context.backendUrl)).length).toBe(countBefore);
 });
 
-defineBlockedCase(
-  'MC-ET015-CT006',
-  'O backend real não possui regra de unicidade para os campos de endereço ativo e aceita o mesmo endereço novamente.',
-);
+defineFlowCase('MC-ET015-CT006', async (context) => {
+  await loginAndOpenAddresses(context);
+  const addressesBefore = await readAddresses(context.page, context.backendUrl);
+  expect(addressesBefore, 'a massa deve possuir exatamente o endereço ativo que será repetido').toHaveLength(1);
+  const existingAddress = addressesBefore[0];
+
+  await mockViaCep(context.page, existingAddress);
+  const dialog = await openNewAddress(context.page);
+  await fillAddress(dialog, existingAddress);
+  const response = await submitAddress(context.page, dialog, 'POST');
+
+  expect(
+    response.ok(),
+    `o backend deve rejeitar o endereço duplicado, mas respondeu HTTP ${response.status()}`,
+  ).toBe(false);
+  await expect(
+    dialog.getByText(/endereço já cadastrado/i),
+    'deve apresentar uma mensagem específica para endereço já cadastrado',
+  ).toBeVisible();
+
+  const addressesAfter = await readAddresses(context.page, context.backendUrl);
+  expect(addressesAfter, 'nenhum novo registro deve ser criado').toHaveLength(addressesBefore.length);
+  expect(
+    addressesAfter.map((address) => address.id),
+    'o registro original deve ser preservado sem substituição',
+  ).toEqual(addressesBefore.map((address) => address.id));
+});
 
 defineFlowCase('MC-ET015-CT007', async (context) => {
   const address = addressFor(context.testCase.id);
@@ -245,11 +284,44 @@ defineFlowCase('MC-ET015-CT008', async (context) => {
   expect(await readAddresses(context.page, context.backendUrl)).toHaveLength(0);
   const dialog = await openNewAddress(context.page);
   await fillAddress(dialog, address);
-  expect((await submitAddress(context.page, dialog, 'POST')).status()).toBe(201);
+  expect((await submitAddress(context.page, dialog, 'POST')).status()).toBe(200);
   const addresses = await readAddresses(context.page, context.backendUrl);
   expect(addresses).toHaveLength(1);
   expect(addresses[0].is_primary).toBe(true);
   await expect(addressRow(context.page, address).getByText('Endereço principal')).toBeVisible();
+});
+
+defineFlowCase('MC-ET015-CT012', async (context) => {
+  const address = addressFor(context.testCase.id);
+  await mockViaCep(context.page, address);
+  await loginAndOpenAddresses(context);
+  const addressesBefore = await readAddresses(context.page, context.backendUrl);
+  expect(addressesBefore).toHaveLength(1);
+  const principalBefore = addressesBefore.find((candidate) => candidate.is_primary);
+  expect(principalBefore).toBeTruthy();
+
+  const dialog = await openNewAddress(context.page);
+  await fillAddress(dialog, address);
+  const response = await submitAddress(context.page, dialog, 'POST');
+  expect(response.ok()).toBeTruthy();
+
+  const addressesAfter = await readAddresses(context.page, context.backendUrl);
+  const created = addressesAfter.find(
+    (candidate) => candidate.street === address.street && candidate.number === address.number,
+  );
+
+  expect(addressesAfter).toHaveLength(addressesBefore.length + 1);
+  expect(created).toBeTruthy();
+  expect(
+    addressesAfter.filter((candidate) => candidate.is_primary),
+    'deve permanecer exatamente um endereço principal',
+  ).toHaveLength(1);
+  expect(
+    addressesAfter.find((candidate) => candidate.is_primary)?.id,
+    'o endereço principal anterior deve ser preservado',
+  ).toBe(principalBefore!.id);
+  expect(created!.is_primary, 'o novo endereço deve ser cadastrado como secundário').toBe(false);
+  await expect(addressRow(context.page, principalBefore!).getByText('Endereço principal')).toBeVisible();
 });
 
 defineFlowCase('MC-ET016-CT001', async (context) => {
@@ -257,18 +329,22 @@ defineFlowCase('MC-ET016-CT001', async (context) => {
   const [address] = await readAddresses(context.page, context.backendUrl);
   expect(address).toBeTruthy();
   const dialog = await openEditAddress(context.page, address);
-  await expect(dialog.getByLabel('CEP')).toHaveValue(address.zipcode);
+  const formattedZipcode = address.zipcode.replace(/\D/g, '').replace(/^(\d{5})(\d{3})$/, '$1-$2');
+  await expect(dialog.getByLabel('CEP')).toHaveValue(formattedZipcode);
   await expect(dialog.getByLabel('Número')).toHaveValue(address.number);
   await expect(dialog.getByLabel('Complemento')).toHaveValue(address.complement ?? '');
   expect((await readAddresses(context.page, context.backendUrl)).find((candidate) => candidate.id === address.id)).toEqual(address);
 });
 
 defineFlowCase('MC-ET016-CT002', async (context) => {
-  const updated = addressFor(context.testCase.id);
-  await mockViaCep(context.page, updated);
   await loginAndOpenAddresses(context);
   const [address] = await readAddresses(context.page, context.backendUrl);
   expect(address).toBeTruthy();
+  const updated = {
+    ...addressFor(context.testCase.id),
+    zipcode: address.zipcode.replace(/\D/g, '') === '20040020' ? '01310-100' : '20040-020',
+  };
+  await mockViaCep(context.page, updated);
   const dialog = await openEditAddress(context.page, address);
   await fillAddress(dialog, updated);
   expect((await submitAddress(context.page, dialog, 'PUT')).ok()).toBeTruthy();
@@ -313,10 +389,30 @@ defineFlowCase('MC-ET016-CT004', async (context) => {
   expect((await readAddresses(context.page, context.backendUrl)).find((candidate) => candidate.id === address.id)).toEqual(address);
 });
 
-defineBlockedCase(
-  'MC-ET016-CT005',
-  'Na edição, o frontend real também converte falha de rede do ViaCEP em CEP não encontrado e não exibe a indisponibilidade exigida.',
-);
+defineFlowCase('MC-ET016-CT005', async (context) => {
+  await loginAndOpenAddresses(context);
+  const [address] = await readAddresses(context.page, context.backendUrl);
+  expect(address).toBeTruthy();
+  const zipcode = address.zipcode.replace(/\D/g, '') === '01310100' ? '20040-020' : '01310-100';
+  let lookupCalls = 0;
+  await context.page.route(`**/ws/${zipcode.replace(/\D/g, '')}/json/`, async (route) => {
+    lookupCalls += 1;
+    await route.abort('failed');
+  });
+  const dialog = await openEditAddress(context.page, address);
+
+  await dialog.getByLabel('CEP').fill(zipcode);
+
+  await expect.poll(() => lookupCalls, 'a consulta ao ViaCEP deve ser executada').toBeGreaterThan(0);
+  expect(
+    (await readAddresses(context.page, context.backendUrl)).find((candidate) => candidate.id === address.id),
+    'a falha da consulta não deve alterar o endereço existente',
+  ).toEqual(address);
+  await expect(
+    dialog.getByText(/^Consulta indisponível, tente novamente mais tarde\.?$/i),
+    'deve distinguir indisponibilidade da consulta de CEP não encontrado',
+  ).toBeVisible();
+});
 
 defineFlowCase('MC-ET016-CT006', async (context) => {
   await loginAndOpenAddresses(context);

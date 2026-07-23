@@ -236,6 +236,17 @@ Veículo não vinculado ao Usuário B","Backend, Banco de Dados, Headers HTTP"
 Placa válida não cadastrada","Cadastrar veículo por placa
 Consultar trilha de auditoria","Evento de cadastro registrado
 Ator, data e hora, veículo, ação e resultado registrados","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+,CT010,MC-ET009-CT010,CT010 Cadastrar veículo preservando principal atual,Cadastrar veículo preservando principal atual,"Funcional, Invariante",Crítico,Validar que o cadastro de um novo veículo não altere o veículo principal atual,"Usuário autenticado
+Usuário possui um veículo ativo definido como principal
+Novo veículo válido ainda não cadastrado","Acessar Meus Veículos
+Registrar o identificador do veículo principal atual
+Selecionar Adicionar novo veículo
+Informar os dados válidos do novo veículo
+Confirmar o cadastro
+Consultar novamente a lista de veículos","Novo veículo cadastrado como secundário
+Veículo principal anterior preservado
+Somente um veículo permanece como principal
+Lista de veículos atualizada","Frontend, Backend, Banco de Dados"
 MC-ET010,CT001,MC-ET010-CT001,"CT001 Carregamento dinâmico de marca, modelo, ano e versão","Carregamento dinâmico de marca, modelo, ano e versão",Funcional,Médio,Validar a apresentação das marcas disponíveis no cadastro manual,"Conta ativa cadastrada
 Usuário autenticado","Acessar Meus Veículos 
 Selecionar Adicionar veículo
@@ -450,6 +461,17 @@ Endereço não vinculado ao Usuário B","Backend, Banco de Dados, Headers HTTP"
 Endereço cadastrado com sucesso",Consultar trilha de auditoria,"Evento de cadastro registrado
 Ator, data e hora, endereço, ação e resultado registrados
 Dados pessoais protegidos conforme política","Backend, Banco de Dados, Logs e Auditoria, Observabilidade"
+,CT012,MC-ET015-CT012,CT012 Cadastrar endereço preservando principal atual,Cadastrar endereço preservando principal atual,"Funcional, Invariante",Crítico,Validar que o cadastro de um novo endereço não altere o endereço principal atual,"Usuário autenticado
+Usuário possui um endereço ativo definido como principal
+Novo endereço válido ainda não cadastrado","Acessar Meus Endereços
+Registrar o identificador do endereço principal atual
+Selecionar Adicionar endereço
+Informar CEP e demais dados obrigatórios válidos
+Confirmar o cadastro
+Consultar novamente a lista de endereços","Novo endereço cadastrado como secundário
+Endereço principal anterior preservado
+Somente um endereço permanece como principal
+Lista de endereços atualizada","Frontend, Backend, Banco de Dados"
 MC-ET016,CT001,MC-ET016-CT001,CT001 Carregar dados atuais do endereço,Carregar dados atuais do endereço,Funcional,Médio,Validar o preenchimento inicial do formulário de edição,"Conta ativa cadastrada
 Usuário autenticado
 Usuário possui endereço ativo","Acessar Minha Conta

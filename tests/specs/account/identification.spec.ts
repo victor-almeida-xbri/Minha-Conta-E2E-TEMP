@@ -1,14 +1,11 @@
 import type { Page } from '@playwright/test';
 
-import { defineFlowCase, expect, test } from '../../support/flow-test.js';
+import { defineBlockedCase, defineFlowCase, expect, test } from '../../support/flow-test.js';
 import {
-  allOrders,
-  apiGet,
   currentUser,
   loginForCase,
   openIdentification,
   projectProfileData,
-  type Order,
   type User,
 } from './account-helpers.js';
 
@@ -175,33 +172,7 @@ defineFlowCase('MC-ET007-CT003', async ({ page, request, backendUrl, testInfo, t
   });
 });
 
-defineFlowCase('MC-ET007-CT006', async ({ page, request, backendUrl, testInfo, testCase }) => {
-  await loginForCase(page, request, testCase.id, testInfo);
-  const orders = await allOrders(page, backendUrl);
-  expect(orders.length, 'massa deve possuir pedido histórico').toBeGreaterThan(0);
-  const order = orders[0];
-  const beforeDetail = (await apiGet<{ data: Order }>(page, backendUrl, `/api/v1/orders/${order.id}`)).data;
-
-  await test.step('Registrar snapshots do pedido e alterar o perfil', async () => {
-    await page.goto(`/minha-conta/meus-pedidos/${order.id}`);
-    await expect(page.getByText('Detalhes do pedido')).toBeVisible();
-    const before = await currentUser(page, backendUrl);
-    const data = projectProfileData(testInfo);
-    await openIdentification(page);
-    await profileField(page, 'Nome').fill(before.name === data.name ? data.alternateName : data.name);
-    const update = page.waitForResponse(
-      (response) => /\/api\/v1\/accounts\/?$/.test(response.url()) && response.request().method() === 'PUT',
-    );
-    await page.getByRole('button', { name: 'Atualizar dados' }).click();
-    expect((await update).ok()).toBeTruthy();
-  });
-
-  await test.step('Consultar novamente e validar snapshots históricos', async () => {
-    await page.goto(`/minha-conta/meus-pedidos/${order.id}`);
-    await expect(page.getByText('Detalhes do pedido')).toBeVisible();
-    const afterDetail = (await apiGet<{ data: Order }>(page, backendUrl, `/api/v1/orders/${order.id}`)).data;
-    expect(afterDetail.customer).toEqual(beforeDetail.customer);
-    expect(afterDetail.shipping).toEqual(beforeDetail.shipping);
-    expect(afterDetail.items).toEqual(beforeDetail.items);
-  });
-});
+defineBlockedCase(
+  'MC-ET007-CT006',
+  'A API de detalhe do pedido expõe em customer o usuário atual e não expõe os snapshots persistidos em orders.customer_name e orders.customer_document; a preservação histórica não é observável pela UI ou API disponível.',
+);

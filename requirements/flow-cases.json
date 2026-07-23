@@ -1059,6 +1059,40 @@
     ]
   },
   {
+    "id": "MC-ET009-CT010",
+    "specification": "MC-ET009",
+    "caseCode": "CT010",
+    "name": "Cadastrar veículo preservando principal atual",
+    "title": "CT010 Cadastrar veículo preservando principal atual",
+    "type": "Funcional, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar que o cadastro de um novo veículo não altere o veículo principal atual",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui um veículo ativo definido como principal",
+      "Novo veículo válido ainda não cadastrado"
+    ],
+    "steps": [
+      "Acessar Meus Veículos",
+      "Registrar o identificador do veículo principal atual",
+      "Selecionar Adicionar novo veículo",
+      "Informar os dados válidos do novo veículo",
+      "Confirmar o cadastro",
+      "Consultar novamente a lista de veículos"
+    ],
+    "expectedResults": [
+      "Novo veículo cadastrado como secundário",
+      "Veículo principal anterior preservado",
+      "Somente um veículo permanece como principal",
+      "Lista de veículos atualizada"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
     "id": "MC-ET010-CT001",
     "specification": "MC-ET010",
     "caseCode": "CT001",
@@ -1764,6 +1798,40 @@
       "Endereço cadastrado",
       "Endereço definido como principal conforme fluxo documentado",
       "Somente um principal existente"
+    ],
+    "layers": [
+      "Frontend",
+      "Backend",
+      "Banco de Dados"
+    ]
+  },
+  {
+    "id": "MC-ET015-CT012",
+    "specification": "MC-ET015",
+    "caseCode": "CT012",
+    "name": "Cadastrar endereço preservando principal atual",
+    "title": "CT012 Cadastrar endereço preservando principal atual",
+    "type": "Funcional, Invariante",
+    "severity": "Crítico",
+    "objective": "Validar que o cadastro de um novo endereço não altere o endereço principal atual",
+    "preconditions": [
+      "Usuário autenticado",
+      "Usuário possui um endereço ativo definido como principal",
+      "Novo endereço válido ainda não cadastrado"
+    ],
+    "steps": [
+      "Acessar Meus Endereços",
+      "Registrar o identificador do endereço principal atual",
+      "Selecionar Adicionar endereço",
+      "Informar CEP e demais dados obrigatórios válidos",
+      "Confirmar o cadastro",
+      "Consultar novamente a lista de endereços"
+    ],
+    "expectedResults": [
+      "Novo endereço cadastrado como secundário",
+      "Endereço principal anterior preservado",
+      "Somente um endereço permanece como principal",
+      "Lista de endereços atualizada"
     ],
     "layers": [
       "Frontend",

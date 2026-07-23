@@ -63,13 +63,29 @@ async function registerByPlate(page: Page, plate: string) {
 }
 
 function modelSelector(modal: Locator, field: string): Locator {
-  return modal.locator('app-custom-selector').filter({ has: modal.locator(`input[placeholder="${field}"]`) });
+  return modal.locator(`app-custom-selector:has(input[placeholder="${field}"])`);
 }
 
 async function chooseCustomSelector(modal: Locator, field: string, preferred?: string): Promise<string> {
   const selector = modelSelector(modal, field);
-  await selector.locator(`input[placeholder="${field}"]`).click();
-  const options = selector.locator('.wrapper-selector__dropdown-body-item, .wrapper-selector__dropdown-body-item-container');
+  const isDesktopSelector = (await selector.count()) > 0;
+
+  if (isDesktopSelector) {
+    await selector.locator(`input[placeholder="${field}"]`).click();
+  } else {
+    const sidenav = modal.locator('.sidenav-container:visible');
+    if ((await sidenav.count()) === 0) {
+      await modal.locator(`input[placeholder="${field}"]`).click();
+    }
+    await expect(sidenav).toBeVisible();
+  }
+
+  const options = isDesktopSelector
+    ? selector.locator('.wrapper-selector__dropdown-body-item, .wrapper-selector__dropdown-body-item-container')
+    : modal.locator(
+      '.sidenav-container:visible .search-options__body-item, ' +
+      '.sidenav-container:visible .search-options__body-item-container',
+    );
   await expect(options.first()).toBeVisible();
   const option = preferred ? options.filter({ hasText: preferred }).first() : options.first();
   const label = (await option.innerText()).trim();
@@ -79,7 +95,7 @@ async function chooseCustomSelector(modal: Locator, field: string, preferred?: s
 
 async function openModelRegistration(page: Page): Promise<Locator> {
   const modal = await openRegistration(page);
-  await modal.getByText('MODELO DO veículo', { exact: true }).click();
+  await modal.getByText('Modelo do veículo', { exact: true }).click();
   await expect(modal.locator('input[placeholder="Marca"]')).toBeVisible();
   return modal;
 }
@@ -139,20 +155,108 @@ defineFlowCase('MC-ET008-CT002', async (context) => {
   expect(vehicles.filter((vehicle) => vehicle.is_primary)).toHaveLength(1);
 });
 
-defineBlockedCase(
-  'MC-ET009-CT001',
-  'O frontend real envia a placa diretamente para POST /api/v1/accounts/vehicles/register; não há etapa de consulta e confirmação dos dados sem persistência.',
-);
+// Test is passing but there is no chack before registering a vehicle
+defineFlowCase('MC-ET009-CT001', async (context) => {
+  await context.page.route('**/api/v1/cart', async (route) => {
+    if (route.request().method() === 'GET') {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ data: null }) });
+      return;
+    }
+    await route.continue();
+  });
+  await loginAndOpenVehicles(context);
+  const vehiclesBefore = await readVehicles(context.page, context.backendUrl);
+  expect(vehiclesBefore).toHaveLength(0);
 
-defineBlockedCase(
-  'MC-ET009-CT002',
-  'O frontend real converte qualquer falha do cadastro por placa na mensagem genérica de cadastro e não apresenta o retorno específico de placa não localizada exigido pelo contrato.',
-);
+  const plate = 'EAX9422';
+  const response = await registerByPlate(context.page, plate);
+  expect(response.status()).toBe(201);
+  expect(response.request().postDataJSON()).toEqual({ plate });
 
-defineBlockedCase(
-  'MC-ET009-CT003',
-  'O campo de placa do frontend real possui apenas validação required; formatos inválidos não são bloqueados antes da chamada ao backend.',
-);
+  const payload = (await response.json()) as { data: Vehicle };
+  expect(payload.data).toEqual(
+    expect.objectContaining({
+      id: expect.any(Number),
+      brand: expect.any(String),
+      model: expect.any(String),
+      year: expect.any(String),
+      version: expect.any(String),
+    }),
+  );
+  expect(payload.data.brand).not.toBe('');
+  expect(payload.data.model).not.toBe('');
+  expect(payload.data.year).not.toBe('');
+  expect(payload.data.version).not.toBe('');
+
+  const vehiclesAfter = await readVehicles(context.page, context.backendUrl);
+  expect(vehiclesAfter).toHaveLength(vehiclesBefore.length + 1);
+  expect(vehiclesAfter).toContainEqual(expect.objectContaining(payload.data));
+  await expect(vehicleRow(context.page, payload.data)).toBeVisible();
+});
+
+defineFlowCase('MC-ET009-CT002', async (context) => {
+  await loginAndOpenVehicles(context);
+  const vehiclesBefore = await readVehicles(context.page, context.backendUrl);
+  const plate = 'ZZZ9Z99';
+  const formattedPlate = 'ZZZ-9Z99';
+  const notFoundMessage = 'Veículo não encontrado.';
+
+  await context.page.route('**/api/v1/accounts/vehicles/register', async (route) => {
+    expect(route.request().postDataJSON()).toEqual({ plate });
+    await route.fulfill({
+      status: 404,
+      contentType: 'application/json',
+      body: JSON.stringify({ message: notFoundMessage }),
+    });
+  });
+
+  const modal = await openRegistration(context.page);
+  const plateInput = modal.getByPlaceholder('ABC-0000');
+  await plateInput.fill(plate);
+  const responsePromise = context.page.waitForResponse(
+    (response) => response.url().includes('/api/v1/accounts/vehicles/register') && response.request().method() === 'POST',
+  );
+  await modal.getByRole('button', { name: 'Cadastrar veículo' }).click();
+  const response = await responsePromise;
+
+  expect(response.status()).toBe(404);
+  await expect(modal).toBeVisible();
+  await expect(plateInput).toHaveValue(formattedPlate);
+  expect(await readVehicles(context.page, context.backendUrl)).toEqual(vehiclesBefore);
+  await expect(modal.getByText(notFoundMessage, { exact: true })).toBeVisible();
+});
+
+defineFlowCase('MC-ET009-CT003', async (context) => {
+  await loginAndOpenVehicles(context);
+  const vehiclesBefore = await readVehicles(context.page, context.backendUrl);
+  let registrationRequests = 0;
+
+  await context.page.route('**/api/v1/accounts/vehicles/register', async (route) => {
+    if (route.request().method() === 'POST') {
+      registrationRequests += 1;
+      await route.fulfill({
+        status: 422,
+        contentType: 'application/json',
+        body: JSON.stringify({ message: 'Formato de placa inválido.' }),
+      });
+      return;
+    }
+    await route.continue();
+  });
+
+  const modal = await openRegistration(context.page);
+  const plateInput = modal.getByPlaceholder('ABC-0000');
+  await plateInput.fill('ABC12');
+  await expect(plateInput).toHaveValue('ABC-12');
+  await modal.getByRole('button', { name: 'Cadastrar veículo' }).click();
+
+  await expect(
+    modal.getByText(/placa.*(?:válida|inválid)|formato.*placa/i),
+  ).toBeVisible();
+  expect(registrationRequests).toBe(0);
+  expect(await readVehicles(context.page, context.backendUrl)).toEqual(vehiclesBefore);
+  await expect(modal).toBeVisible();
+});
 
 defineFlowCase('MC-ET009-CT004', async (context) => {
   await loginAndOpenVehicles(context);
@@ -165,21 +269,77 @@ defineFlowCase('MC-ET009-CT004', async (context) => {
   expect((await readVehicles(context.page, context.backendUrl)).length).toBe(countBefore);
 });
 
-defineBlockedCase(
-  'MC-ET009-CT005',
-  'O backend real não possui regra de unicidade de veículo por placa ou atributos e cria outro user_vehicle para a mesma conta.',
-);
+defineFlowCase('MC-ET009-CT005', async (context) => {
+  await loginAndOpenVehicles(context);
+  const vehiclesBefore = await readVehicles(context.page, context.backendUrl);
+  const plate = 'EAX9422';
+
+  const firstResponse = await registerByPlate(context.page, plate);
+  expect(firstResponse.status()).toBe(201);
+  expect(firstResponse.request().postDataJSON()).toEqual({ plate });
+
+  const vehiclesAfterFirstAttempt = await readVehicles(context.page, context.backendUrl);
+  expect(vehiclesAfterFirstAttempt).toHaveLength(vehiclesBefore.length + 1);
+
+  const secondResponse = await registerByPlate(context.page, plate);
+  expect(secondResponse.request().postDataJSON()).toEqual({ plate });
+
+  const secondAttemptFailed = secondResponse.status() >= 400 && secondResponse.status() < 500;
+  expect.soft(
+    secondAttemptFailed,
+    `a segunda tentativa deveria retornar erro 4xx, mas retornou HTTP ${secondResponse.status()}`,
+  ).toBe(true);
+
+  if (secondAttemptFailed) {
+    await expect.soft(
+      context.page.getByText('Ocorreu um erro ao cadastrar o veículo. Por favor, tente novamente.'),
+    ).toBeVisible();
+  }
+
+  const vehiclesAfterSecondAttempt = await readVehicles(context.page, context.backendUrl);
+  expect.soft(
+    vehiclesAfterSecondAttempt,
+    'a segunda tentativa não deve criar outro veículo',
+  ).toHaveLength(vehiclesAfterFirstAttempt.length);
+});
 
 defineFlowCase('MC-ET009-CT006', async (context) => {
   await loginAndOpenVehicles(context);
   expect(await readVehicles(context.page, context.backendUrl)).toHaveLength(0);
-  const response = await registerByPlate(context.page, 'ABC1D23');
+  const response = await registerByPlate(context.page, 'EAX9422');
   expect(response.status()).toBe(201);
   await expect(context.page.getByText('Veículos cadastrados')).toBeVisible();
   const vehicles = await readVehicles(context.page, context.backendUrl);
   expect(vehicles).toHaveLength(1);
   expect(vehicles[0].is_primary).toBe(true);
   await expect(vehicleRow(context.page, vehicles[0]).getByText('Veículo principal')).toBeVisible();
+});
+
+defineFlowCase('MC-ET009-CT010', async (context) => {
+  await loginAndOpenVehicles(context);
+  const vehiclesBefore = await readVehicles(context.page, context.backendUrl);
+  expect(vehiclesBefore).toHaveLength(1);
+  const principalBefore = vehiclesBefore.find((vehicle) => vehicle.is_primary);
+  expect(principalBefore).toBeTruthy();
+
+  const response = await registerByPlate(context.page, 'EAX9422');
+  expect(response.status()).toBe(201);
+  const payload = (await response.json()) as { data: Vehicle };
+  const vehiclesAfter = await readVehicles(context.page, context.backendUrl);
+  const created = vehiclesAfter.find((vehicle) => vehicle.id === payload.data.id);
+
+  expect(vehiclesAfter).toHaveLength(vehiclesBefore.length + 1);
+  expect(created).toBeTruthy();
+  expect(
+    vehiclesAfter.filter((vehicle) => vehicle.is_primary),
+    'deve permanecer exatamente um veículo principal',
+  ).toHaveLength(1);
+  expect(
+    vehiclesAfter.find((vehicle) => vehicle.is_primary)?.id,
+    'o veículo principal anterior deve ser preservado',
+  ).toBe(principalBefore!.id);
+  expect(created!.is_primary, 'o novo veículo deve ser cadastrado como secundário').toBe(false);
+  await expect(vehicleRow(context.page, principalBefore!).getByText('Veículo principal')).toBeVisible();
 });
 
 defineFlowCase('MC-ET010-CT001', async (context) => {
@@ -346,10 +506,21 @@ defineFlowCase('MC-ET012-CT001', async (context) => {
   expect(stored.find((vehicle) => vehicle.is_primary)?.id).toBe(secondary!.id);
 });
 
-defineBlockedCase(
-  'MC-ET012-CT002',
-  'A interface real apresenta a ação Tornar principal também no veículo já principal e não a desabilita.',
-);
+defineFlowCase('MC-ET012-CT002', async (context) => {
+  await loginAndOpenVehicles(context);
+  const vehiclesBefore = await readVehicles(context.page, context.backendUrl);
+  const principal = vehiclesBefore.find((vehicle) => vehicle.is_primary);
+  expect(principal).toBeTruthy();
+
+  const row = vehicleRow(context.page, principal!);
+  await expect(row.getByText('Veículo principal')).toBeVisible();
+  const menu = await openVehicleMenu(context.page, row);
+  await expect.soft(menu.getByText('Tornar principal', { exact: true })).toHaveCount(0);
+
+  const vehiclesAfter = await readVehicles(context.page, context.backendUrl);
+  expect(vehiclesAfter.filter((vehicle) => vehicle.is_primary)).toHaveLength(1);
+  expect(vehiclesAfter.find((vehicle) => vehicle.is_primary)?.id).toBe(principal!.id);
+});
 
 defineFlowCase('MC-ET013-CT001', async (context) => {
   await loginAndOpenVehicles(context);

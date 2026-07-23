@@ -13,11 +13,11 @@ Para regressões repetidas, use `npm run test:twice`. O comando reaplica as mass
 
 ## Comandos
 
-- `npm run manifest:build`: normaliza o CSV em 145 fluxos e 90 casos técnicos excluídos.
+- `npm run manifest:build`: normaliza o CSV em 147 fluxos e 90 casos técnicos excluídos.
 - `npm run typecheck`: valida TypeScript.
 - `npm run traceability`: exige exatamente um teste por fluxo no Chromium.
-- `npm run test:chromium`: executa os 145 fluxos no Chromium.
-- `npm test`: executa 435 combinações nos três navegadores.
+- `npm run test:chromium`: executa os 147 fluxos no Chromium.
+- `npm test`: executa 441 combinações nos três navegadores.
 - `npm run test:debug -- -g "MC-ET001-CT001"`: execução visual focada.
 
 Os testes não iniciam servidores e não alteram lógica do frontend/backend. Fora deste repositório, somente seeders novos dedicados ao DOC-DEV-027 são permitidos.

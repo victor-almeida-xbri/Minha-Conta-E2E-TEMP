@@ -34,8 +34,8 @@ const selected = normalized.filter(
 const excluded = normalized.filter((testCase) => !selected.includes(testCase));
 const ids = selected.map(({ id }) => id);
 
-if (normalized.length !== 235) throw new Error(`Esperados 235 casos; encontrados ${normalized.length}`);
-if (selected.length !== 145) throw new Error(`Esperados 145 fluxos; encontrados ${selected.length}`);
+if (normalized.length !== 237) throw new Error(`Esperados 237 casos; encontrados ${normalized.length}`);
+if (selected.length !== 147) throw new Error(`Esperados 147 fluxos; encontrados ${selected.length}`);
 if (new Set(ids).size !== ids.length) throw new Error('Existem codigos duplicados no recorte de fluxos');
 
 await mkdir(path.dirname(csvPath), { recursive: true });
